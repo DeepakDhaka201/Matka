@@ -43,10 +43,10 @@ else:
 
 db.init_app(app)
 
-app.route('/send_otp', methods=['POST'])(send_otp)
-app.route('/user/sign_up', methods=['POST'])(signup)
-app.route('/user/login', methods=['POST'])(login)
-app.route('/place-bet', methods=['POST'])(place_bet)
+app.route('/send_otp', methods=['GET', 'POST'])(send_otp)
+app.route('/user/sign_up', methods=['GET', 'POST'])(signup)
+app.route('/user/login', methods=['GET', 'POST'])(login)
+app.route('/place-bet', methods=['GET', 'POST'])(place_bet)
 app.route('/get_bets', methods=['GET'])(get_bets)
 app.route('/dashboard', methods=['GET'])(dashboard)
 
