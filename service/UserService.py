@@ -2,7 +2,7 @@ import time
 
 from flask import session
 
-from app import db
+from extension import db
 from models.User import User
 
 

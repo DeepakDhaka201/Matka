@@ -3,7 +3,7 @@ from enum import Enum
 from sqlalchemy import Column, String, Float, Integer, DateTime, BOOLEAN, func
 from sqlalchemy.orm import mapped_column, Mapped
 
-from app import db
+from extension import db
 
 
 class Transaction(db.Model):

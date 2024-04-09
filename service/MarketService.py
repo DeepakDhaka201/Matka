@@ -34,3 +34,7 @@ def get_markets_with_result():
         })
 
     return data
+
+
+def get_all_market():
+    return Market.query.all()

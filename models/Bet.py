@@ -3,7 +3,7 @@ from enum import Enum
 from sqlalchemy import Float, Column, DateTime, BOOLEAN, String, Integer, func
 from sqlalchemy.orm import Mapped, mapped_column
 
-from app import db
+from extension import db
 
 
 class Bet(db.Model):

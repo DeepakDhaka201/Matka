@@ -12,6 +12,7 @@ from api.dashboard import dashboard
 from api.login import login
 from api.send_otp import send_otp
 from api.signup import signup
+from extension import db
 
 pymysql.install_as_MySQLdb()
 
@@ -40,11 +41,6 @@ else:
     print(f'Unsupported operating system: {system}')
 
 
-class Base(DeclarativeBase):
-    pass
-
-
-db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
 app.route('/send_otp', methods=['POST'])(send_otp)

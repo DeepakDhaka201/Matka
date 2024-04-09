@@ -1,6 +1,7 @@
 from sqlalchemy import Column, String
 from sqlalchemy.orm import Mapped, mapped_column
-from app import db
+
+from extension import db
 
 
 class Market(db.Model):
