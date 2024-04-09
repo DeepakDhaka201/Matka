@@ -7,6 +7,12 @@ from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
 
+from api.bet import place_bet, get_bets
+from api.dashboard import dashboard
+from api.login import login
+from api.send_otp import send_otp
+from api.signup import signup
+
 pymysql.install_as_MySQLdb()
 
 app = Flask(__name__)
@@ -41,12 +47,18 @@ class Base(DeclarativeBase):
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
+app.route('/send_otp', methods=['POST'])(send_otp)
+app.route('/user/sign_up', methods=['POST'])(signup)
+app.route('/user/login', methods=['POST'])(login)
+app.route('/place-bet', methods=['POST'])(place_bet)
+app.route('/get_bets', methods=['GET'])(get_bets)
+app.route('/dashboard', methods=['GET'])(dashboard)
 
-@app.errorhandler(404)
-def page_not_found(error):
-    return redirect('/')
+# @app.errorhandler(404)
+# def page_not_found(error):
+#     return redirect('/')
 
-from models.User import User
+
 with app.app_context():
         db.create_all()
 
@@ -58,7 +70,10 @@ if __name__ == '__main__':
     if production:
         from gevent.pywsgi import WSGIServer
 
-        port = 8000
+        port = 8006
         http_server = WSGIServer(('', port), app)
         print(f'Server is running on http://localhost:{port}')
         http_server.serve_forever()
+
+
+

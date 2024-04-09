@@ -1,12 +1,11 @@
 import requests
 from flask import request, jsonify, session
 
-from app import app
 from service.UserService import get_user_by_phone, create_user
 
 
-@app.route('/user/sign_up', methods=['POST'])
-def login():
+#@app.route('/user/sign_up', methods=['POST'])
+def signup():
     try:
         data = request.json
         number = data.get('phone')

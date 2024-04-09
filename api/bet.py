@@ -1,6 +1,6 @@
 from flask import jsonify, request
 
-from app import app, db
+from app import db
 from models.Bet import Bet
 from models.Market import Market
 from models.Transaction import Transaction
@@ -8,7 +8,7 @@ from models.User import User
 from service.UserService import validate_session
 
 
-@app.route('/get_bets', methods=['GET'])
+#@app.route('/get_bets', methods=['GET'])
 def get_bets():
     user_id = validate_session()
     try:
@@ -30,7 +30,7 @@ def get_bets():
         return jsonify({'success': False, 'error': 'Error fetching details'}), 500
 
 
-@app.route('/place-bet', methods=['POST'])
+#@app.route('/place-bet', methods=['POST'])
 def place_bet():
     user_id = validate_session()
     data = request.get_json()

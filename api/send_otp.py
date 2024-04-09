@@ -1,9 +1,9 @@
 from flask import request, jsonify
 import requests
-from app import app
+from flask_cors import CORS
 
 
-@app.route('/send_otp', methods=['POST'])
+# @app.route('/send_otp', methods=['POST'])
 def send_otp():
     try:
         data = request.json

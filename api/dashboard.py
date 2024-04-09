@@ -1,11 +1,10 @@
 from flask import request, jsonify
 
-from app import app
 from service.MarketService import get_markets_with_result
 from service.UserService import validate_session, get_user_by_id
 
 
-@app.route('/dashboard', methods=['GET'])
+#@app.route('/dashboard', methods=['GET'])
 def dashboard():
     try:
         user_id = validate_session()
