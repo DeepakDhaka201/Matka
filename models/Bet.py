@@ -10,7 +10,7 @@ class Bet(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     market_id: Mapped[int] = mapped_column(nullable=False)
     user_id: Mapped[int] = mapped_column(nullable=False)
-    transaction_id: Mapped[int] = mapped_column(nullable=False)
+    transaction_id: Mapped[int] = mapped_column(nullable=True)
 
     bet_number = Column(Integer, nullable=False)
     amount = Column(Float, nullable=False)
@@ -23,13 +23,23 @@ class Bet(db.Model):
                         server_default=func.now())
 
     class Status(Enum):
-        PENDING = 1
-        WON = 2
-        LOST = 3
-        CANCELLED = 2
-        DELETED = 3
+        PENDING = ("0", "Result Pending")
+        WON = ("1", "Congratulations! You Won")
+        LOST = ("2", "Better Luck Next Time")
+        CANCELLED = ("3", "Cancelled")
+        DELETED = ("4", "Deleted")
 
     class GameType(Enum):
-        JODI = 1
-        A_HARF = 2
-        B_HARF = 3
+        JODI = "Jodi"
+        A_HARF = "Open Harf"
+        B_HARF = "Close Harf"
+
+    def toBetType(bet_type):
+        if bet_type == "jodi":
+            return Bet.GameType.JODI
+        elif bet_type == "Open Harf":
+            return Bet.GameType.A_HARF
+        elif bet_type == "Close Harf":
+            return Bet.GameType.B_HARF
+        else:
+            raise Exception("Invalid bet type")

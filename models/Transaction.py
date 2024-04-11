@@ -15,6 +15,7 @@ class Transaction(db.Model):
     status = Column(String(30), nullable=False)
     settled = Column(BOOLEAN, nullable=True)
     mode = Column(String(20), nullable=True)
+    info = Column(String(1000), nullable=True)
 
     bet_id = Column(Integer, nullable=True)
 
@@ -23,15 +24,15 @@ class Transaction(db.Model):
                         server_default=func.now())
 
     class Type(Enum):
-        WITHDRAWAL = 1
-        DEPOSIT = 2
-        BET = 3
-        BONOUS = 4
+        WITHDRAWAL = 0
+        DEPOSIT = 1
+        BET = 2
+        BONOUS = 3
 
     class Status(Enum):
         INITIATED = 1
         PENDING_FOR_APPROVAL = 2
-        PROCESSING = 3
+        PROCESSING = 4
         SUCCESS = 3
-        FAILED = 4
-        CANCELLED = 5
+        FAILED = 5
+        CANCELLED = 6

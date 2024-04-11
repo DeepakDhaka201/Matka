@@ -4,13 +4,12 @@ from flask import request, jsonify, session
 from service.UserService import get_user_by_phone, create_user
 
 
-#@app.route('/user/sign_up', methods=['POST'])
 def signup():
     try:
-        data = request.json
-        number = data.get('phone')
-        secret = data.get('secret')
-        otp = data.get('otp')
+        number = request.form.get('mobile')
+        secret = request.form.get('secret')
+        otp = request.form.get('otp')
+        password = request.form.get('pass')
 
         if not number or not otp:
             return jsonify({'success': False, 'error': 'Number and otp are required parameters'}), 400
@@ -22,15 +21,41 @@ def signup():
         response_data = response.json()
 
         if response_data.get('Status') == "Success":
-            user_details = create_user(number)
+            user_details = create_user(number, password)
 
             session['phone'] = number
             session['user_id'] = user_details.id
             session.permanent = True
-            return jsonify({'success': True, 'message': 'Verification successful', 'user_details': user_details}), 200
+            return jsonify({'success': "1", 'message': 'Verification successful', 'user_details': user_details}), 200
         else:
             return jsonify({'success': False, 'error': 'Invalid Otp'}), 400
 
     except Exception as e:
         print('Error verifying code:', e)
         return jsonify({'success': False, 'error': 'Error verifying code'}), 500
+
+
+def signup2():
+    try:
+        number = request.form.get('mobile')
+        password = request.form.get('pass')
+
+        if not number or not password:
+            return jsonify({'success': False, 'error': 'Number and password are required parameters'}), 400
+
+        user_details = create_user(number, password)
+
+        session['phone'] = number
+        session['user_id'] = user_details.id
+        session.permanent = True
+        return jsonify({'success': "1", 'message': 'Verification successful'}), 200
+
+    except Exception as e:
+        print('Error verifying code:', e)
+        return jsonify({'success': False, 'error': 'Error verifying code'}), 500
+
+
+def logout():
+    session.pop('phone', None)
+    session.pop('user_id', None)
+    return jsonify({'success': "1", 'message': 'Logged out successfully'}), 200

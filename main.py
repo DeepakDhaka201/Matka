@@ -1,16 +1,20 @@
-# This is a sample Python script.
+import requests
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+otp = "333423"
+mobile = "9509251093"
 
+message = "Verify+Mobile,+No.+Your+OTP+is+{}+To+Login+in+App+ARNAV".format(otp)
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+url = "http://sms.smslab.in/api/sendhttp.php"
+params = {
+    "authkey": "393055AeJCj8aMhr836419c96fP1",
+    "mobiles": "91" + mobile,
+    "message": message,
+    "sender": "ARVIPT",
+    "route": 4,
+    "country": 91,
+    "DLT_TE_ID": "1307167958154244221"
+}
 
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+response = requests.get(url, params=params)
+print(response.status_code)
