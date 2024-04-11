@@ -34,7 +34,7 @@ def get_wallet():
             "total": int(user_details.total_balance),
             "paytm": Setting.query.get(Setting.Key.PAYTM_GATEWAY.name),
             "razorpay": Setting.query.get(Setting.Key.RAZORPAY_GATEWAY.name),
-            "upi": Setting.query.get(Setting.Key.UPI_ID),
+            "upi": Setting.query.get(Setting.Key.UPI_ID.name),
             "bank_details": Setting.query.get(Setting.Key.BANK_DETAILS.name),
             "data": transactions,
             "is_bank": "1" if bank_details else "0",
