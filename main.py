@@ -1,7 +1,7 @@
 import requests
 
 otp = "333423"
-mobile = "9509251093"
+mobile = "7073160557" #"9509251093"
 
 message = "Verify+Mobile,+No.+Your+OTP+is+{}+To+Login+in+App+ARNAV".format(otp)
 

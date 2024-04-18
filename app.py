@@ -14,13 +14,17 @@ from api.market import get_markets, get_content
 from api.send_otp import send_otp, send_otp2
 from api.signup import signup, logout, signup2
 from api.wallet import get_wallet, get_wallet_transactions, get_withdraw_modes, update_bank_details, withdraw_money, \
-    deposit_money, verify_deposit, deposit_via_bank
+    deposit_money, verify_deposit, deposit_via_bank 
 from extension import db
+from api.admin.single import list_users, list_bets, list_transactions, list_user_transactions, list_user_bets, \
+                                toggle_activation_user, cancel_bet_id, add_market, view_market_details, edit_market, \
+                                delete_market ,list_all_results , view_all_market_details
+                                
 
 pymysql.install_as_MySQLdb()
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:password@localhost:3306/test'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost:3306/test'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = 'uploads/'
 
@@ -74,7 +78,19 @@ app.route('/create_deposit', methods=['POST'])(deposit_money)
 app.route('/verify_deposit', methods=['POST'])(verify_deposit)
 app.route('/deposit_bank', methods=['POST'])(deposit_via_bank)
 app.route('/get_content', methods=['GET', 'POST'])(get_content)
-
+app.route('/admin_get_users')(list_users)
+app.route('/admin_get_bets')(list_bets)
+app.route('/admin_get_transactions')(list_transactions)
+app.route('/admin_get_user_transactions',methods=['GET','POST'])(list_user_transactions)
+app.route('/admin_get_user_bets',methods=['GET','POST'])(list_user_bets)
+app.route('/admin_toggle_user_activation',methods=['GET','POST'])(toggle_activation_user)
+app.route('/admin_cancel_bet_id',methods=['GET','POST'])(cancel_bet_id)
+app.route('/admin_add_market',methods=['GET','POST'])(add_market)
+app.route('/admin_view_market_details',methods=['GET','POST'])(view_market_details)
+app.route('/admin_edit_market',methods=['GET','POST'])(edit_market)
+app.route('/admin_delete_market',methods=['GET','POST'])(delete_market)
+app.route('/admin_list_all_results')(list_all_results)
+app.route('/admin_list_all_markets')(view_all_market_details)
 
 from models.User import User
 from models.Bet import Bet
@@ -88,7 +104,7 @@ with app.app_context():
 if __name__ == '__main__':
 
     if development:
-        app.run(host='0.0.0.0', port=8000, debug=True)
+        app.run(host='0.0.0.0', port=5000, debug=True)
 
     if production:
         from gevent.pywsgi import WSGIServer
