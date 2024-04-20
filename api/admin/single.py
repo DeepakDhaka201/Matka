@@ -536,3 +536,21 @@ def delete_market():
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
+
+
+def update_delhi_result():
+    data = request.get_json()
+    name = data.get("name")
+    open_time = data.get("open_time")
+    close_time = data.get("close_time")
+    result_time = data.get("result_time")
+
+    # Log the received data
+    print("Received data:", data)
+
+    if not (name and open_time and close_time and result_time):
+        return jsonify({"error": "Missing required fields"}), 400
+
+    # Return success message without adding to the database
+    return jsonify({"success": True, "message": "Received data logged successfully"}), 200
+

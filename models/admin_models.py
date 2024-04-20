@@ -62,7 +62,7 @@ def list_all_transactions():
     num_deposits_today = len(deposits_today)
 
 
-    return transactions
+    return transactions, withdrawals_today, deposits_today, num_withdrawals_today, num_deposits_today
 
 
 

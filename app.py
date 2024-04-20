@@ -106,6 +106,7 @@ app.route('/list_all_markets')(all_markets)
 app.route('/delhi_result_update')(delhi_result_update)
 app.route('/delhi_batch_result')(delhi_batch_history)
 app.route('/batch_history')(batch_history)
+app.route('/update_delhi_result',methods=['GET','POST'])(update_delhi_result)
 
 
 
