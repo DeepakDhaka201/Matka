@@ -16,7 +16,8 @@ from api.signup import signup, logout, signup2
 from api.wallet import get_wallet, get_wallet_transactions, get_withdraw_modes, update_bank_details, withdraw_money, \
     deposit_money, verify_deposit, deposit_via_bank 
 from extension import db
-from api.admin.single import list_users, list_bets, list_transactions, list_user_transactions, list_user_bets, \
+from api.admin.single import *
+from api.admin.single import render_admin_index, list_users, list_bets, list_transactions, list_user_transactions, list_user_bets, \
                                 toggle_activation_user, cancel_bet_id, add_market, view_market_details, edit_market, \
                                 delete_market ,list_all_results , view_all_market_details
                                 
@@ -30,6 +31,7 @@ app.config['UPLOAD_FOLDER'] = 'uploads/'
 
 app.secret_key = 'UnseenUmbrellaNeverGotaShower'
 app.permanent_session_lifetime = timedelta(minutes=60 * 24 * 7)
+app.add_url_rule('/static/<path:filename>', view_func=app.send_static_file)
 CORS(app)
 
 system = platform.system()
@@ -78,6 +80,7 @@ app.route('/create_deposit', methods=['POST'])(deposit_money)
 app.route('/verify_deposit', methods=['POST'])(verify_deposit)
 app.route('/deposit_bank', methods=['POST'])(deposit_via_bank)
 app.route('/get_content', methods=['GET', 'POST'])(get_content)
+
 app.route('/admin_get_users')(list_users)
 app.route('/admin_get_bets')(list_bets)
 app.route('/admin_get_transactions')(list_transactions)
@@ -91,6 +94,20 @@ app.route('/admin_edit_market',methods=['GET','POST'])(edit_market)
 app.route('/admin_delete_market',methods=['GET','POST'])(delete_market)
 app.route('/admin_list_all_results')(list_all_results)
 app.route('/admin_list_all_markets')(view_all_market_details)
+app.route('/admin')(render_admin_index)
+app.route('/render_users2admin')(render_users2admin)
+app.route('/render_newusers2admin')(render_newusers2admin)
+app.route('/render_bets2admin')(render_bets2admin)
+app.route('/render_bets2daydepoits2admin')(render_today_withdrawals)
+app.route('/render_2daywithdrawals2admin')(render_today_deposits)
+app.route('/render_add_market',methods=['GET','POST'])(render_add_market)
+app.route('/render_edit_market',methods=['GET','POST'])(render_edit_market)
+app.route('/list_all_markets')(all_markets)
+app.route('/delhi_result_update')(delhi_result_update)
+app.route('/delhi_batch_result')(delhi_batch_history)
+app.route('/batch_history')(batch_history)
+
+
 
 from models.User import User
 from models.Bet import Bet

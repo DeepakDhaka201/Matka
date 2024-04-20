@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Admin Panel</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="static/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="static/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="static/vendors/select2/select2.min.css">
+    <link rel="stylesheet" href="static/vendors/select2-bootstrap-theme/select2-bootstrap.min.css">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="static/css/horizontal-layout-light/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="static/images/favicon.png" />
+</head>
+
+<body class="sidebar-dark" style="font-family: 'Oxygen', sans-serif;">
+    <div class="container-fluid page-body-wrapper">
+        <!-- Header -->
+        <header>
+            <!-- Header content goes here -->
+            {% include "header.html" %}
+        </header>
+
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row">
+                    <div class="col-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Add new Market</h4>
+
+                                <form class="forms-sample" id="marketForm">
+                                    <div class="form-group">
+                                        <label for="marketName">Market Name</label>
+                                        <input type="text" class="form-control" id="marketName" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="openTime">Open Time (Enter time in 24H format)</label>
+                                        <input type="text" class="form-control" id="openTime" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="closeTime">Close Time (Enter time in 24H format)</label>
+                                        <input type="text" class="form-control" id="closeTime" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="resultTime">Result Time (Enter time in 24H format)</label>
+                                        <input type="text" class="form-control" id="resultTime" required>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary mr-2 mt-4" style="width: 100%">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <!-- Footer content goes here -->
+        </footer>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="static/vendors/js/vendor.bundle.base.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script src="static/js/pages/add_market.js"></script>
+
+</body>
+
+</html>

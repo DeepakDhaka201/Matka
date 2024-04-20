@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Admin Panel</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="static/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="static/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="static/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="static/css/horizontal-layout-light/style.css?v=2">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="static/images/favicon.png" />
+</head>
+
+<body class="sidebar-dark" style="font-family: 'Oxygen', sans-serif;">
+<div class="container-fluid page-body-wrapper">
+    <!-- partial:partials/_horizontal-navbar.html -->
+    {% include "header.html" %}
+
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Manage Users</h4>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="table-responsive">
+                                    <table id="order-listing" class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Sn</th>
+                                                    <th>Name</th>
+                                                    <th>Mobile number</th>
+                                                    <th>Email</th>
+                                                    <th>Password</th>
+                                                    <th>Total Balance</th>
+                                                    <th>Deposit Wallet</th>
+                                                    <th>Winning Wallet</th>
+                                                    <th>Bonus Wallet</th>
+                                                    <th>Register time</th>
+                                                    <th>View bets</th>
+                                                    <th>View Transactions</th>
+                                                    <!-- <th>Change password</th> -->
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="users-list">
+                                            </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+
+            <script>
+</script>
+
+
+            <!-- content-wrapper ends -->
+            <!-- partial:partials/_footer.html -->
+            <footer class="footer">
+                <div class="w-100 clearfix">
+                    <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="ti-heart text-danger ml-1"></i></span>
+                </div>
+            </footer>
+            <!-- partial -->
+            </div>
+        </div>
+    <!-- page-body-wrapper ends -->
+</div>
+<!-- container-scroller -->
+<!-- plugins:js -->
+<script src="static/vendors/js/vendor.bundle.base.js?v=2"></script>
+<!-- endinject -->
+<!-- Plugin js for this page-->
+<script src="static/vendors/datatables.net/jquery.dataTables.js"></script>
+<script src="static/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+<!-- End plugin js for this page-->
+<!-- inject:js -->
+<script src="static/js/off-canvas.js"></script>
+<script src="static/js/hoverable-collapse.js"></script>
+<script src="static/js/template.js"></script>
+<script src="static/js/settings.js"></script>
+<script src="static/js/todolist.js"></script>
+<!-- endinject -->
+<!-- Custom js for this page-->
+<script src="static/js/data-tables.js"></script>
+<script src="static/js/pages/users.js"></script>
+<!-- End custom js for this page-->
+</body>
+</html>
