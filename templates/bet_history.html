@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Admin Panel</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="static/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="static/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="static/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="static/css/horizontal-layout-light/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="static/images/favicon.png" />
+    
+    <style>
+        .ref {
+                background: #4caf50;
+                padding: 10px;
+                color: white;
+                font-size: 15px;
+                border-radius: 5px;
+                margin-top: 20px;
+                display:none;
+        }
+    </style>
+</head>
+
+
+<body class="sidebar-dark" style="font-family: 'Oxygen', sans-serif;">
+  <div class="container-fluid page-body-wrapper">
+
+    {% include "header.html" %}
+        <div class="main-panel">
+            <div class="content-wrapper">
+                 <div class="card">
+                     <div class="card-body">
+                          <div class="row">
+
+                              <form id="filterForm" method="post"  autocomplete="off">
+                                    <input autocomplete="false" name="hidden" type="text" style="display:none;">
+                                    <div class="form-group" style="    margin-bottom: 10px !important; margin-right:20px;">
+                                        <label for="exampleInputName1">From Date</label>
+                                        <input type="datepicker" id="datepicker" class="form-control" name="from" required>
+                                    </div>
+
+                                    <div class="form-group" style="    margin-bottom: 10px !important; margin-right:20px;">
+                                        <label for="exampleInputName1">To Date</label>
+                                        <input type="datepicker" id="datepicker2" class="form-control" name="to" required>
+                                    </div>
+                                    <button style="margin-top: 32px;" class="btn btn-primary">Filter</button>
+                              </form>
+
+                              <script>
+                                function handleFormSubmit(event) {
+                                    event.preventDefault();
+                                    var fromInput = document.getElementById('datepicker');
+                                    var toInput = document.getElementById('datepicker2');
+
+                                    var fromDate = fromInput.value;
+                                    var toDate = toInput.value;
+
+                                    var queryParams = new URLSearchParams(window.location.search);
+
+                                    queryParams.set('from', fromDate);
+                                    queryParams.set('to', toDate);
+
+                                    var newUrl = window.location.pathname + '?' + queryParams.toString();
+
+                                    window.location.href = newUrl;
+                                }
+
+                                document.getElementById('filterForm').addEventListener('submit', handleFormSubmit);
+                            </script>
+
+                        </div>
+                     </div>
+                 </div>
+             
+                <div class="card">
+                    <div class="card-body">
+                        <h4 id="p-title" class="card-title" style="margin-top:20px;">Bet history</h4>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="table-responsive">
+                                    <table id="order-listing" class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Sn</th>
+                                                <th>User Mobile</th>
+                                                <th>User Name</th>
+                                                <th>Number</th>
+                                                <th>Amount</th>
+                                                <th>Win Amount</th>
+                                                <th>Game</th>
+                                                <th>Market</th>
+                                                <th>Status</th>
+                                                <th>Time</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        {% set total_bid = 0 %}
+                                        {% set total_win = 0 %}
+
+                                        {% for bet in bets %}
+                                            {% set total_bid = total_bid + bet.amount %}
+                                            {% if bet.status == "WON" %}
+                                                {% set total_win = total_win + bet.win_amount %}
+                                            {% endif %}
+
+                                            <tr>
+                                                <td>{{ bet.id }}</td>
+                                                <td>{{ bet.user_phone }}</td>
+                                                <td>{{ bet.user_name }}</td>
+                                                <td>{{ bet.number }}</td>
+                                                <td>{{ bet.amount }}</td>
+                                                <td>{{ bet.win_amount }}</td>
+                                                <td>{{ bet.bet_type }}</td>
+                                                <td>{{ bet.market_name }}</td>
+                                                <td>
+                                                    {% if bet.status == "LOST" %}
+                                                        <span style="color:red">{{ bet.status|lower }}</span>
+                                                    {% elif bet.status == "WON" %}
+                                                        <span style="color:green">{{ bet.status|lower }}</span>
+                                                    {% else %}
+                                                        <span style="color:black">{{ bet.status|lower }}</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>{{ bet.created_at }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        {% if page == "ALL" %}
+                                            <tfoot>
+                                                    <td>Total Bidding</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>{{ total_bid }}</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                            </tfoot>
+
+                                            <tfoot>
+                                                    <td>Total Winning</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>{{ total_win }}</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                            </tfoot>
+                                        {% elif page == "WON" %}
+                                            <tfoot>
+                                                    <td>Total Winning</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>{{ total_win }}</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                            </tfoot>
+                                        {% elif page == "LOST" %}
+                                            <tfoot>
+                                                    <td>Total Lost</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>{{ total_bid}}</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                            </tfoot>
+                                        {% elif page == "PROCESSING" or page == "CANCELLED" %}
+                                            <tfoot>
+                                                    <td>Total Bidding</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>{{ total_bid }}</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                            </tfoot>
+                                        {% endif %}
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- content-wrapper ends -->
+            <!-- partial:partials/_footer.html -->
+            <footer class="footer">
+                <div class="w-100 clearfix">
+                    <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="ti-heart text-danger ml-1"></i></span>
+                </div>
+            </footer>
+            <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+</div>
+<!-- container-scroller -->
+<!-- plugins:js -->
+<script src="static/vendors/js/vendor.bundle.base.js"></script>
+<!-- endinject -->
+<!-- Plugin js for this page-->
+<script src="static/vendors/datatables.net/jquery.dataTables.js"></script>
+<script src="static/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+<!-- End plugin js for this page-->
+<!-- inject:js -->
+<script src="static/js/off-canvas.js"></script>
+<script src="static/js/hoverable-collapse.js"></script>
+<script src="static/js/template.js"></script>
+<script src="static/js/settings.js"></script>
+<script src="static/js/todolist.js"></script>
+<script src="static/js/pages/bet_history.js"></script>
+<!-- endinject -->
+<!-- Custom js for this page-->
+<script src="static/js/data-table.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+    .datepicker {
+            z-index: 99999 !important;
+    }
+</style>
+<script>
+$('#datepicker').datepicker({
+    format: 'dd/mm/yyyy',
+    endDate: '0d'
+});
+$('#datepicker2').datepicker({
+    format: 'dd/mm/yyyy',
+    endDate: '0d'
+});
+</script>
+
+
+<!-- End custom js for this page-->
+</body>
+
+</html>

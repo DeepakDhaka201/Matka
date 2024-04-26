@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Admin Panel</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="static/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="static/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="static/vendors/select2/select2.min.css">
+    <link rel="stylesheet" href="static/vendors/select2-bootstrap-theme/select2-bootstrap.min.css">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="static/css/horizontal-layout-light/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="static/images/favicon.png" />
+</head>
+
+<body class="sidebar-dark" style="font-family: 'Oxygen', sans-serif;">
+  <div class="container-fluid page-body-wrapper">
+    {% include "header.html" %}
+
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row">
+
+                    <div class="col-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Settings</h4>
+
+                                <form id="settingsForm" class="forms-sample" method="post" enctype="multipart/form-data">
+                                    <div class="form-group">
+                                        <label for="w-open-time">Withdraw Open Time</label>
+                                        {% if setting.WITHDRAW_OPEN_TIME %}
+                                          <input type="time" class="form-control" value="{{ setting.WITHDRAW_OPEN_TIME.value }}" id="w-open-time" name="withdrawOpenTime">
+                                        {% else %}
+                                          <input type="time" class="form-control" value="" id="w-open-time" name="withdrawOpenTime">
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="w-close-time">Withdraw Close Time</label>
+                                        {% if setting.WITHDRAW_CLOSE_TIME %}
+                                          <input type="time" class="form-control" value="{{ setting.WITHDRAW_CLOSE_TIME.value }}" id="w-close-time" name="withdrawCloseTime">
+                                        {% else %}
+                                          <input type="time" class="form-control" value="" id="w-close-time" name="withdrawCloseTime">
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="bank-details">Bank Details</label>
+                                        {% if setting.BANK_DETAILS %}
+                                          <textarea type="text" class="form-control" id="bank-details" name="bank_details">{{ setting.BANK_DETAILS.value|safe }}</textarea>
+                                        {% else %}
+                                          <textarea type="text" class="form-control" id="bank-details" name="bank_details"></textarea>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="upi-id">UPI ID</label>
+                                        {% if setting.UPI_ID %}
+                                          <input type="text" class="form-control" value="{{ setting.UPI_ID.value|safe }}" id="upi-id" name="upi">
+                                        {% else %}
+                                          <input type="text" class="form-control" value="" id="upi-id" name="upi">
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="mmc">Merchant Code (MCC)</label>
+                                        {% if setting.MERCHANT %}
+                                          <input type="text" class="form-control" value="{{ setting.MERCHANT.value|safe }}" id="mmc" name="merchant">
+                                        {% else %}
+                                          <input type="text" class="form-control" value="" id="mmc" name="merchant">
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="min-dep">Min Deposit</label>
+                                        {% if setting.MIN_DEPOSIT %}
+                                          <input type="number" class="form-control" value="{{ setting.MIN_DEPOSIT.value|safe }}" id="min-dep" name="min_deposit">
+                                        {% else %}
+                                          <input type="number" class="form-control" value="" id="min-dep" name="min_deposit">
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="min-with">Min Withdraw</label>
+                                        {% if setting.MIN_WITHDRAW %}
+                                          <input type="number" class="form-control" value="{{ setting.MIN_WITHDRAW.value|safe }}" id="min-with" name="min_withdraw">
+                                        {% else %}
+                                          <input type="number" class="form-control" value="" id="min-with" name="min_withdraw">
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="whatsapp">Whatsapp Link</label>
+                                        {% if setting.WHATSAPP %}
+                                          <input type="text" class="form-control" value="{{ setting.WHATSAPP.value|safe }}" id="whatsapp" name="whatsapp">
+                                        {% else %}
+                                          <input type="text" class="form-control" value="" id="whatsapp" name="whatsapp">
+                                        {% endif %}
+                                    </div>
+                                    <button type="submit" class="btn btn-primary mr-2 mt-4" name="submit" style="width: 100%">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- content-wrapper ends -->
+            <!-- partial:../../partials/_footer.html -->
+            <footer class="footer">
+                <div class="w-100 clearfix">
+                    <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="ti-heart text-danger ml-1"></i></span>
+                </div>
+            </footer>
+            <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+</div>
+<!-- container-scroller -->
+<!-- plugins:js -->
+<script src="static/vendors/js/vendor.bundle.base.js"></script>
+<!-- endinject -->
+<!-- Plugin js for this page -->
+<script src="static/vendors/typeahead.js/typeahead.bundle.min.js"></script>
+<script src="static/vendors/select2/select2.min.js"></script>
+<!-- End plugin js for this page -->
+<!-- inject:js -->
+<script src="static/js/off-canvas.js"></script>
+<script src="static/js/hoverable-collapse.js"></script>
+<script src="static/js/template.js"></script>
+<script src="static/js/settings.js"></script>
+<script src="static/js/todolist.js"></script>
+<!-- endinject -->
+<!-- Custom js for this page-->
+<script src="static/s/file-upload.js"></script>
+<script src="static/js/typeahead.js"></script>
+<script src="static/js/select2.js"></script>
+<script src="static/js/pages/setting.js"></script>
+
+<!-- End custom js for this page-->
+
+<!--<script src="https://cdn.tiny.cloud/1/6n9e3b6bbutqzcha0os8jsggfbmiqxiy166ekcaclp6aw530/tinymce/5/tinymce.min.js"></script>-->
+<!--<script>-->
+<!--    tinymce.init({-->
+        selector: 'textarea',  // change this value according to your HTML
+<!--        auto_focus: 'element1'-->
+<!--    });-->
+<!--</script>-->
+
+</body>
+
+</html>
