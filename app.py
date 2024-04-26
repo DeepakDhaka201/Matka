@@ -30,7 +30,7 @@ from extension import db
 pymysql.install_as_MySQLdb()
 
 app = Flask(__name__, static_url_path='/admin/static')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:password@localhost:3306/test'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:spaceback3423@localhost:3306/samrat'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = 'uploads/'
 
