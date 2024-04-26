@@ -44,18 +44,18 @@ def signup2():
         password = request.form.get('pass')
 
         if not number or not password:
-            return jsonify({'success': False, 'error': 'Number and password are required parameters'}), 400
+            return jsonify({'success': False, 'msg': 'Number and password are required parameters'}), 400
 
         user_details = create_user(number, password)
 
         session['phone'] = number
         session['user_id'] = user_details.id
         session.permanent = True
-        return jsonify({'success': "1", 'message': 'Verification successful'}), 200
-
+        token = generate_jwt({'user_id': user_details.id, 'is_admin': user_details.is_admin})
+        return jsonify({'success': "1", 'msg': 'Verification successful', 'session': token}), 200
     except Exception as e:
         print('Error verifying code:', e)
-        return jsonify({'success': False, 'error': 'Error verifying code'}), 500
+        return jsonify({'success': False, 'msg': 'Error verifying code'}), 500
 
 
 def logout():

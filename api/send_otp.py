@@ -34,7 +34,7 @@ def send_otp2():
         otp = request.form.get('otp')
 
         if not number:
-            return jsonify({'success': False, 'error': 'phone number is null'}), 400
+            return jsonify({'success': False, 'msg': 'phone number is null'}), 400
 
         message = "Verify+Mobile,+No.+Your+OTP+is+{}+To+Login+in+App+ARNAV".format(otp)
 
@@ -53,8 +53,8 @@ def send_otp2():
         if response.status_code == 200:
             return jsonify({'success': "1"}), 200
         else:
-            return jsonify({'success': False, 'error': 'Error sending Otp Code.'}), 500
+            return jsonify({'success': "0", 'msg': 'Error sending Otp Code.'}), 200
 
     except Exception as e:
         print('Error sending verification code:', e)
-        return jsonify({'success': False, 'error': 'Error sending otp code'}), 500
+        return jsonify({'success': "0", 'msg': 'Error sending otp code'}), 200
