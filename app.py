@@ -145,6 +145,7 @@ from models.Market import Market
 from models.Result import Result
 from models.WithdrawMode import WithdrawMode
 from models.Rate import Rate
+from models.AppUpdate import AppUpdate
 
 
 with app.app_context():
