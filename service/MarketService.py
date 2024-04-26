@@ -47,6 +47,7 @@ def get_markets_with_result():
             is_close = "1"
 
         data.append({
+            "id": market.id,
             "market": market.name,
             "is_close": is_close,
             "is_open": is_open,
