@@ -20,11 +20,11 @@ def get_current_previous_day_results():
 
     results_current_day_map = {}
     for result in results_current_day:
-        results_current_day_map[result.market_id] = get_formatted_result(result.jodi)
+        results_current_day_map[result.market_id] = result.jodi
 
     results_previous_day_map = {}
     for result in results_previous_day:
-        results_previous_day_map[result.market_id] = get_formatted_result(result.jodi)
+        results_previous_day_map[result.market_id] = result.jodi
 
     return results_current_day_map, results_previous_day_map
 
@@ -43,8 +43,8 @@ def get_markets_with_result():
             is_open = "1"
             is_close = "0"
         else:
-            is_open = "1"
-            is_close = "0"
+            is_open = "0"
+            is_close = "1"
 
         data.append({
             "market": market.name,
