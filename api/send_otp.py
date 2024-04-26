@@ -53,8 +53,8 @@ def send_otp2():
         if response.status_code == 200:
             return jsonify({'success': "1"}), 200
         else:
-            return jsonify({'success': "0", 'msg': 'Error sending Otp Code.'}), 200
+            return jsonify({'success': "0", 'msg': 'Error sending Otp Code.'}), 500
 
     except Exception as e:
         print('Error sending verification code:', e)
-        return jsonify({'success': "0", 'msg': 'Error sending otp code'}), 200
+        return jsonify({'success': "0", 'msg': 'Error sending otp code'}), 500
