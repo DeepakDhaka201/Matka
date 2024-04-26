@@ -180,11 +180,11 @@ select {
                             <img src="static/images/faces/user.png" alt="profile"/>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown material-dropdown" aria-labelledby="profileDropdown">
-                            <a class="dropdown-item" href="changepass.php">
+                            <a class="dropdown-item" href="/admin/change_password">
                                 <i class="ti-settings text-primary"></i>
                                 Change password
                             </a>
-                            <a class="dropdown-item" href="logout.php">
+                            <a class="dropdown-item" href="/admin/logout">
                                 <i class="ti-power-off text-primary"></i>
                                 Logout
                             </a>
@@ -233,99 +233,125 @@ window.onload = function(e) {
 
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
-          <li class="nav-item">
-            <a class="nav-link" href="/admin">
-              <i  class="ti-home menu-icon"></i>
-              <span  class="menu-title">Dashboard</span>
-            </a>
-          </li>
-          
-        
-                
-                <li class="nav-item">
-                     <a class="nav-link" data-bs-toggle="collapse" href="#xui-basicccc" aria-expanded="false" aria-controls="ui-basic">
-                        <i  class="ti-game menu-icon"></i>
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/dashboard">
+                  <i  class="ti-home menu-icon"></i>
+                  <span  class="menu-title">Dashboard</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                 <a class="nav-link" data-bs-toggle="collapse" href="#xui-basiccccc" aria-expanded="false" aria-controls="ui-basic">
+                    <i  class="ti-game menu-icon"></i>
+                    <span class="menu-title">Market Management</span>
+                    <i class="menu-arrow"></i>
+                 </a>
+                 <div class="collapse" id="xui-basiccccc">
+                  <ul class="nav flex-column sub-menu">
+                        <li class="nav-item"><a class="nav-link" href="/admin/markets">Delhi Market</a></li>
+                  </ul>
+                 </div>
+            </li>
+
+            <li class="nav-item">
+                 <a class="nav-link" data-bs-toggle="collapse" href="#xui-basicccc" aria-expanded="false" aria-controls="ui-basic">
+                    <i  class="ti-game menu-icon"></i>
                         <span class="menu-title">Result Management</span>
-                        <i class="menu-arrow"></i></a>
-                    <div class="collapse" id="xui-basicccc">
+                    <i class="menu-arrow"></i>
+                 </a>
+                <div class="collapse" id="xui-basicccc">
                       <ul class="nav flex-column sub-menu">
-                            <!--<li class="nav-item"><a class="nav-link" href="publish_result.php">Main Publish Result</a></li>-->
-                            <!--<li class="nav-item"><a class="nav-link" href="batch_history_list.php">Main Publish History</a></li>-->
-                            <!--<li class="nav-item"><a class="nav-link" href="starline_result_update.php">Starline Publish Result</a></li>-->
-                            <!--<li class="nav-item"><a class="nav-link" href="starline_history.php">Starline Publish History</a></li>-->
-                            <li class="nav-item"><a class="nav-link" href="delhi_result_update.php">Delhi Publish Result</a></li>
-                                                        <li class="nav-item"><a class="nav-link" href="delhi_batch_history.php">Delhi Publish History</a></li>
-                                                        <li class="nav-item"><a class="nav-link" href="card_result_update.php">Card Publish Result</a></li>
-                                                         <!--<li class="nav-item"><a class="nav-link" href="jackpot_result_update.php">Jackpot Publish Result</a></li>-->
+                        <li class="nav-item"><a class="nav-link" href="/admin/delhi_result_update">Delhi Publish Result</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/admin/delhi_result_history">Delhi Result History</a></li>
+                      </ul>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                 <a class="nav-link" data-bs-toggle="collapse" href="#xui-dasicccc" aria-expanded="false" aria-controls="ui-basic">
+                    <i  class="ti-game menu-icon"></i>
+                        <span class="menu-title">Deposit Management</span>
+                    <i class="menu-arrow"></i>
+                 </a>
+                 <div class="collapse" id="xui-dasicccc">
+                      <ul class="nav flex-column sub-menu">
+                          <li class="nav-item"><a class="nav-link" href="/admin/transaction_history?title=d_pen&type=DEPOSIT&status=SUCCESS&page=DEPOSIT">Completed Deposits</a></li>
+                          <li class="nav-item"><a class="nav-link" href="/admin/transaction_history?title=d_pen&type=DEPOSIT&status=PROCESSING&page=DEPOSIT">Pending Deposits</a></li>
+                      </ul>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                 <a class="nav-link" data-bs-toggle="collapse" href="#xui-wasicccc" aria-expanded="false" aria-controls="ui-basic">
+                    <i  class="ti-game menu-icon"></i>
+                        <span class="menu-title">Withdrawal Management</span>
+                    <i class="menu-arrow"></i>
+                 </a>
+                 <div class="collapse" id="xui-wasicccc">
+                      <ul class="nav flex-column sub-menu">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin/transaction_history?title=w_com&type=WITHDRAWAL&status=SUCCESS&page=WITHDRAWAL">
+                                   Completed Withdrawals
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin/transaction_history?title=w_pen&type=WITHDRAWAL&status=PROCESSING&page=WITHDRAWAL">
+                                    Pending Withdrawals
+                                    <span style="margin-left:3px;font-size:15px; color:red;font-weight:900; padding:1px 8px; border-radius:100%;"></span>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin/transaction_history?title=w_can&type=WITHDRAWAL&status=CANCELLED&page=WITHDRAWAL">
+                                    Cancelled Withdrawals
+                                </a>
+                            </li>
+                      </ul>
+                 </div>
+            </li>
+
+                
+
+                
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" href="card_report.php">-->
+<!--                        <i class="ti-write menu-icon"></i>-->
+<!--                        <span class="menu-title">Card Report</span>-->
+<!--                    </a>-->
+<!--                </li>-->
+
+                <li class="nav-item">
+                     <a class="nav-link" data-bs-toggle="collapse" href="#xui-basic-b" aria-expanded="false" aria-controls="ui-basicc">
+                        <i class="ti-game menu-icon"></i>
+                        <span  class="menu-title">Bets Report</span>
+                        <i class="menu-arrow"></i></a>
+                    <div class="collapse" id="xui-basic-b">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item"><a class="nav-link" href="/admin/bet_history?&page=ALL">All Bets</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/bet_history?title=s_bet&status=WON,LOST&page=ALL">Profit Summary</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/bet_history?title=p_bet&status=PENDING&page=PROCESSING">Pending Bets</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/bet_history?title=c_bet&status=CANCELLED&page=CANCELLED">Cancelled Bets</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/bet_history?title=l_bet&status=LOST&page=LOST">Lost Bets</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/bet_history?title=w_bet&status=WON&page=WON">Winning Bets</a></li>
                         </ul>
                     </div>
                 </li>
-                
-                                <li class="nav-item">
-                     <a class="nav-link" data-bs-toggle="collapse" href="#xui-basiccccc" aria-expanded="false" aria-controls="ui-basic">
-                        <i  class="ti-game menu-icon"></i>
-                        <span class="menu-title">Market Management</span>
+
+                <li class="nav-item">
+                     <a class="nav-link" data-bs-toggle="collapse" href="#xui-basic" aria-expanded="false" aria-controls="ui-basicc">
+                        <i class="ti-game menu-icon"></i>
+                        <span  class="menu-title">Transaction Report</span>
                         <i class="menu-arrow"></i></a>
-                    <div class="collapse" id="xui-basiccccc">
-                      <ul class="nav flex-column sub-menu">
-                            <!--<li class="nav-item"><a class="nav-link" href="market_list.php">Market</a></li>-->
-                            <!--<li class="nav-item"><a class="nav-link" href="market_list_manual.php">Market Manual</a></li>-->
-                            <!--<li class="nav-item"><a class="nav-link" href="starline_markets.php">Starline Market</a></li>-->
-                            <li class="nav-item"><a class="nav-link" href="/list_all_markets">Delhi Market</a></li>
-                            <!-- <li class="nav-item"><a class="nav-link" href="card_timings.php">Card Market</a></li> -->
-                            <!--<li class="nav-item"><a class="nav-link" href="jackpot_markets.php">Jackpot Market</a></li>-->
-                            
+                    <div class="collapse" id="xui-basic">
+
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item"><a class="nav-link" href="/admin/transaction_history?page=ALL">All Transactions</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/transaction_history?title=d&type=DEPOSIT&page=DEPOSIT">Deposits</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/transaction_history?title=w&type=WITHDRAWAL&page=WITHDRAWAL">Withdraws</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/transaction_history?title=b&type=BONOUS&page=BONOUS">Bonus</a></li>
                         </ul>
                     </div>
-                </li>
-                
-                 <li class="nav-item">
-                    <a class="nav-link" href="withdraw_pending.php">
-                        <i class="ti-user menu-icon"></i>
-                        <span class="menu-title">Withdraw Pending</span>
-                        <span id="withdraw" ="margin-left:3px;font-size:15px; color:red;font-weight:900; padding:1px 8px; border-radius:100%;"></span>
-                        
-                    </a>
-                </li>
-                
-                <li  class="nav-item">
-                    <a class="nav-link" href="upi_verification.php">
-                        <i class="ti-money menu-icon"></i>
-                        <span class="menu-title">UPI Verification</span>
-                        
-                        <span id="upi_verify" style="margin-left:3px;font-size:15px; color:red;font-weight:900; padding:1px 8px; border-radius:100%;"></span>
-                    </a>
-                </li>
-                
-                <li class="nav-item">
-                    <a class="nav-link" href="card_report.php">
-                        <i class="ti-write menu-icon"></i>
-                        <span class="menu-title">Card Report</span>
-                    </a>
-                </li>
-                
-                <li class="nav-item">
-                    <a class="nav-link" href="get_bet_history.php">
-                        <i class="ti-write menu-icon"></i>
-                        <span class="menu-title">Bet History</span>
-                    </a>
-                </li>
-                
-                
-                <li class="nav-item">
-                    <a class="nav-link" href="get_winning_report.php">
-                        <i class="ti-write menu-icon"></i>
-                        <span class="menu-title">Winning History</span>
-                    </a>
-                </li>
-                
-                
-                
-                <li class="nav-item">
-                    <a class="nav-link" href="depo_and_with_report.php">
-                        <i  class="ti-write menu-icon"></i>
-                        <span  class="menu-title">Account</span>
-                    </a>
                 </li>
                 
                  <li class="nav-item">
@@ -335,11 +361,16 @@ window.onload = function(e) {
                         <i class="menu-arrow"></i></a>
                     <div class="collapse" id="xui-basiccc">
                       <ul class="nav flex-column sub-menu">
-                            <li class="nav-item"><a class="nav-link" href="users.php">Total Registered Users</a></li>
-                            <li class="nav-item"><a class="nav-link" href="tusers.php">Today Registered Users</a></li>
-                            <li class="nav-item"><a class="nav-link" href="get_playing_user.php">Total Playing Users</a></li>
-                            <li class="nav-item"><a class="nav-link" href="get_tplaying_user.php">Today Playing Users</a></li>
-                            <li class="nav-item"><a class="nav-link" href="buser.php">Blocked Users</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/users">Total Registered Users</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/users?date=" id="todayUsersLink">Today Registered Users</a></li>
+
+                            <script>
+                                var currentDate = new Date();
+                                var formattedDate = currentDate.toISOString().slice(0, 10);
+                                var todayUsersLink = document.getElementById('todayUsersLink');
+                                todayUsersLink.href += formattedDate;
+                            </script>
+                            <li class="nav-item"><a class="nav-link" href="/admin/users?active=0">Blocked Users</a></li>
                         </ul>
                     </div>
                 </li>
@@ -347,170 +378,43 @@ window.onload = function(e) {
                 
                 
                 <li class="nav-item">
-                    <a class="nav-link" href="image_slider.php">
+                    <a class="nav-link" href="/admin/image_slider">
                         <i class="ti-crown menu-icon"></i>
                         <span class="menu-title">Image Slider</span>
                     </a>
                 </li>
-                
-                
-                    <li class="nav-item">
-                    <a class="nav-link" href="profit_loss.php">
-                        <i class="ti-home menu-icon"></i>
-                        <span class="menu-title">Profit Loss</span>
-                    </a>
-                </li>
-                   
-                   
-                <li class="nav-item">
-                    <a class="nav-link" href="market_hisab_range.php">
-                        <i class="ti-home menu-icon"></i>
-                        <span class="menu-title">Market Report</span>
-                    </a>
-                </li>
-                  
-                 
-                <li class="nav-item">
-                    <a class="nav-link" href="wallet_report.php">
-                        <i  class="ti-home menu-icon"></i>
-                        <span class="menu-title">Wallet Report</span>
-                    </a>
-                </li>
-                   
-                  
-                <li class="nav-item">
-                     <a class="nav-link" data-bs-toggle="collapse" href="#xui-basic" aria-expanded="false" aria-controls="ui-basicc">
-                        <i class="ti-game menu-icon"></i>
-                        <span  class="menu-title">Transaction Report</span>
-                        <i class="menu-arrow"></i></a>
-                    <div class="collapse" id="xui-basic">
-                      <ul class="nav flex-column sub-menu">
-                            <li class="nav-item"><a class="nav-link" href="get_deposit_report.php">Deposit</a></li>
-                            <li class="nav-item"><a class="nav-link" href="get_withdraw_report.php">Withdraw</a></li>
-                        </ul>
-                    </div>
-                </li>
-                
-                 
-                    <li class="nav-item">
-                    <a class="nav-link" href="market_hisab.php">
-                        <i class="ti-home menu-icon"></i>
-                        <span class="menu-title">My Hisab</span>
-                    </a>
-                </li>
-                 
-                 
-                <li class="nav-item">
-                    <a class="nav-link" href="deposit_requests.php">
-                        <i class="ti-home menu-icon"></i>
-                        <span class="menu-title">Pending Deposits</span>
-                    </a>
-                </li>
-                    
-                
-                 
-                <li class="nav-item">
-                    <a class="nav-link" href="deposit_completed.php">
-                        <i class="ti-home menu-icon"></i>
-                        <span class="menu-title">Completed Deposits</span>
-                    </a>
-                </li>
-                    
-                
-                   
-               
-                
-                   
-                <li class="nav-item">
-                    <a class="nav-link" href="withdraw_cancel.php">
-                        <i  class="ti-user menu-icon"></i>
-                        <span class="menu-title">Withdraw Cancel</span>
-                    </a>
-                </li>
-                
-                   
-                <li class="nav-item">
-                    <a class="nav-link" href="withdraw_requests.php">
-                        <i  class="ti-user menu-icon"></i>
-                        <span  class="menu-title">Withdraw Completed</span>
-                    </a>
-                </li>
-                
                     
                 <li class="nav-item">
-                    <a class="nav-link" href="withdraw_modes.php">
+                    <a class="nav-link" href="/admin/withdraw_modes">
                         <i  class="ti-user menu-icon"></i>
                         <span  class="menu-title">Withdraw Methods</span>
                     </a>
                 </li>
-                
-                 <li class="nav-item">
-                    <a class="nav-link" href="transactions.php">
-                        <i  class="ti-crown menu-icon"></i>
-                        <span class="menu-title">All Transactions</span>
-                    </a>
-                </li>
-               
-                <li class="nav-item">
-                     <a class="nav-link" data-bs-toggle="collapse" href="#anal" aria-expanded="false" aria-controls="ui-basic">
-                        <i class="ti-game menu-icon"></i>
-                        <span class="menu-title">Market Analysis</span>
-                        <i class="menu-arrow"></i></a>
-                    <div class="collapse" id="anal">
-                      <ul class="nav flex-column sub-menu">
-                            <!--<li class="nav-item"><a class="nav-link" href="analysis_markets.php?game=single">Single</a></li>-->
-                            <!--<li class="nav-item"><a class="nav-link" href="analysis_markets.php?game=jodi">Jodi</a></li>-->
-                            <!--<li class="nav-item"><a class="nav-link" href="analysis_markets.php?game=panna">Panna</a></li>-->
-                            <!--<li class="nav-item"><a class="nav-link" href="analysis_markets.php?game=halfsangam">Half Sangam</a></li>-->
-                            <!--<li class="nav-item"><a class="nav-link" href="analysis_markets.php?game=fullsangam">Full Sangam</a></li>-->
-                            <!--<li class="nav-item"><a class="nav-link" href="starline_markets_anal.php">Starline</a></li>-->
-                            <li class="nav-item"><a class="nav-link" href="delhi_markets_anal.php?game=single">Delhi Single</a></li>
-                            <li class="nav-item"><a class="nav-link" href="delhi_markets_anal.php?game=jodi">Delhi Jodi</a></li>
-                        </ul>
-                    </div>
-                </li>
-                
-               
-                             
-                 
-                
-                
-               <li class="nav-item">
-                    <a class="nav-link" href="notification.php">
-                        <i  class="ti-alert menu-icon"></i>
-                        <span  class="menu-title">Send Notification</span>
-                    </a>
-                </li>
-                
+
+<!--               <li class="nav-item">-->
+<!--                    <a class="nav-link" href="notification.php">-->
+<!--                        <i  class="ti-alert menu-icon"></i>-->
+<!--                        <span  class="menu-title">Send Notification</span>-->
+<!--                    </a>-->
+<!--                </li>-->
 
                              
                  <li class="nav-item">
-                    <a class="nav-link" href="rate.php">
+                    <a class="nav-link" href="/admin/rates">
                         <i class="ti-money menu-icon"></i>
                         <span  class="menu-title">Rates</span>
                     </a>
                 </li>
                 
-                
-                
-                 <li class="nav-item">
-                    <a class="nav-link" href="rates.php">
-                        <i  class="ti-info-alt menu-icon"></i>
-                        <span class="menu-title">App Rates Text</span>
-                    </a>
-                </li>
-                
-                
-            
 
-     
-                <li class="nav-item">
-                    <a class="nav-link" href="refers.php">
-                        <i  class="ti-link menu-icon"></i>
-                        <span class="menu-title">Refers</span>
-                    </a>
-                </li>
-                
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" href="refers.php">-->
+<!--                        <i  class="ti-link menu-icon"></i>-->
+<!--                        <span class="menu-title">Refers</span>-->
+<!--                    </a>-->
+<!--                </li>-->
+
+
                  <li class="nav-item">
                   <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <i class="ti-files menu-icon"></i>
@@ -518,29 +422,26 @@ window.onload = function(e) {
                         <i class="menu-arrow"></i></a>
                    <div class="collapse" id="ui-basic">
                       <ul class="nav flex-column sub-menu">
-                            <li class="nav-item"><a class="nav-link" href="addnotice.php">Notice</a></li>
-                            <li class="nav-item"><a class="nav-link" href="homeline.php">Homescreen text</a></li>
-                            <li class="nav-item"><a class="nav-link" href="howtoplay.php">How to play</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/notice">Notice</a></li>
+<!--                            <li class="nav-item"><a class="nav-link" href="homeline.php">Homescreen text</a></li>-->
+<!--                            <li class="nav-item"><a class="nav-link" href="howtoplay.php">How to play</a></li>-->
                         </ul>
                     </div>
                 </li>
                 
-                  <li class="nav-item">
-                    <a class="nav-link" href="settings.php">
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/settings">
                         <i class="ti-settings menu-icon"></i>
                         <span class="menu-title">Settings</span>
                     </a>
                 </li>
+
                 <li class="nav-item">
-                    <a class="nav-link" href="app_updates.php">
+                    <a class="nav-link" href="/admin/app_updates">
                         <i class="ti-write menu-icon"></i>
                         <span class="menu-title">App updates</span>
                     </a>
                 </li>
-          
-          
-          
-          
         </ul>
       </nav>
       

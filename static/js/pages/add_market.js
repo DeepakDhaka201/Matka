@@ -3,33 +3,26 @@
     event.preventDefault();
 
     // Get form data
+    const urlParams = new URLSearchParams(window.location.search);
+
+    var id = urlParams.get('id');
     var name = document.getElementById("marketName").value;
     var openTime = document.getElementById("openTime").value;
     var closeTime = document.getElementById("closeTime").value;
     var resultTime = document.getElementById("resultTime").value;
 
-    // Make AJAX request to submit form data
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "/admin_add_market", true);
-    xhr.setRequestHeader("Content-Type", "application/json");
-
-    xhr.onload = function() {
-        if (xhr.status == 201) {
-            // Process success response here
-            var response = JSON.parse(xhr.responseText);
-            alert(response.message);
-        } else {
-            // Process error response here
-            var errorResponse = JSON.parse(xhr.responseText);
-            alert("Error: " + errorResponse.error);
+    $.ajax({
+        url: `/admin/api/add_update_market?market_id=${id}&name=${name}&open_time=${openTime}&close_time=${closeTime}&result_time=${resultTime}`,
+        method: 'POST',
+        success: function(response) {
+            console.log(response);
+            swal("Market Updated", "Market has been updated successfully", "success").then(() => {
+                window.location.href = `/admin/markets`
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error('Error:', error);
+            alert('Error updating market');
         }
-    };
-
-    xhr.onerror = function() {
-        // Display error message
-        alert("Error: Request failed");
-    };
-
-    // Send form data as JSON
-    xhr.send(JSON.stringify({ name: name, open_time: openTime, close_time: closeTime, result_time: resultTime }));
+    });
 });

@@ -11,6 +11,7 @@ class Transaction(db.Model):
     user_id: Mapped[int] = mapped_column(nullable=False)
 
     type = Column(String(20), nullable=False)
+    sub_type = Column(String(20), nullable=False)
     amount = Column(Float, nullable=False)
     status = Column(String(30), nullable=False)
     settled = Column(BOOLEAN, nullable=True)
@@ -29,10 +30,14 @@ class Transaction(db.Model):
         BET = 2
         BONOUS = 3
 
+    class SubType(Enum):
+        DEDUCT_BY_USER = 0
+        ADD_BY_USER = 1
+        DEDUCT_BY_ADMIN = 2
+        ADD_BY_ADMIN = 3
+
     class Status(Enum):
         INITIATED = 1
-        PENDING_FOR_APPROVAL = 2
-        PROCESSING = 4
+        PROCESSING = 2
         SUCCESS = 3
-        FAILED = 5
-        CANCELLED = 6
+        CANCELLED = 4

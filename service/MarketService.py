@@ -6,32 +6,37 @@ from models.Market import Market
 from models.Result import Result
 
 
+def get_formatted_result(number):
+    if number < 10:
+        return f"0{number}"
+    return str(number)
+
+
 def get_current_previous_day_results():
     results_current_day = Result.query.filter_by(date=cast(date.today(), Date)).all()
 
     previous_date = date.today() - timedelta(days=1)
     results_previous_day = Result.query.filter_by(date=cast(previous_date, Date)).all()
 
-    data_current_day = {}
+    results_current_day_map = {}
     for result in results_current_day:
-        data_current_day[result.market_id] = result
+        results_current_day_map[result.market_id] = get_formatted_result(result.jodi)
 
+    results_previous_day_map = {}
     for result in results_previous_day:
-        if result.market_id in data_current_day:
-            data_current_day[result.market_id]["open_number"] = result.get("close_number")
+        results_previous_day_map[result.market_id] = get_formatted_result(result.jodi)
 
-    return data_current_day
+    return results_current_day_map, results_previous_day_map
 
 
 def get_markets_with_result():
     markets = Market.query.all()
-    results = get_current_previous_day_results()
+    current_day_number, previous_day_number = get_current_previous_day_results()
     data = []
 
     for market in markets:
-        result = results.get(market.id)
-        open_time_obj = datetime.strptime(market.open_time, "%I:%M %p")
-        close_time_obj = datetime.strptime(market.close_time, "%I:%M %p")
+        open_time_obj = datetime.strptime(market.open_time, "%H:%M")
+        close_time_obj = datetime.strptime(market.close_time, "%H:%M")
         current_time_obj = datetime.now().time()
 
         if open_time_obj.time() < current_time_obj < close_time_obj.time():
@@ -45,11 +50,11 @@ def get_markets_with_result():
             "market": market.name,
             "is_close": is_close,
             "is_open": is_open,
-            "open_time": market.open_time,
-            "close_time": market.close_time,
-            "result_time": market.result_time,
-            "result": result.close_number if result and result.close_number else "**",
-            "result3": result.open_number if result and result.open_number else "**",
+            "open_time": open_time_obj.strftime('%I:%M %p'),
+            "close_time": close_time_obj.strftime('%I:%M %p'),
+            "result_time": datetime.strptime(market.result_time, "%H:%M").strftime('%I:%M %p'),
+            "result": current_day_number if current_day_number.get(market.id, None) else "**",
+            "result3": previous_day_number if previous_day_number.get(market.id, None) else "**",
             "market_type": "delhi",
             "mOpen": is_open,
             "mClose": is_close,

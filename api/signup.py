@@ -1,6 +1,7 @@
 import requests
 from flask import request, jsonify, session
 
+from service.JwtToken import generate_jwt
 from service.UserService import get_user_by_phone, create_user
 
 
@@ -26,13 +27,15 @@ def signup():
             session['phone'] = number
             session['user_id'] = user_details.id
             session.permanent = True
-            return jsonify({'success': "1", 'message': 'Verification successful', 'user_details': user_details}), 200
+            token = generate_jwt({'user_id': user_details.id, 'is_admin': user_details.is_admin})
+
+            return jsonify({'success': "1", 'msg': 'Verification successful', 'user_details': user_details, 'session': token}), 200
         else:
-            return jsonify({'success': False, 'error': 'Invalid Otp'}), 400
+            return jsonify({'success': False, 'msg': 'Invalid Otp'}), 400
 
     except Exception as e:
         print('Error verifying code:', e)
-        return jsonify({'success': False, 'error': 'Error verifying code'}), 500
+        return jsonify({'success': False, 'msg': 'Error verifying code'}), 500
 
 
 def signup2():

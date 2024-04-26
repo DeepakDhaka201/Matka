@@ -1,18 +1,20 @@
 import time
 
-from flask import session
+from flask import session, request
+from sqlalchemy.exc import IntegrityError
 
 from extension import db
 from models.Transaction import Transaction
 from models.User import User
+from service.JwtToken import verify_jwt
 
 
 def get_user_by_phone(number):
     return User.query.filter_by(phone=number).first_or_404()
 
+
 def get_user_by_id(user_id):
     return User.query.get(user_id)
-
 
 
 def create_user(number, password):
@@ -23,13 +25,22 @@ def create_user(number, password):
     return user
 
 
-def validate_session():
-    print(session)
-    user_id = int(session.get('user_id', None))
-    if not user_id:
-        raise Exception("Unauthorized")
+def isAdmin(user_id):
+    return User.query.get(user_id).is_admin
 
-    return user_id
+
+def validate_session():
+    token = request.headers.get('Authorization')
+    print(token)
+    user_details = verify_jwt(token)
+    return user_details.get('user_id', None), user_details.get('is_admin', False)
+
+
+def validate_admin():
+    if session and session.get('user_id', None) and isAdmin(session.get('user_id')):
+        return int(session.get('user_id'))
+    else:
+        raise Exception("Unauthorized access")
 
 
 def get_transactions(user_id, types=None):
@@ -37,12 +48,15 @@ def get_transactions(user_id, types=None):
         transactions = Transaction.query \
             .filter(Transaction.user_id == user_id) \
             .filter(Transaction.type.in_(types)) \
-            .filter(Transaction.status == 'SUCCESS') \
+            .filter(Transaction.status == 'SUCCESS')\
+            .order_by(Transaction.created_at.desc())\
             .all()
         print(transactions)
     else:
         transactions = Transaction.query.filter(Transaction.user_id == user_id)\
-            .filter(Transaction.status == 'SUCCESS').all()
+            .filter(Transaction.status == 'SUCCESS')\
+            .order_by(Transaction.created_at.desc())\
+            .all()
         print(transactions)
 
     data = []
@@ -83,3 +97,72 @@ def update_user_profile(user_id, phone, email, name):
 
     db.session.commit()
     return True
+
+
+def update_user_balance_and_create_transaction(user_id, amount, wallet_type, action, remark):
+    user = User.query.get(user_id)
+    if not user:
+        return None, "User not found"
+
+    try:
+        with db.session.begin_nested():
+            if wallet_type == 'deposit':
+                if action == 'Add':
+                    user.total_balance += amount
+                    user.deposit_balance += amount
+                else:
+                    if user.total_balance >= amount:
+                        user.total_balance -= amount
+                        user.deposit_balance -= amount
+                    else:
+                        return None, "Insufficient balance"
+            elif wallet_type == 'winning':
+                if action == 'Add':
+                    user.total_balance += amount
+                    user.winning_balance += amount
+                else:
+                    if user.total_balance >= amount:
+                        user.total_balance -= amount
+                        user.winning_balance -= amount
+                    else:
+                        return None, "Insufficient balance"
+            elif wallet_type == 'bonus':
+                if action == 'Add':
+                    user.total_balance += amount
+                    user.bonus_balance += amount
+                else:
+                    if user.total_balance >= amount:
+                        user.total_balance -= amount
+                        user.bonus_balance -= amount
+                    else:
+                        return None, "Insufficient balance"
+            else:
+                return None, "Invalid wallet type"
+
+            ttype = None
+            if action == 'Add':
+                ttype = 'DEPOSIT'
+                if wallet_type == 'bonus':
+                    ttype = 'BONOUS'
+            else:
+                ttype = 'WITHDRAWAL'
+
+            # Create a transaction
+            transaction = Transaction(
+                user_id=user_id,
+                amount=amount,
+                type=ttype,
+                sub_type='ADD_BY_ADMIN' if action == 'Add' else 'DEDUCT_BY_ADMIN',
+                status='SUCCESS',
+                remark=remark
+            )
+            db.session.add(transaction)
+            db.session.commit()
+    except IntegrityError as e:
+        db.session.rollback()
+        print("Error occurred during the transaction", e)
+        return None, "Error occurred during the transaction"
+
+    return transaction, None
+
+

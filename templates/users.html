@@ -19,84 +19,163 @@
 </head>
 
 <body class="sidebar-dark" style="font-family: 'Oxygen', sans-serif;">
-<div class="container-fluid page-body-wrapper">
-    <!-- partial:partials/_horizontal-navbar.html -->
-    {% include "header.html" %}
+    <div class="container-fluid page-body-wrapper">
+        <!-- partial:partials/_horizontal-navbar.html -->
+        {% include "header.html" %}
 
         <div class="main-panel">
             <div class="content-wrapper">
                 <div class="row">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">Manage Users</h4>
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="table-responsive">
-                                    <table id="order-listing" class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Sn</th>
-                                                    <th>Name</th>
-                                                    <th>Mobile number</th>
-                                                    <th>Email</th>
-                                                    <th>Password</th>
-                                                    <th>Total Balance</th>
-                                                    <th>Deposit Wallet</th>
-                                                    <th>Winning Wallet</th>
-                                                    <th>Bonus Wallet</th>
-                                                    <th>Register time</th>
-                                                    <th>View bets</th>
-                                                    <th>View Transactions</th>
-                                                    <!-- <th>Change password</th> -->
-                                                    <th>Status</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="users-list">
-                                            </tbody>
-                                    </table>
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Manage Users</h4>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="table-responsive">
+                                        <table id="example" class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Sn</th>
+                                                        <th>Name</th>
+                                                        <th>Mobile number</th>
+                                                        <th>Email</th>
+                                                        <th>Password</th>
+                                                        <th>Total Balance</th>
+                                                        <th>Deposit Wallet</th>
+                                                        <th>Winning Wallet</th>
+                                                        <th>Bonus Wallet</th>
+                                                        <th>Register time</th>
+                                                        <th>View bets</th>
+                                                        <th>View Transactions</th>
+                                                        <!-- <th>Change password</th> -->
+                                                        <th>Status</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    {% for user in users %}
+                                                        <tr>
+                                                            <td>{{ loop.index }}</td>
+                                                            <td>{{ user.name }}</td>
+                                                            <td>{{ user.phone }}</td>
+                                                            <td>{{ user.email }}</td>
+                                                            <td>{{ user.password }}</td>
+                                                            <td>{{ user.total_balance }}</td>
+                                                            <td>{{ user.deposit_balance }}</td>
+                                                            <td>{{ user.winning_balance }}</td>
+                                                            <td>{{ user.bonus_balance }}</td>
+                                                            <td>{{ user.created_at }}</td>
+                                                            <td>
+                                                                <a href="/admin/bet_history?user_id= {{ user.id }}"> <button class="btn btn-outline-info">View bets</button> </a>
+                                                            </td>
+
+                                                            <td>
+                                                                <a href="/admin/manage_wallet?user_id={{ user.id }}"> <button class="btn btn-outline-info">Manage wallet</button> </a>
+                                                            </td>
+
+                                                            <!-- <td><a href="/change-password/{{ user.id }}">Change password</a></td> -->
+
+                                                            <td>
+                                                                {% if user.active == True %}
+                                                                    <button class="btn btn-outline-success" onclick="updateUser({{ user.id}}, 0)">Active</button>
+                                                                {% else %}
+                                                                    <button class="btn btn-outline-warning" onclick="updateUser({{ user.id}}, 1)">Inactive</button>
+                                                                {% endif %}
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+                <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 
-            <script>
-</script>
-
-
-            <!-- content-wrapper ends -->
-            <!-- partial:partials/_footer.html -->
-            <footer class="footer">
-                <div class="w-100 clearfix">
-                    <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="ti-heart text-danger ml-1"></i></span>
-                </div>
-            </footer>
-            <!-- partial -->
+                <footer class="footer">
+                    <div class="w-100 clearfix">
+                        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="ti-heart text-danger ml-1"></i></span>
+                    </div>
+                </footer>
             </div>
         </div>
-    <!-- page-body-wrapper ends -->
-</div>
-<!-- container-scroller -->
-<!-- plugins:js -->
-<script src="static/vendors/js/vendor.bundle.base.js?v=2"></script>
-<!-- endinject -->
-<!-- Plugin js for this page-->
-<script src="static/vendors/datatables.net/jquery.dataTables.js"></script>
-<script src="static/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-<!-- End plugin js for this page-->
-<!-- inject:js -->
-<script src="static/js/off-canvas.js"></script>
-<script src="static/js/hoverable-collapse.js"></script>
-<script src="static/js/template.js"></script>
-<script src="static/js/settings.js"></script>
-<script src="static/js/todolist.js"></script>
-<!-- endinject -->
-<!-- Custom js for this page-->
-<script src="static/js/data-tables.js"></script>
-<script src="static/js/pages/users.js"></script>
-<!-- End custom js for this page-->
+        <!-- page-body-wrapper ends -->
+    </div>
+
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="static/vendors/js/vendor.bundle.base.js?v=2"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page-->
+    <script src="static/vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="static/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+    <!-- End plugin js for this page-->
+    <!-- inject:js -->
+    <script src="static/js/off-canvas.js"></script>
+    <script src="static/js/hoverable-collapse.js"></script>
+    <script src="static/js/template.js"></script>
+    <script src="static/js/settings.js"></script>
+    <script src="static/js/todolist.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page-->
+    <script src="static/js/data-tables.js"></script>
+    <script src="static/js/pages/users.js"></script>
+    <script>
+    $(document).ready(function() {
+    var buttonCommon = {
+        exportOptions: {
+            format: {
+                body: function ( data, row, column, node ) {
+                    datas = data.split('>');
+                    if(datas.length > 1){
+                        data2 = datas[1].replace("</a", "");
+                        return data2;
+                    } else {
+                        return data;
+                    }
+                }
+            }
+        }
+    };
+
+    $('#example').DataTable( {
+        dom: 'lBfrtip',
+
+        buttons: [
+            $.extend( true, {}, buttonCommon, {
+                extend: 'copyHtml5',
+                columns: ':visible',
+                exportOptions: {
+                        columns: "thead th:not(.mrl-title)"
+                }
+            } ),
+            $.extend( true, {}, buttonCommon, {
+                extend: 'excelHtml5',
+                columns: ':visible',
+                exportOptions: {
+                        columns: "thead th:not(.mrl-title)"
+                }
+            } ),
+            $.extend( true, {}, buttonCommon, {
+                extend: 'pdfHtml5',
+                columns: ':visible',
+                exportOptions: {
+                        columns: "thead th:not(.mrl-title)"
+                }
+            } ),
+             $.extend( true, {}, buttonCommon, {
+                extend: 'print',
+                exportOptions: {
+                        columns: "thead th:not(.mrl-title)"
+                }
+            } )
+        ]
+    } );
+} );
+</script>
+    <!-- End custom js for this page-->
 </body>
 </html>

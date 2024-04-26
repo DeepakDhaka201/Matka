@@ -34,27 +34,31 @@
                     <div class="col-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Add new Market</h4>
+                                {% if market %}
+                                    <h4 class="card-title">Add New Market</h4>
+                                {% else %}
+                                    <h4 class="card-title"> Edit Market </h4>
+                                {% endif %}
 
                                 <form class="forms-sample" id="marketForm">
                                     <div class="form-group">
                                         <label for="marketName">Market Name</label>
-                                        <input type="text" class="form-control" id="marketName" required>
+                                        <input type="text" class="form-control" id="marketName" value="{% if market %}{{ market.name }}{% else %}{% endif %}" required>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="openTime">Open Time (Enter time in 24H format)</label>
-                                        <input type="text" class="form-control" id="openTime" required>
+                                        <input type="text" class="form-control" id="openTime" value="{% if market %}{{ market.open_time }}{% else %}{% endif %}" required>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="closeTime">Close Time (Enter time in 24H format)</label>
-                                        <input type="text" class="form-control" id="closeTime" required>
+                                        <input type="text" class="form-control" id="closeTime" value="{% if market %}{{ market.close_time }}{% else %}{% endif %}" required>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="resultTime">Result Time (Enter time in 24H format)</label>
-                                        <input type="text" class="form-control" id="resultTime" required>
+                                        <input type="text" class="form-control" id="resultTime" value="{% if market %}{{ market.result_time }}{% else %}{% endif %}" required>
                                     </div>
 
                                     <button type="submit" class="btn btn-primary mr-2 mt-4" style="width: 100%">Submit</button>

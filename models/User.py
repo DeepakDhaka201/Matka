@@ -20,4 +20,7 @@ class User(db.Model):
     bank_ifsc_code = Column(String(50), nullable=True)
     bank_name = Column(String(50), nullable=True)
     active: Mapped[bool] = mapped_column(default=True)
+    is_admin: Mapped[bool] = mapped_column(default=False)
+    referral_code = Column(String(10), nullable=True)
+    referral_by: Mapped[int] = mapped_column(nullable=True)
     created_at = Column(db.DateTime(timezone=True), server_default=func.now())

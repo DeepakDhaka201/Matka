@@ -19,4 +19,7 @@ def get_content():
     key = request.form.get("text")
     setting_key = Setting.Key[key.upper()]
     setting = Setting.query.filter_by(key=setting_key.name).first()
-    return jsonify({"notice": setting.value}), 200
+    notice = ""
+    if setting:
+        notice = setting.value
+    return jsonify({"notice": notice}), 200

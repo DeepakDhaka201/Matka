@@ -9,12 +9,18 @@ from service.UserService import validate_session, get_user_by_id
 
 def dashboard():
     try:
-        user_id = validate_session()
+        user_id, is_admin = validate_session()
         user_details = get_user_by_id(user_id)
         markets = get_markets_with_result()
 
         settings = Setting.query.all()
         settings_map = {setting.key: setting.value for setting in settings}
+        banners = Setting.query.filter_by(key=Setting.Key.BANNER_IMAGE.name).first()
+
+        if banners and banners.valueList:
+            banner_images = [{"image": url} for url in banners.valueList]
+        else:
+            banner_images = []
 
         data = {
             "markets": markets,
@@ -33,24 +39,11 @@ def dashboard():
             "active": "1" if user_details.active else 0,
             "bank_details": settings_map.get(Setting.Key.BANK_DETAILS.name),
             "homeline": "",
-            "images": [
-                {
-                    "0": "57",
-                    "sn": "57",
-                    "1": "upload/WhatsApp Image 2023-09-08 at 10.29.51 PM.jpeg",
-                    "image": "upload/WhatsApp Image 2023-09-08 at 10.29.51 PM.jpeg"
-                },
-                {
-                    "0": "56",
-                    "sn": "56",
-                    "1": "upload/Banner c.jpg",
-                    "image": "upload/Banner c.jpg"
-                }
-            ],
+            "images": banner_images,
             "code": "123456"
         }
         return jsonify(data), 200
     except Exception as e:
         print(e)
         traceback.print_exc()
-        return jsonify({'success': False, 'error': 'Error fetching details'}), 500
+        return jsonify({'success': False, 'msg': 'Error fetching details'}), 500

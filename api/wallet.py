@@ -6,12 +6,13 @@ from flask import jsonify, request
 
 from models.Setting import Setting
 from models.Transaction import Transaction
+from models.WithdrawMode import WithdrawMode
 from service.BetService import create_withdraw, create_deposit, update_transaction_status
 from service.UserService import validate_session, get_user_by_id, get_transactions, update_user_bank_details
 
 
 def get_wallet():
-    user_id = validate_session()
+    user_id, is_admin = validate_session()
     try:
         user_details = get_user_by_id(user_id)
         transactions = get_transactions(user_id, [Transaction.Type.DEPOSIT.name,
@@ -49,7 +50,7 @@ def get_wallet():
 
 
 def get_wallet_transactions():
-    user_id = validate_session()
+    user_id, is_admin = validate_session()
     try:
         transactions = get_transactions(user_id);
         return jsonify({"data": transactions}), 200
@@ -58,39 +59,19 @@ def get_wallet_transactions():
 
 
 def get_withdraw_modes():
-    user_id = validate_session()
-    modes = [
-            {
-                "sn": "1",
-                "name": "Bank Account",
-                "hint": "Enter Your Bank Account Number And IFSC Code",
-                "active": "1"
-            },
-            {
-                "sn": "5",
-                "name": "Google Pay",
-                "hint": "Enter GPay Number",
-                "active": "1"
-            },
-            {
-                "sn": "1",
-                "name": "Paytm",
-                "hint": "Enter Paytm Number",
-                "active": "1"
-            },
-            {
-                "sn": "4",
-                "name": "Phone Pe",
-                "hint": " Phone Pe Number",
-                "active": "1"
-            },
-            {
-                "sn": "3",
-                "name": "UPI",
-                "hint": "Enter your VPA",
-                "active": "1"
-            }
-        ]
+    user_id, is_admin = validate_session()
+    w_modes = WithdrawMode.query.filter_by(active=True).all()
+    modes = []
+    for mode in w_modes:
+        modes.append({
+            "sn": mode.id,
+            "key": mode.mode,
+            "name": mode.name,
+            "hint": mode.hint_message,
+            "active": "1"
+        })
+
+
     user_details = get_user_by_id(user_id)
 
     bank_details = {
@@ -112,7 +93,7 @@ def get_withdraw_modes():
 
 
 def update_bank_details():
-    user_id = validate_session()
+    user_id, is_admin = validate_session()
     data = request.form
     try:
         bank_ac_no = data.get("ac")
@@ -133,7 +114,7 @@ def update_bank_details():
 
 
 def withdraw_money():
-    user_id = validate_session()
+    user_id, is_admin = validate_session()
     data = request.form
     try:
         print(data)
@@ -164,7 +145,7 @@ def withdraw_money():
 #transactionId
 
 def deposit_money():
-    user_id = validate_session()
+    user_id, is_admin = validate_session()
     data = request.form
     try:
         print(data)
@@ -186,7 +167,7 @@ def deposit_money():
 
 
 def verify_deposit():
-    user_id = validate_session()
+    user_id, is_admin = validate_session()
     data = request.form
     try:
         transaction_id = data.get("hash")
@@ -198,7 +179,7 @@ def verify_deposit():
         if transaction is None:
             return jsonify({'success': False, 'msg': 'Invalid transaction id'}), 400
 
-        update_transaction_status(transaction_id, Transaction.Status.PENDING_FOR_APPROVAL.name)
+        update_transaction_status(transaction_id, Transaction.Status.PROCESSING.name)
 
         user_details = get_user_by_id(user_id)
         return jsonify({"success": "0", "msg": "Deposit verified!",
@@ -211,18 +192,18 @@ def verify_deposit():
 
 
 def deposit_via_bank():
-    user_id = validate_session()
+    user_id, is_admin = validate_session()
     data = request.form
     try:
         image = request.files["img"]
         amount = data.get("amount")
 
-        filename = f"{uuid.uuid4().hex[:8]}_{image.filename}"
-        file_path = os.path.join("uploads/", filename)
-        image.save(file_path)
-
         if image is None or amount is None:
             return jsonify({'success': False, 'msg': 'Invalid request body'}), 400
+
+        filename = f"{uuid.uuid4().hex[:8]}_{image.filename}"
+        file_path = os.path.join("static/images/", filename)
+        image.save(file_path)
 
         create_deposit(user_id, amount, "Bank Transfer", file_path)
 

@@ -33,124 +33,52 @@
       <div class="main-panel">
         <div class="content-wrapper">
           <div class="row">
+
             {%for market in markets%}
-            <div class="col-sm-12 col-md-6 col-lg-6 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">{{market.name}}</h4>
+              <div class="col-sm-12 col-md-6 col-lg-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">{{market.name}}</h4>
 
-                  <form
-                    class="forms-sample"
-                    method="post"
-                    enctype="multipart/form-data"
-                  >
-                    <input
-                      type="hidden"
-                      name="market"
-                      value="{{market.name}}"
-                      required
-                    />
+                    <form class="forms-sample update-form" method="post" enctype="multipart/form-data">
+                      <input type="hidden" name="market_id" value="{{market.id}}" required/>
+                      <input type="hidden" name="market" value="{{market.name}}" required/>
 
-                    <div class="form-group ">
-                      <label for="exampleInputName1"
-                        >Date ( Format must be DD/MM/YYYY ex. 26/06/2021
-                        )</label
-                      >
-                      <input
-                        type="text"
-                        class="form-control date"
-                        name="date"
-                        required
-                      />
-                    </div>
-
-                    <script>
-                      // Get the current date
-                      var currentDate = new Date();
-
-                      // Extract year, month, and day
-                      var year = currentDate.getFullYear();
-                      var month = ("0" + (currentDate.getMonth() + 1)).slice(
-                        -2
-                      ); // Adding 1 because months are zero-based
-                      var day = ("0" + currentDate.getDate()).slice(-2);
-
-                      // Format the date
-                      var formattedDate = day + "/" + month + "/" + year;
-
-                    //   document.getElementById("date").value = formattedDate;
-                      var inputs = document.querySelectorAll('.date');
-                      inputs.forEach(function(input) {
-                        input.value = formattedDate;
-                    });
-
-                      console.log(formattedDate); // Output: DD/MM/YYYY
-                    </script>
-
-                    <div class="row">
-                      <div class="col-sm-4">
-                        <div class="form-group">
-                          <label for="opanna">Open Harf</label>
-                          <input
-                            type="text"
-                            maxlength="3"
-                            onkeypress="return isNumeric(event)"
-                            oninput="maxLengthCheck(this)"
-                            min="100"
-                            max="999"
-                            class="form-control"
-                            id="opanna"
-                            name="opanna"
-                          />
-                        </div>
+                      <div class="form-group">
+                        <label>Date ( Format must be DD/MM/YYYY ex. 26/06/2021 )</label>
+                        <input type="text" class="form-control date" name="date" required/>
                       </div>
 
-                      <div class="col-sm-3">
-                        <div class="form-group">
-                          <label for="open">Jodi</label>
-                          <input
-                            type="text"
-                            pattern="(.){2,2}"
-                            maxlength="2"
-                            class="form-control"
-                            id="jodi"
-                            name="jodi"
-                            required
-                          />
+                      <div class="row">
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label for="opanna">Open Harf</label>
+                            <input type="text" maxlength="3" onkeypress="return isNumeric(event)" oninput="maxLengthCheck(this)" min="100" max="999" class="form-control" id="opanna" name="opanna"/>
+                          </div>
                         </div>
-                      </div>
 
-                      <div class="col-sm-4">
-                        <div class="form-group">
-                          <label for="opanna">Close Harf</label>
-                          <input
-                            type="text"
-                            maxlength="3"
-                            onkeypress="return isNumeric(event)"
-                            oninput="maxLengthCheck(this)"
-                            min="100"
-                            max="999"
-                            class="form-control"
-                            id="cpanna"
-                            name="cpanna"
-                          />
+                        <div class="col-sm-3">
+                          <div class="form-group">
+                            <label for="jodi">Jodi</label>
+                            <input type="text" pattern="(.){2,2}" maxlength="2" class="form-control" id="jodi" name="jodi" required/>
+                          </div>
                         </div>
-                      </div>
-                    </div>
 
-                    <button
-                      type="submit"
-                      class="btn btn-primary mr-2 mt-4"
-                      name="submit"
-                      style="width: 100%"
-                    >
-                      Update
-                    </button>
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label for="opanna">Close Harf</label>
+                            <input type="text" maxlength="3" onkeypress="return isNumeric(event)" oninput="maxLengthCheck(this)" min="100" max="999" class="form-control" id="cpanna" name="cpanna"/>
+                          </div>
+                        </div>
+                     </div>
+
+                    <button type="submit" class="btn btn-primary mr-2 mt-4" name="submit" style="width: 100%" onsubmit="">Update</button>
                   </form>
+                  </div>
                 </div>
               </div>
-            </div>
             {%endfor%}
+
           </div>
         </div>
         <!-- content-wrapper ends -->
@@ -184,6 +112,7 @@
     <!-- endinject -->
     <!-- Custom js for this page-->
     <script src="static/js/data-table.js"></script>
+    <script src="static/js/pages/delhi_result_update.js"></script>
     <!-- End custom js for this page-->
 
     <script>

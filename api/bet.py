@@ -4,15 +4,15 @@ from urllib.parse import unquote
 from flask import jsonify, request
 
 from models.Bet import Bet
-from service.BetService import save_bets, fetch_bets
+from service.BetService import save_bets, fetch_bets, fetch_bets2
 from service.MarketService import get_all_market, get_all_market_by_id
 from service.UserService import validate_session
 
 
 def get_bets():
-    user_id = validate_session()
+    user_id, is_admin = validate_session()
     try:
-        bets = fetch_bets(user_id, request.form.get("market"))
+        bets = fetch_bets2(user_id, request.form.get("market"))
         markets = get_all_market_by_id()
 
         data = {}
@@ -21,10 +21,18 @@ def get_bets():
         for bet in bets:
             date = bet.created_at.strftime("%d %b %Y")
             dates.add(date)
+
+            if Bet.GameType.JODI.name == bet.bet_type:
+                bet_number = bet.jodi
+            elif Bet.GameType.OPEN_HARF.name == bet.bet_type:
+                bet_number = bet.open_harf
+            else:
+                bet_number = bet.close_harf
+
             bet_details = {
                 "market": markets.get(bet.market_id).name,
                 "game": Bet.GameType[bet.bet_type].value,
-                "number": bet.bet_number,
+                "number": bet_number,
                 "amount": int(bet.amount),
                 "status": Bet.Status[bet.status].value[0],
                 "date": bet.created_at.strftime("%d %b %Y %I:%M %p"),
@@ -44,11 +52,11 @@ def get_bets():
     except Exception as e:
         print(e)
         traceback.print_exc()
-        return jsonify({'success': False, 'error': 'Error fetching details'}), 500
+        return jsonify({'success': False, 'msg': 'Error fetching details'}), 500
 
 
 def place_bet():
-    user_id = validate_session()
+    user_id, is_admin = validate_session()
     data = request.form
     try:
         print(data)
@@ -65,20 +73,21 @@ def place_bet():
 
         if market_name is None or game_type is None or input_numbers is None or input_amounts is None:
             print("Invalid request body")
-            return jsonify({'success': False, 'error': 'Invalid request body'}), 400
+            return jsonify({'success': False, 'msg': 'Invalid request body'}), 400
 
-        input_numbers = [int(num) for num in input_numbers.split(",")]
-        input_amounts = [int(num) for num in input_amounts.split(",")]
+        input_numbers = [num for num in input_numbers.split(",")]
+        input_amounts = [num for num in input_amounts.split(",")]
         if len(input_numbers) != len(input_amounts):
             print("Invalid request body! Number and amount count mismatch")
-            return jsonify({'success': False, 'error': 'Invalid request body'}), 400
+            return jsonify({'success': False, 'msg': 'Invalid request body'}), 400
 
+        print(input_numbers)
         response = save_bets(user_id, market_name, game_type, input_numbers, input_amounts, total_amount)
         if not response.get('success'):
             return jsonify(response), 400
 
-        return jsonify({'success': "1", 'message': 'Bet placed successfully', 'active': response.get('active')}), 200
+        return jsonify({'success': "1", 'msg': 'Bet placed successfully', 'active': response.get('active')}), 200
     except Exception as e:
         print(e)
         traceback.print_exc()
-        return jsonify({'success': False, 'error': 'Error while placing bet'}), 500
+        return jsonify({'success': False, 'msg': 'Error while placing bet'}), 500
