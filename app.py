@@ -18,7 +18,7 @@ from api.admin import admin_index, admin_users_index, admin_update_user, admin_u
     admin_change_password_index, admin_app_update_index, admin_add_app_update_index, admin_api_add_app_update, \
     admin_api_remove_app_update
 from api.bet import get_bets, place_bet
-from api.dashboard import dashboard
+from api.dashboard import dashboard, web_index
 from api.login import login, forgot_password, update_profile, update_user_password, get_config
 from api.market import get_markets, get_content
 from api.send_otp import send_otp, send_otp2
@@ -62,6 +62,7 @@ db.init_app(app)
 #     return redirect('/')
 
 # Import routes and create routes for each methods defined in api directory
+app.route('/')(web_index)
 
 app.route('/get_config', methods=['GET', 'POST'])(get_config)
 app.route('/login', methods=['POST'])(login)

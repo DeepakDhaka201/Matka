@@ -1,10 +1,14 @@
 import traceback
 
-from flask import request, jsonify
+from flask import request, jsonify, render_template
 
 from models.Setting import Setting
 from service.MarketService import get_markets_with_result
 from service.UserService import validate_session, get_user_by_id
+
+
+def web_index():
+    return render_template("windex.html")
 
 
 def dashboard():
