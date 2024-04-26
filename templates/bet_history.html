@@ -106,13 +106,12 @@
                                         </thead>
                                         <tbody>
 
-                                        {% set total_bid = 0 %}
-                                        {% set total_win = 0 %}
+                                        {% set ns = namespace(total_bid = 0, total_win = 0) %}
 
                                         {% for bet in bets %}
-                                            {% set total_bid = total_bid + bet.amount %}
+                                            {% set ns.total_bid = ns.total_bid + bet.amount %}
                                             {% if bet.status == "WON" %}
-                                                {% set total_win = total_win + bet.win_amount %}
+                                                {% set ns.total_win = ns.total_win + bet.win_amount %}
                                             {% endif %}
 
                                             <tr>
@@ -142,7 +141,7 @@
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
-                                                    <td>{{ total_bid }}</td>
+                                                    <td>{{ ns.total_bid }}</td>
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
@@ -153,7 +152,7 @@
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
-                                                    <td>{{ total_win }}</td>
+                                                    <td>{{ ns.total_win }}</td>
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
@@ -164,7 +163,7 @@
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
-                                                    <td>{{ total_win }}</td>
+                                                    <td>{{ ns.total_win }}</td>
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
@@ -175,7 +174,7 @@
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
-                                                    <td>{{ total_bid}}</td>
+                                                    <td>{{ ns.total_bid}}</td>
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
@@ -186,7 +185,7 @@
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
-                                                    <td>{{ total_bid }}</td>
+                                                    <td>{{ ns.total_bid }}</td>
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
@@ -248,7 +247,59 @@ $('#datepicker2').datepicker({
     endDate: '0d'
 });
 </script>
+<script>
+    $(document).ready(function() {
+    var buttonCommon = {
+        exportOptions: {
+            format: {
+                body: function ( data, row, column, node ) {
+                    datas = data.split('>');
+                    if(datas.length > 1){
+                        data2 = datas[1].replace("</a", "");
+                        return data2;
+                    } else {
+                        return data;
+                    }
+                }
+            }
+        }
+    };
 
+    $('#example').DataTable( {
+        dom: 'lBfrtip',
+
+        buttons: [
+            $.extend( true, {}, buttonCommon, {
+                extend: 'copyHtml5',
+                columns: ':visible',
+                exportOptions: {
+                        columns: "thead th:not(.mrl-title)"
+                }
+            } ),
+            $.extend( true, {}, buttonCommon, {
+                extend: 'excelHtml5',
+                columns: ':visible',
+                exportOptions: {
+                        columns: "thead th:not(.mrl-title)"
+                }
+            } ),
+            $.extend( true, {}, buttonCommon, {
+                extend: 'pdfHtml5',
+                columns: ':visible',
+                exportOptions: {
+                        columns: "thead th:not(.mrl-title)"
+                }
+            } ),
+             $.extend( true, {}, buttonCommon, {
+                extend: 'print',
+                exportOptions: {
+                        columns: "thead th:not(.mrl-title)"
+                }
+            } )
+        ]
+    } );
+} );
+</script>
 
 <!-- End custom js for this page-->
 </body>
