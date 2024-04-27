@@ -39,6 +39,10 @@ def get_markets_with_result():
         close_time_obj = datetime.strptime(market.close_time, "%H:%M")
         current_time_obj = datetime.now().time()
 
+        print(current_time_obj)
+        print(open_time_obj)
+        print(current_time_obj)
+
         if open_time_obj.time() < current_time_obj < close_time_obj.time():
             is_open = "1"
             is_close = "0"
