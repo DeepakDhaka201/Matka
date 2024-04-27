@@ -61,6 +61,7 @@ def get_markets_with_result():
             "mClose": is_close,
         })
 
+        print(data)
     return data
 
 
