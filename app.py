@@ -26,6 +26,7 @@ from api.signup import signup, logout, signup2
 from api.wallet import get_wallet, get_wallet_transactions, get_withdraw_modes, update_bank_details, withdraw_money, \
     deposit_money, verify_deposit, deposit_via_bank
 from extension import db
+import time, os
 
 pymysql.install_as_MySQLdb()
 
@@ -38,6 +39,9 @@ app.secret_key = 'UnseenUmbrellaNeverGotaShower'
 app.permanent_session_lifetime = timedelta(minutes=60 * 24 * 7)
 #app.add_url_rule('/<path:filename>', view_func=app.send_static_file)
 CORS(app)
+
+os.environ['TZ'] = 'Asia/Kolkata'
+time.tzset()
 
 system = platform.system()
 development = False
