@@ -219,7 +219,7 @@ def deposit_via_bank():
         return jsonify({'success': False, 'msg': 'Error creating withdrawal request'}), 500
 
 
-def create_upi_gw_order(txn_id, user_id, name, email, amount):
+def create_upi_gw_order(txn_id, user_id, phone, email, amount):
     url = 'https://api.ekqr.in/api/create_order'
     headers = {
         'Content-Type': 'application/json'
@@ -236,9 +236,9 @@ def create_upi_gw_order(txn_id, user_id, name, email, amount):
         "client_txn_id": str(txn_id),
         "amount": str(amount),
         "p_info": "Samra t Club",
-        "customer_name": name,
+        "customer_name": str(user_id),
         "customer_email": email if email else "jondoe@gmail.com",
-        "customer_mobile": str(user_id),
+        "customer_mobile": str(phone),
         "redirect_url": "https://samrat-satta.com",
     }
 
