@@ -9,7 +9,7 @@ from extension import db
 from models.Setting import Setting
 from models.Transaction import Transaction
 from models.WithdrawMode import WithdrawMode
-from service.BetService import create_withdraw, create_deposit, update_transaction_status
+from service.BetService import create_withdraw, create_deposit, update_transaction_status, create_deposit2
 from service.UserService import validate_session, get_user_by_id, get_transactions, update_user_bank_details
 
 
@@ -267,8 +267,9 @@ def initiate_gw_payment():
         return jsonify({'success': "0", 'msg': 'Amount is empty. Please enter'}), 200
 
     user_details = get_user_by_id(user_id)
-    transaction = create_deposit(user_id, amount, "UPI_GATEWAY")
+    transaction = create_deposit2(user_id, amount, "UPI_GATEWAY")
 
+    print(transaction)
     try:
         res = create_upi_gw_order(transaction.id, user_id, user_details.phone, user_details.email, amount)
         return jsonify({'success': "1", 'data': res}), 200

@@ -127,6 +127,21 @@ def create_deposit(user_id, amount, mode, info=None):
     return transaction
 
 
+def create_deposit2(user_id, amount, mode, info=None):
+    transaction = Transaction(user_id=user_id,
+                              type=Transaction.Type.DEPOSIT.name,
+                              sub_type=Transaction.SubType.ADD_BY_USER.name,
+                              status=Transaction.Status.INITIATED.name,
+                              amount=int(amount),
+                              mode=mode,
+                              remark="Deposit via " + mode,
+                              info=info)
+    db.session.add(transaction)
+    db.session.flush()
+    db.session.commit()
+    return transaction
+
+
 def update_transaction_status(transaction_id, status):
     db.session.query(Transaction).filter(Transaction.id == transaction_id) \
         .update({Transaction.status: status})
