@@ -32,3 +32,4 @@ class Setting(db.Model):
         UPI_ENABLED = "upi"
         NOTICE = "notice"
         BANNER_IMAGE = "banner_image"
+        UPI_GATEWAY_KEY = "UPI_GATEWAY_KEY"

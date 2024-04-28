@@ -91,6 +91,8 @@ app.route('/verify_deposit', methods=['POST'])(verify_deposit)
 app.route('/deposit_bank', methods=['POST'])(deposit_via_bank)
 app.route('/get_content', methods=['GET', 'POST'])(get_content)
 
+app.route('/initiate_gw_payment', methods=['GET', 'POST'])(initiate_gw_payment)
+
 app.route('/admin/login')(admin_login_index)
 app.route('/admin/api/login', methods=['POST'])(admin_api_login)
 app.route('/admin/logout')(admin_logout_index)

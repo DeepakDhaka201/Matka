@@ -2,8 +2,10 @@ import os
 import traceback
 import uuid
 
+import requests
 from flask import jsonify, request
 
+from extension import db
 from models.Setting import Setting
 from models.Transaction import Transaction
 from models.WithdrawMode import WithdrawMode
@@ -215,3 +217,60 @@ def deposit_via_bank():
         print(e)
         traceback.print_exc()
         return jsonify({'success': False, 'msg': 'Error creating withdrawal request'}), 500
+
+
+def create_upi_gw_order(txn_id, user_id, name, email, amount):
+    url = 'https://api.ekqr.in/api/create_order'
+    headers = {
+        'Content-Type': 'application/json'
+    }
+
+    setting = Setting.query.filter_by(key=Setting.Key.UPI_GATEWAY_KEY.name).first()
+    if setting:
+        key = setting.value
+    else:
+        key = ""
+
+    body_data = {
+        "key": key,
+        "client_txn_id": txn_id,
+        "amount": str(amount),
+        "p_info": "Samra t Club",
+        "customer_name": name,
+        "customer_email": email if email else "jondoe@gmail.com",
+        "customer_mobile": str(user_id),
+        "redirect_url": "https://samrat-satta.com",
+    }
+
+    try:
+        response = requests.post(url, headers=headers, json=body_data, timeout=None, verify=False)
+        response_data = response.json()
+        print(response_data)
+        if response.status_code == 200 and response_data.get("status"):
+            return response_data["data"]
+        else:
+            raise Exception("Failed to create UPI gateway order. Error: {}".format(response_data.get("msg", "Unknown error")))
+    except Exception as e:
+        raise Exception("Failed to create UPI gateway order. Error: {}".format(str(e)))
+
+
+def initiate_gw_payment():
+    user_id, is_admin = validate_session()
+    data = request.get_json()
+
+    amount = data.get("amount")
+    if not amount:
+        return jsonify({'success': "0", 'msg': 'Amount is empty. Please enter'}), 200
+
+    user_details = get_user_by_id(user_id)
+    transaction = create_deposit(user_id, amount, "UPI_GATEWAY")
+
+    try:
+        res = create_upi_gw_order(transaction.id, user_id, user_details.phone, user_details.email, amount)
+        return jsonify({'success': "1", 'data': res}), 200
+    except Exception as e:
+        print(e)
+        transaction.status = Transaction.Status.CANCELLED
+        db.session.add(transaction)
+        db.session.commit()
+        return jsonify({'success': "0", 'msg': str(e)}), 200
