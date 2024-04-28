@@ -270,6 +270,8 @@ def initiate_gw_payment():
     transaction = create_deposit2(user_id, amount, "UPI_GATEWAY")
 
     print(transaction)
+    print(transaction.id)
+
     try:
         res = create_upi_gw_order(transaction.id, user_id, user_details.phone, user_details.email, amount)
         return jsonify({'success': "1", 'data': res}), 200
