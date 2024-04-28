@@ -256,7 +256,11 @@ def create_upi_gw_order(txn_id, user_id, name, email, amount):
 
 def initiate_gw_payment():
     user_id, is_admin = validate_session()
+    print(request)
+
     data = request.get_json()
+
+    print(data)
 
     amount = data.get("amount")
     if not amount:
