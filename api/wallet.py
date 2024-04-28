@@ -258,7 +258,7 @@ def initiate_gw_payment():
     user_id, is_admin = validate_session()
     print(request)
 
-    data = request.get_json()
+    data = request.form
 
     print(data)
 
