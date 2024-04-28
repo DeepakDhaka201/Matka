@@ -247,7 +247,6 @@ def create_upi_gw_order(txn_id, user_id, phone, email, amount):
     try:
         response = requests.post(url, headers=headers, json=body_data, timeout=None, verify=False)
         response_data = response.json()
-        print(response_data)
         if response.status_code == 200 and response_data.get("status"):
             return response_data["data"]
         else:
@@ -258,12 +257,7 @@ def create_upi_gw_order(txn_id, user_id, phone, email, amount):
 
 def initiate_gw_payment():
     user_id, is_admin = validate_session()
-    print(request)
-
     data = request.form
-
-    print(data)
-
     amount = data.get("amount")
     if not amount:
         return jsonify({'success': "0", 'msg': 'Amount is empty. Please enter'}), 200
