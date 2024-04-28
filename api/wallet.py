@@ -233,7 +233,7 @@ def create_upi_gw_order(txn_id, user_id, name, email, amount):
 
     body_data = {
         "key": key,
-        "client_txn_id": txn_id,
+        "client_txn_id": str(txn_id),
         "amount": str(amount),
         "p_info": "Samra t Club",
         "customer_name": name,
@@ -241,6 +241,8 @@ def create_upi_gw_order(txn_id, user_id, name, email, amount):
         "customer_mobile": str(user_id),
         "redirect_url": "https://samrat-satta.com",
     }
+
+    print(body_data)
 
     try:
         response = requests.post(url, headers=headers, json=body_data, timeout=None, verify=False)
@@ -268,9 +270,6 @@ def initiate_gw_payment():
 
     user_details = get_user_by_id(user_id)
     transaction = create_deposit2(user_id, amount, "UPI_GATEWAY")
-
-    print(transaction)
-    print(transaction.id)
 
     try:
         res = create_upi_gw_order(transaction.id, user_id, user_details.phone, user_details.email, amount)
