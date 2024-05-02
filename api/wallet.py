@@ -288,6 +288,8 @@ def update_transaction_status_and_balance(transaction, upi_txn_id):
     db.session.add(user)
     db.session.commit()
 
+    return user.total_balance
+
 
 def check_upi_gw_txn():
     user_id, is_admin = validate_session()
@@ -323,16 +325,16 @@ def check_upi_gw_txn():
         response_data = response.json()
         if response.status_code == 200 and response_data.get("status"):
             if response_data["data"]["status"] == "success":
-                update_transaction_status_and_balance(transaction, response_data["data"]["upi_txn_id"])
-                return jsonify({'success': "1", 'msg': 'Transaction successful'}), 200
+                balance = update_transaction_status_and_balance(transaction, response_data["data"]["upi_txn_id"])
+                return jsonify({'success': "1", 'msg': 'Transaction successful', "total_balance": balance}), 200
             elif response_data["data"]["status"] == "failure":
                 update_transaction_status(client_txn_id, Transaction.Status.CANCELLED.name)
-                return jsonify({'success': "1", 'msg': 'Transaction failed or cancelled by User'}), 200
+                return jsonify({'success': "1", 'msg': 'Transaction failed or cancelled by User', "total_balance": ""}), 200
             else:
                 if response_data["data"]["remark"] == "Transaction Timeout.":
                     update_transaction_status(client_txn_id, Transaction.Status.CANCELLED.name)
-                    return jsonify({'success': "1", 'msg': 'Transaction Timeout.'}), 200
-            return jsonify({'success': "1", 'msg': 'Transaction is still in processing state'}), 200
+                    return jsonify({'success': "1", 'msg': 'Transaction Timeout.', "total_balance": ""}), 200
+            return jsonify({'success': "1", 'msg': 'Transaction is still in processing state', "total_balance": ""}), 200
         else:
             raise Exception("Failed to check UPI gateway order status. Error: {}".format(response_data.get("msg", "Unknown error")))
     except Exception as e:
