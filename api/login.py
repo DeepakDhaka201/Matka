@@ -45,11 +45,11 @@ def login():
                 'session': token,
             }), 200
         else:
-            return jsonify({'success': False, 'msg': 'Invalid password'}), 400
+            return jsonify({'success': False, 'msg': 'Invalid password'}), 200
 
     except Exception as e:
         print('Error verifying code:', e)
-        return jsonify({'success': False, 'msg': 'Error while login'}), 500
+        return jsonify({'success': False, 'msg': 'Error while login'}), 200
 
 
 def forgot_password():

@@ -10,7 +10,7 @@ from service.JwtToken import verify_jwt
 
 
 def get_user_by_phone(number):
-    return User.query.filter_by(phone=number).first_or_404()
+    return User.query.filter_by(phone=number).first_or_404("User not found, please signup first")
 
 
 def get_user_by_id(user_id):
