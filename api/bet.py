@@ -77,12 +77,15 @@ def place_bet():
 
         input_numbers = [num for num in input_numbers.split(",")]
         input_amounts = [num for num in input_amounts.split(",")]
+
         if len(input_numbers) != len(input_amounts):
             print("Invalid request body! Number and amount count mismatch")
             return jsonify({'success': False, 'msg': 'Invalid request body'}), 400
 
         print(input_numbers)
         response = save_bets(user_id, market_name, game_type, input_numbers, input_amounts, total_amount)
+        print(response)
+
         if not response.get('success'):
             return jsonify(response), 400
 
