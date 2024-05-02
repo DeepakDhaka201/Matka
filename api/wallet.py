@@ -8,6 +8,7 @@ from flask import jsonify, request
 from extension import db
 from models.Setting import Setting
 from models.Transaction import Transaction
+from models.User import User
 from models.WithdrawMode import WithdrawMode
 from service.BetService import create_withdraw, create_deposit, update_transaction_status, create_deposit2
 from service.UserService import validate_session, get_user_by_id, get_transactions, update_user_bank_details
@@ -274,3 +275,67 @@ def initiate_gw_payment():
         db.session.add(transaction)
         db.session.commit()
         return jsonify({'success': "0", 'msg': str(e)}), 200
+
+
+def update_transaction_status_and_balance(transaction, upi_txn_id):
+    # update status and add balance in total and deposit in single transaction
+    transaction.status = Transaction.Status.SUCCESS.name
+    transaction.info = "Ref: " + upi_txn_id
+    user = User.query.get(transaction.user_id)
+    user.deposit_balance += transaction.amount
+    user.total_balance += transaction.amount
+    db.session.add(transaction)
+    db.session.add(user)
+    db.session.commit()
+
+
+def check_upi_gw_txn():
+    user_id, is_admin = validate_session()
+    data = request.form
+    client_txn_id = data.get("client_txn_id")
+    if not client_txn_id:
+        return jsonify({'success': "0", 'msg': 'client_txn_id is empty. Please enter'}), 200
+
+    transaction = Transaction.query.get(client_txn_id)
+    if not transaction or transaction.status != Transaction.Status.PROCESSING.name:
+        return jsonify({'success': "0", 'msg': 'Invalid transaction id'}), 200
+
+    setting = Setting.query.filter_by(key=Setting.Key.UPI_GATEWAY_KEY.name).first()
+    if setting:
+        key = setting.value
+    else:
+        key = ""
+
+    url = 'https://api.ekqr.in/api/check_order_status'
+    headers = {
+        'Content-Type': 'application/json'
+    }
+
+    body_data = {
+        "key": key,
+        "client_txn_id": client_txn_id,
+        "txn_date": transaction.created_at.strftime("%d-%m-%Y")
+    }
+
+    try:
+        response = requests.post(url, headers=headers, json=body_data, timeout=None, verify=False)
+        response_data = response.json()
+        if response.status_code == 200 and response_data.get("status"):
+            if response_data["data"]["status"] == "success":
+                update_transaction_status_and_balance(transaction, response_data["data"]["upi_txn_id"])
+                return jsonify({'success': "1", 'msg': 'Transaction successful'}), 200
+            elif response_data["data"]["status"] == "failure":
+                update_transaction_status(client_txn_id, Transaction.Status.CANCELLED.name)
+                return jsonify({'success': "1", 'msg': 'Transaction failed or cancelled by User'}), 200
+            else:
+                if response_data["data"]["remark"] == "Transaction Timeout.":
+                    update_transaction_status(client_txn_id, Transaction.Status.CANCELLED.name)
+                    return jsonify({'success': "1", 'msg': 'Transaction Timeout.'}), 200
+            return jsonify({'success': "1", 'msg': 'Transaction is still in processing state'}), 200
+        else:
+            raise Exception("Failed to check UPI gateway order status. Error: {}".format(response_data.get("msg", "Unknown error")))
+    except Exception as e:
+        print(e)
+        return jsonify({'success': "0", 'msg': str(e)}), 500
+
+
