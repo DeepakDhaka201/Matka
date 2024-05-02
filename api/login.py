@@ -49,7 +49,7 @@ def login():
 
     except Exception as e:
         print('Error verifying code:', e)
-        return jsonify({'success': False, 'msg': 'Error while login'}), 200
+        return jsonify({'success': False, 'msg': str(e)}), 200
 
 
 def forgot_password():
