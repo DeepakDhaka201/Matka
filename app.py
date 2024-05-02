@@ -24,7 +24,7 @@ from api.market import get_markets, get_content
 from api.send_otp import send_otp, send_otp2
 from api.signup import signup, logout, signup2
 from api.wallet import get_wallet, get_wallet_transactions, get_withdraw_modes, update_bank_details, withdraw_money, \
-    deposit_money, verify_deposit, deposit_via_bank, initiate_gw_payment
+    deposit_money, verify_deposit, deposit_via_bank, initiate_gw_payment, check_upi_gw_txn
 from extension import db
 import time, os
 
