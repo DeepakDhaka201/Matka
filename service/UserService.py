@@ -85,6 +85,7 @@ def update_user_bank_details(user_id, bank_ac_no, bank_ac_name, bank_name, bank_
 def update_password(phone, password):
     user = User.query.filter_by(phone=phone).first()
     user.password = password
+
     db.session.commit()
     return True
 

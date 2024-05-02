@@ -101,7 +101,7 @@ def save_bets(user_id, market_name, game_type, input_numbers, input_amounts, tot
     db.session.add_all(bets)
     db.session.add_all(transactions)
     db.session.commit()
-    return {'success': True, 'msg': 'Insufficient balance', 'active': "1" if user.active else "0"}
+    return {'success': True, 'msg': 'Bet Placed', 'active': "1" if user.active else "0"}
 
 
 def create_withdraw(user_id, amount, mode):

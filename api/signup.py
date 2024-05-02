@@ -29,13 +29,24 @@ def signup():
             session.permanent = True
             token = generate_jwt({'user_id': user_details.id, 'is_admin': user_details.is_admin})
 
-            return jsonify({'success': "1", 'msg': 'Verification successful', 'user_details': user_details, 'session': token}), 200
+            return jsonify(
+                {'success': "1", 'msg': 'Verification successful', 'user_details': user_details, 'session': token}), 200
         else:
             return jsonify({'success': False, 'msg': 'Invalid Otp'}), 400
 
     except Exception as e:
         print('Error verifying code:', e)
         return jsonify({'success': False, 'msg': 'Error verifying code'}), 500
+
+
+def user_check():
+    try:
+        number = request.form.get('mobile')
+        user = get_user_by_phone(number)
+        return jsonify({'success': "1", 'msg': 'User found', 'user': user}), 200
+    except Exception as e:
+        print('User not found', e)
+        return jsonify({'success': False, 'msg': 'No linked account found. Please signup first'}), 200
 
 
 def signup2():

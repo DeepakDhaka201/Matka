@@ -22,7 +22,7 @@ from api.dashboard import dashboard, web_index
 from api.login import login, forgot_password, update_profile, update_user_password, get_config
 from api.market import get_markets, get_content
 from api.send_otp import send_otp, send_otp2
-from api.signup import signup, logout, signup2
+from api.signup import signup, logout, signup2, user_check
 from api.wallet import get_wallet, get_wallet_transactions, get_withdraw_modes, update_bank_details, withdraw_money, \
     deposit_money, verify_deposit, deposit_via_bank, initiate_gw_payment, check_upi_gw_txn
 from extension import db
@@ -72,6 +72,7 @@ app.route('/get_config', methods=['GET', 'POST'])(get_config)
 app.route('/login', methods=['POST'])(login)
 app.route('/signup', methods=['POST'])(signup2)
 app.route('/logout', methods=['POST'])(logout)
+app.route('/user_check', methods=['POST'])(user_check)
 app.route('/forgot_password', methods=['POST'])(forgot_password)
 app.route('/update_password', methods=['POST'])(update_user_password)
 app.route('/update_profile', methods=['POST'])(update_profile)

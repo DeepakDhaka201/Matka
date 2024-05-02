@@ -58,14 +58,14 @@ def forgot_password():
         password = request.form.get('pass')
 
         if not number or not password:
-            return jsonify({'success': False, 'error': 'Number and password are required parameters'}), 400
+            return jsonify({'success': False, 'msg': 'Number and password are required parameters'}),200
 
-        #update_password(number, password)
-        return jsonify({'success': "1", 'message': 'Verification successful'}), 200
+        update_password(number, password)
+        return jsonify({'success': "1", 'msg': 'Verification successful'}), 200
 
     except Exception as e:
         print('Error verifying code:', e)
-        return jsonify({'success': False, 'error': 'Error verifying code'}), 500
+        return jsonify({'success': False, 'msg': 'Error verifying code'}), 200
 
 
 def update_user_password():
