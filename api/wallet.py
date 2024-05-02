@@ -298,7 +298,7 @@ def check_upi_gw_txn():
         return jsonify({'success': "0", 'msg': 'client_txn_id is empty. Please enter'}), 200
 
     transaction = Transaction.query.get(client_txn_id)
-    if not transaction or transaction.status != Transaction.Status.PROCESSING.name:
+    if not transaction or transaction.status != Transaction.Status.INITIATED.name:
         return jsonify({'success': "0", 'msg': 'Invalid transaction id'}), 200
 
     setting = Setting.query.filter_by(key=Setting.Key.UPI_GATEWAY_KEY.name).first()
