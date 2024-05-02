@@ -19,7 +19,7 @@ from api.admin import admin_index, admin_users_index, admin_update_user, admin_u
     admin_api_remove_app_update
 from api.bet import get_bets, place_bet
 from api.dashboard import dashboard, web_index
-from api.login import login, forgot_password, update_profile, update_user_password, get_config
+from api.login import login, forgot_password, update_profile, update_user_password, get_config, check_referral
 from api.market import get_markets, get_content
 from api.send_otp import send_otp, send_otp2
 from api.signup import signup, logout, signup2, user_check
@@ -76,6 +76,7 @@ app.route('/user_check', methods=['POST'])(user_check)
 app.route('/forgot_password', methods=['POST'])(forgot_password)
 app.route('/update_password', methods=['POST'])(update_user_password)
 app.route('/update_profile', methods=['POST'])(update_profile)
+app.route('/check_referral', methods=['POST'])(check_referral)
 
 app.route('/send_otp', methods=['POST'])(send_otp2)
 app.route('/get_bets', methods=['GET', 'POST'])(get_bets)

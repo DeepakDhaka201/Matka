@@ -54,11 +54,12 @@ def signup2():
     try:
         number = request.form.get('mobile')
         password = request.form.get('pass')
+        ref_code = request.form.get('refcode')
 
         if not number or not password:
             return jsonify({'success': False, 'msg': 'Number and password are required parameters'}), 400
 
-        user_details = create_user(number, password)
+        user_details = create_user(number, password, ref_code)
 
         session['phone'] = number
         session['user_id'] = user_details.id

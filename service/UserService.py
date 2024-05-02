@@ -1,4 +1,6 @@
+import string
 import time
+from random import random
 
 from flask import session, request
 from sqlalchemy.exc import IntegrityError
@@ -17,8 +19,10 @@ def get_user_by_id(user_id):
     return User.query.get(user_id)
 
 
-def create_user(number, password):
-    user = User(phone=number, password=password)
+def create_user(number, password, referral_by=None):
+    referral_code = ''.join([str(int(random() * 10)) for _ in range(8)])
+
+    user = User(phone=number, password=password, referral_by=referral_by, referral_code=referral_code)
     db.session.add(user)
     db.session.commit()
 
@@ -48,14 +52,14 @@ def get_transactions(user_id, types=None):
         transactions = Transaction.query \
             .filter(Transaction.user_id == user_id) \
             .filter(Transaction.type.in_(types)) \
-            .filter(Transaction.status == 'SUCCESS')\
-            .order_by(Transaction.created_at.desc())\
+            .filter(Transaction.status == 'SUCCESS') \
+            .order_by(Transaction.created_at.desc()) \
             .all()
         print(transactions)
     else:
-        transactions = Transaction.query.filter(Transaction.user_id == user_id)\
-            .filter(Transaction.status == 'SUCCESS')\
-            .order_by(Transaction.created_at.desc())\
+        transactions = Transaction.query.filter(Transaction.user_id == user_id) \
+            .filter(Transaction.status == 'SUCCESS') \
+            .order_by(Transaction.created_at.desc()) \
             .all()
         print(transactions)
 
@@ -165,5 +169,3 @@ def update_user_balance_and_create_transaction(user_id, amount, wallet_type, act
         return None, "Error occurred during the transaction"
 
     return transaction, None
-
-

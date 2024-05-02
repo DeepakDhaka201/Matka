@@ -44,7 +44,7 @@ def dashboard():
             "bank_details": settings_map.get(Setting.Key.BANK_DETAILS.name),
             "homeline": "",
             "images": banner_images,
-            "code": "123456"
+            "code": user_details.referral_code if user_details.referral_code else "NA",
         }
         return jsonify(data), 200
     except Exception as e:

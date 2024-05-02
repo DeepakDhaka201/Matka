@@ -89,6 +89,19 @@ def update_user_password():
         return jsonify({'success': False, 'error': 'Error verifying code'}), 500
 
 
+def check_referral():
+    try:
+        ref_code = request.form.get('refcode')
+        user = User.query.filter_by(referral_code=ref_code).first()
+        if user:
+            return jsonify({'success': "1", 'msg': 'User found'}), 200
+        else:
+            return jsonify({'success': False, 'msg': 'Invalid Referral Code'}), 200
+    except Exception as e:
+        return jsonify({'success': False, 'msg': 'Error occurred. Please try without code'}), 200
+
+
+
 def update_profile():
     user_id, is_admin = validate_session()
     try:
