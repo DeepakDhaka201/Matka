@@ -44,7 +44,7 @@ def user_check():
         number = request.form.get('mobile')
         print(number)
         user = get_user_by_phone(number)
-        return jsonify({'success': "1", 'msg': 'User found', 'user': user}), 200
+        return jsonify({'success': "1", 'msg': 'User found'}), 200
     except Exception as e:
         print('User not found', e)
         return jsonify({'success': False, 'msg': 'No linked account found. Please signup first'}), 200
