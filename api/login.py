@@ -26,6 +26,8 @@ def login():
         number = request.form.get('mobile')
         password = request.form.get('pass')
 
+        print(number, password)
+
         user_details = get_user_by_phone(number)
         if password == user_details.password:
             session['phone'] = number
