@@ -75,28 +75,33 @@ def save_bets(user_id, market_name, game_type, input_numbers, input_amounts, tot
 
     user = User.query.get(user_id)
     if not user:
-        return {'success': False, 'error': 'User not found'}
+        return {'success': False, 'msg': 'User not found'}
+
+    print(total_amount)
 
     if user.bonus_balance >= total_amount:
         user.bonus_balance -= total_amount
-    elif user.bonus_balance + user.deposit_balance >= total_amount:
+        print("bonus balance")
+    elif user.bonus_balance + user.deposit_balance + user.winning_balance >= total_amount:
         amount_remaining = total_amount - user.bonus_balance
         user.bonus_balance = 0
         if user.deposit_balance >= amount_remaining:
             user.deposit_balance -= amount_remaining
+            print("deposit balance")
         else:
             amount_remaining -= user.deposit_balance
             user.deposit_balance = 0
             user.winning_balance -= amount_remaining
+            print("winning balance")
     else:
-        return {'success': False, 'error': 'Insufficient balance'}
+        return {'success': False, 'msg': 'Insufficient balance'}
 
     user.total_balance -= total_amount
 
     db.session.add_all(bets)
     db.session.add_all(transactions)
     db.session.commit()
-    return {'success': True, 'error': 'Insufficient balance', 'active': "1" if user.active else "0"}
+    return {'success': True, 'msg': 'Insufficient balance', 'active': "1" if user.active else "0"}
 
 
 def create_withdraw(user_id, amount, mode):
