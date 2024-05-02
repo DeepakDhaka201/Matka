@@ -42,6 +42,7 @@ def signup():
 def user_check():
     try:
         number = request.form.get('mobile')
+        print(number)
         user = get_user_by_phone(number)
         return jsonify({'success': "1", 'msg': 'User found', 'user': user}), 200
     except Exception as e:
