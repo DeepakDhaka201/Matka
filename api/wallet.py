@@ -292,6 +292,7 @@ def update_transaction_status_and_balance(transaction, upi_txn_id):
 def check_upi_gw_txn():
     user_id, is_admin = validate_session()
     data = request.form
+    print(data)
     client_txn_id = data.get("client_txn_id")
     if not client_txn_id:
         return jsonify({'success': "0", 'msg': 'client_txn_id is empty. Please enter'}), 200
