@@ -9,7 +9,7 @@ from models.User import User
 
 
 def get_rates_by_game_type(market_id):
-    rates = Rate.query.filter_by(market_id=market_id).all()
+    rates = Rate.query.all()
     rate_dict = {}
     for rate in rates:
         rate_dict[rate.game_type] = rate.rate
