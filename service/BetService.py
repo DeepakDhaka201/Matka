@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from sqlalchemy import func
 
@@ -31,7 +31,8 @@ def save_bets(user_id, market_name, game_type, input_numbers, input_amounts, tot
     bets = []
     transactions = []
     total_amount = 0
-    market_id = Market.query.filter_by(name=market_name).first().id
+    market = Market.query.filter_by(name=market_name).first()
+    market_id = market.id
 
     for i in range(len(input_numbers)):
         transaction = Transaction(user_id=user_id,
@@ -58,10 +59,11 @@ def save_bets(user_id, market_name, game_type, input_numbers, input_amounts, tot
         else:
             raise Exception("Invalid game type selected")
 
+        date = datetime.today() - timedelta(hours=market.buffer_time)
         bet = Bet(user_id=user_id,
                   market_id=market_id,
                   market_name=market_name,
-                  date=datetime.today(),
+                  date=date,
                   transaction_id=0,
                   jodi=jodi,
                   open_harf=open_harf,
@@ -178,6 +180,11 @@ def fetch_bets(user_id, market_id, status, from_time, to_time, date):
         query = query.filter(Bet.created_at >= from_time).filter(Bet.created_at <= to_time)
     elif date:
         date = datetime.strptime(date, "%Y-%m-%d")
+        if market_id:
+            market = Market.query.get(market_id)
+            if market.buffer_time > 0:
+                date = date - timedelta(days=1)
+
         query = query.filter(Bet.date == date)
     else:
         query = query.filter(Bet.created_at >= datetime.now().replace(hour=0, minute=0, second=0, microsecond=0))

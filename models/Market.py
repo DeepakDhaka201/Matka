@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String
+from sqlalchemy import Column, String, Integer
 from sqlalchemy.orm import Mapped, mapped_column
 
 from extension import db
@@ -10,4 +10,5 @@ class Market(db.Model):
     open_time = Column(String(30), nullable=False)
     close_time = Column(String(30), nullable=False)
     result_time = Column(String(30), nullable=False)
+    buffer_time = Column(Integer, nullable=False, default=0)
 

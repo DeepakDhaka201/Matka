@@ -43,12 +43,36 @@ def get_markets_with_result():
         print(open_time_obj)
         print(close_time_obj)
 
-        if open_time_obj.time() < current_time_obj < close_time_obj.time():
-            is_open = "1"
-            is_close = "0"
+        # if open_time_obj.time() < current_time_obj < close_time_obj.time():
+        #     print("first")
+        #     is_open = "1"
+        #     is_close = "0"
+        # else:
+        #     print("second")
+        #     is_open = "0"
+        #     is_close = "1"
+
+        is_open = "0"
+        is_close = "0"
+
+        # Check if market closes after midnight
+        if close_time_obj.time() < open_time_obj.time():
+            # If current time is between open time and midnight or between midnight and close time, the market is open
+            if open_time_obj.time() <= current_time_obj or current_time_obj <= close_time_obj.time():
+                print("Market is open")
+                is_open = "1"
+            else:
+                print("Market is closed")
+                is_close = "1"
+        # If market closes before midnight
         else:
-            is_open = "0"
-            is_close = "1"
+            # If current time is between open time and close time, the market is open
+            if open_time_obj.time() <= current_time_obj <= close_time_obj.time():
+                print("Market is open")
+                is_open = "1"
+            else:
+                print("Market is closed")
+                is_close = "1"
 
         data.append({
             "id": market.id,

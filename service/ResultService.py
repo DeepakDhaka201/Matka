@@ -1,5 +1,8 @@
+from datetime import timedelta
+
 from extension import db
 from models.Bet import Bet
+from models.Market import Market
 from models.Rate import Rate
 from models.Result import Result
 from models.User import User
@@ -20,9 +23,15 @@ def update_result(market_id, market_name, date, open_harf, jodi, close_harf):
                             jodi=jodi, close_harf=close_harf, batch=-1)
             db.session.add(result)
 
+            market = Market.query.filter_by(id=market_id).first()
+
+            if market.buffer_time > 0:
+                date2 = date - timedelta(days=1)
+            else:
+                date2 = date
             bets = db.session.query(Bet).filter(Bet.market_id == market_id,
                                                 Bet.status == Bet.Status.PENDING.name,
-                                                Bet.date == date).all()
+                                                Bet.date == date2).all()
             rates = get_rates_by_game_type(market_id)
 
             user_ids = [bet.user_id for bet in bets]
@@ -54,7 +63,12 @@ def update_result(market_id, market_name, date, open_harf, jodi, close_harf):
 def revert_result(result):
     try:
         with db.session.begin_nested():
-            bets = Bet.query.filter_by(market_id=result.market_id, date=result.date).all()
+            market = Market.query.get(result.market_id)
+            if market.buffer_time > 0:
+                date = result.date - timedelta(days=1)
+            else:
+                date = result.date
+            bets = Bet.query.filter_by(market_id=result.market_id, date=date).all()
             users = {user.id: user for user in User.query.filter(User.id.in_([bet.user_id for bet in bets])).all()}
 
             for bet in bets:
