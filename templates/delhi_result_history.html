@@ -66,6 +66,7 @@
                                                     {% if result.reverted == true %}
                                                        <span>Reverted Back</span>
                                                     {% else %}
+                                                        {{ result.date }}
                                                        <button class="btn btn-outline-warning" onclick="revertResult({{ result.id }}, {{ result.date }})">Revert Back</button> </a>
                                                     {% endif %}
                                                 </td>

@@ -92,6 +92,8 @@ function revertResult(result_id, date) {
     return;
   }
 
+  console.log(date)
+
   fetch('/admin/api/delhi_revert_result', {
     method: 'POST',
     headers: {
