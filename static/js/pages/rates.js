@@ -34,7 +34,7 @@ function submitForm() {
 
     updateRate(jodi_id, jodi_rate, jodi_desc, "JODI");
     updateRate(harf_id, harf_rate, harf_desc, "OPEN_HARF");
-
+    updateRate(harf_id, harf_rate, harf_desc, "CLOSE_HARF");
     alert('Rate updated successfully!');
 }
 
