@@ -43,7 +43,7 @@ def update_result(market_id, market_name, date, open_harf, jodi, close_harf):
 
                 if bet_number == bet.jodi or bet_number == bet.open_harf or bet_number == bet.close_harf:
                     bet.status = Bet.Status.WON.name
-                    bet.winning_amount = bet.amount * rate
+                    bet.win_amount = bet.amount * rate
 
                     user = users[bet.user_id]
                     user.total_balance += bet.winning_amount
