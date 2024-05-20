@@ -22,7 +22,7 @@ function updateRate(id, rate, desc, game_type) {
     });
 }
 
-function submitForm(event) {
+function submitForm() {
     event.preventDefault();
     var jodi_id = document.getElementById('jodi-id').value;
     var jodi_rate = document.getElementById('jodi-val').value;
