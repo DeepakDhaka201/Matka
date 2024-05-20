@@ -46,8 +46,8 @@ def update_result(market_id, market_name, date, open_harf, jodi, close_harf):
                     bet.win_amount = bet.amount * rate
 
                     user = users[bet.user_id]
-                    user.total_balance += bet.winning_amount
-                    user.winning_balance += bet.winning_amount
+                    user.total_balance += bet.win_amount
+                    user.winning_balance += bet.win_amount
 
                     db.session.add(user)
                 else:
@@ -74,12 +74,12 @@ def revert_result(result):
             for bet in bets:
                 if bet.status == Bet.Status.WON.name:
                     user = users[bet.user_id]
-                    user.total_balance -= bet.winning_amount
-                    user.winning_balance -= bet.winning_amount
+                    user.total_balance -= bet.win_amount
+                    user.winning_balance -= bet.win_amount
                     db.session.add(user)
 
                 bet.status = Bet.Status.PENDING.name
-                bet.winning_amount = 0
+                bet.win_amount = 0
                 db.session.add(bet)
 
             db.session.delete(result)
