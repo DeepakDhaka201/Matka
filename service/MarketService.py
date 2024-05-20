@@ -28,11 +28,12 @@ def get_current_previous_day_results():
 
     return results_current_day_map, results_previous_day_map
 
+
 def get_result(market_id):
     market = Market.query.get(market_id)
     current_date = date.today()
     if market.buffer_time > 0:
-        current_date = current_date - timedelta(days=1)
+        current_date = current_date + timedelta(days=1)
 
     result_current_day = Result.query.filter_by(market_id=market_id, date=cast(current_date, Date)).first()
     result_previous_day = Result.query.filter_by(market_id=market_id,
