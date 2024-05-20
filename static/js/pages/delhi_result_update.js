@@ -92,7 +92,7 @@ function revertResult(result_id, date) {
     return;
   }
 
-  console.log(date)
+  console.log(date);
 
   fetch('/admin/api/delhi_revert_result', {
     method: 'POST',
@@ -107,7 +107,7 @@ function revertResult(result_id, date) {
     window.location = '/admin/delhi_result_history';
     alert('Result reverted successfully');
   }).catch(error => {
-    console.error('Error:', error);
+    console.log('Error:', error);
     alert('Error reverting result');
   });
 }
