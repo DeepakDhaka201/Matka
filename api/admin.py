@@ -685,3 +685,62 @@ def admin_api_remove_app_update():
     db.session.commit()
 
     return jsonify({"status": True}), 200
+
+
+def admin_market_anal_index():
+    validateAdmin()
+
+    markets = Market.query.all()
+    return render_template("market_anal.html", markets=markets)
+
+
+def admin_market_jantri_index():
+    validateAdmin()
+    market_id = request.args.get('market')
+    date = datetime.today().date()
+    game = request.args.get("game")
+
+    if not market_id:
+        return jsonify({"success": False, "message": "Market ID is required"}), 400
+    if not date:
+        return jsonify({"success": False, "message": "Date is required"}), 400
+    if not game:
+        return jsonify({"success": False, "message": "Game is required"}), 400
+
+    print(date, market_id, game)
+
+    bets = Bet.query.filter_by(market_id=market_id, date=date).all()
+
+    jodi_map = {"00": {"bets": 0, "total": 0}, "01": {"bets": 0, "total": 0}, "02": {"bets": 0, "total": 0}, "03": {"bets": 0, "total": 0}, "04": {"bets": 0, "total": 0}, "05": {"bets": 0, "total": 0}, "06": {"bets": 0, "total": 0}, "07": {"bets": 0, "total": 0}, "08": {"bets": 0, "total": 0}, "09": {"bets": 0, "total": 0}, "10": {"bets": 0, "total": 0}, "11": {"bets": 0, "total": 0}, "12": {"bets": 0, "total": 0}, "13": {"bets": 0, "total": 0}, "14": {"bets": 0, "total": 0}, "15": {"bets": 0, "total": 0}, "16": {"bets": 0, "total": 0}, "17": {"bets": 0, "total": 0}, "18": {"bets": 0, "total": 0}, "19": {"bets": 0, "total": 0}, "20": {"bets": 0, "total": 0}, "21": {"bets": 0, "total": 0}, "22": {"bets": 0, "total": 0}, "23": {"bets": 0, "total": 0}, "24": {"bets": 0, "total": 0}, "25": {"bets": 0, "total": 0}, "26": {"bets": 0, "total": 0}, "27": {"bets": 0, "total": 0}, "28": {"bets": 0, "total": 0}, "29": {"bets": 0, "total": 0}, "30": {"bets": 0, "total": 0}, "31": {"bets": 0, "total": 0},
+                "32": {"bets":0, "total": 0}, "33": {"bets": 0, "total": 0}, "34": {"bets": 0, "total": 0}, "35": {"bets": 0, "total": 0}, "36": {"bets": 0, "total": 0}, "37": {"bets": 0, "total": 0}, "38": {"bets": 0, "total": 0}, "39": {"bets": 0, "total": 0}, "40": {"bets": 0, "total": 0}, "41": {"bets": 0, "total": 0}, "42": {"bets": 0, "total": 0}, "43": {"bets": 0, "total": 0}, "44": {"bets": 0, "total": 0}, "45": {"bets": 0, "total": 0}, "46": {"bets": 0, "total": 0}, "47": {"bets": 0, "total": 0}, "48": {"bets": 0, "total": 0}, "49": {"bets": 0, "total": 0}, "50": {"bets": 0, "total": 0}, "51": {"bets": 0, "total": 0}, "52": {"bets": 0, "total": 0}, "53": {"bets": 0, "total": 0}, "54": {"bets": 0, "total": 0}, "55": {"bets": 0, "total": 0}, "56": {"bets": 0, "total": 0}, "57": {"bets": 0, "total": 0}, "58": {"bets": 0, "total": 0}, "59": {"bets": 0, "total": 0}, "60": {"bets": 0, "total": 0}, "61": {"bets": 0, "total": 0}, "62": {"bets": 0, "total": 0}, "63": {"bets": 0, "total": 0}, "64": {"bets": 0, "total": 0}, "65": {"bets": 0, "total": 0},
+                "66": {"bets": 0, "total": 0}, "67": {"bets": 0, "total": 0}, "68": {"bets": 0, "total": 0}, "69": {"bets": 0, "total": 0}, "70": {"bets": 0, "total": 0}, "71": {"bets": 0, "total": 0}, "72": {"bets": 0, "total": 0}, "73": {"bets": 0, "total": 0}, "74": {"bets": 0, "total": 0}, "75": {"bets": 0, "total": 0}, "76": {"bets": 0, "total": 0}, "77": {"bets": 0, "total": 0}, "78": {"bets": 0, "total": 0}, "79": {"bets": 0, "total": 0}, "80": {"bets": 0, "total": 0}, "81": {"bets": 0, "total": 0}, "82": {"bets": 0, "total": 0}, "83": {"bets": 0, "total": 0}, "84": {"bets": 0, "total": 0}, "85": {"bets": 0, "total": 0}, "86": {"bets": 0, "total": 0}, "87": {"bets": 0, "total": 0}, "88": {"bets": 0, "total": 0}, "89": {"bets": 0, "total": 0}, "90": {"bets": 0, "total": 0}, "91": {"bets": 0, "total": 0}, "92": {"bets": 0, "total": 0}, "93": {"bets": 0, "total": 0}, "94": {"bets": 0, "total": 0}, "95": {"bets": 0, "total": 0}, "96": {"bets": 0, "total": 0}, "97": {"bets": 0, "total": 0}, "98": {"bets": 0, "total": 0}, "99": {"bets": 0, "total": 0}}
+
+    open_harf_map = {"000": {"bets": 0, "total": 0}, "111": {"bets": 0, "total": 0}, "222": {"bets": 0, "total": 0}, "333": {"bets": 0, "total": 0}, "444": {"bets": 0, "total": 0}, "555": {"bets": 0, "total": 0}, "666": {"bets": 0, "total": 0}, "777": {"bets": 0, "total": 0}, "888": {"bets": 0, "total": 0}, "999": {"bets": 0, "total": 0}}
+    close_harf_map = {"000": {"bets": 0, "total": 0}, "111": {"bets": 0, "total": 0}, "222": {"bets": 0, "total": 0}, "333": {"bets": 0, "total": 0}, "444": {"bets": 0, "total": 0}, "555": {"bets": 0, "total": 0}, "666": {"bets": 0, "total": 0}, "777": {"bets": 0, "total": 0}, "888": {"bets": 0, "total": 0}, "999": {"bets": 0, "total": 0}}
+
+    jodi_total = 0
+    open_harf_total = 0
+    close_harf_total = 0
+
+    for bet in bets:
+        if bet.bet_type == Bet.GameType.JODI.name:
+            jodi_map[bet.jodi]["bets"] += 1
+            jodi_map[bet.jodi]["total"] += bet.amount
+            jodi_total += bet.amount
+        elif bet.bet_type == Bet.GameType.OPEN_HARF.name:
+            open_harf_map[bet.open_harf]["bets"] += 1
+            open_harf_map[bet.open_harf]["total"] += bet.amount
+            open_harf_total += bet.amount
+        elif bet.bet_type == Bet.GameType.CLOSE_HARF.name:
+            close_harf_map[bet.close_harf]["bets"] += 1
+            close_harf_map[bet.close_harf]["total"] += bet.amount
+            close_harf_total += bet.amount
+
+    if game == "jodi":
+        return render_template("jantri.html", data=jodi_map, total=jodi_total)
+
+    if game == "open_harf":
+        return render_template("jantri.html", data=open_harf_map, total=open_harf_total)
+
+    if game == "close_harf":
+        return render_template("jantri.html", data=close_harf_map, total=close_harf_total)

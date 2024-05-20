@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Admin Panel</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="static/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="static/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="static/vendors/select2/select2.min.css">
+    <link rel="stylesheet" href="static/vendors/select2-bootstrap-theme/select2-bootstrap.min.css">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="static/css/horizontal-layout-light/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="static/images/favicon.png" />
+    
+    <style>
+        input {
+            padding: 0.875rem 0.5rem !important;
+            text-align: center;
+        }
+        
+        .card-title {
+            text-align:center;
+        }
+        
+        .card-title {
+            font-size: 22px !important;
+        }
+        
+        .number {
+            font-weight: bold !important;
+            font-size: 30px !important;
+        }
+        
+        h4 {
+            margin-bottom:20px;
+        }
+        
+        .card {
+            border: 2px solid #e3e3e3;
+        }
+        
+        .loss {
+            border: 2px solid #ff0000;
+        }
+        
+        .report .loading_view .loading_svg {
+            height: 100px;
+        }
+        
+        .loading_view p {
+            text-align: center;
+        }
+        
+        .report .loading_view {
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+        }
+        .hrr {
+            width: 100%;
+            height: 1px;
+            margin-bottom: 10px;
+            background: rgb(255, 255, 255);
+        }
+
+        .card-body {
+            padding: 0px !important;
+        }
+    </style>
+</head>
+
+<body class="sidebar-dark" style="font-family: 'Oxygen', sans-serif;">
+  <div class="container-fluid page-body-wrapper">
+    {% include "header.html" %}
+
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row">
+                    
+                    <div class="col-sm-12">
+                        <h4>Market Anaysis</h4>
+                    </div>
+                    
+                    <div class="report" id="report">
+                           <div class="row">
+                               {% for key, value in data.items() %}
+                                <div class="col-sm-6 col-md-4 col-lg-2 grid-margin stretch-card">
+                                    <div class="card">
+                                        <div class="card-body" style="text-align: center;">
+                                            <p style="margin-top: 10px;">Total Bids</p>
+                                            <p>{{ value.bets }}</p>
+                                            <div class="hrr"></div>
+                                            <h4 class="card-title number">{{ key }}</h4>
+                                            <h4 class="card-title">{{ value.total }}</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+
+
+
+
+                        <div style=" display: flex; justify-content: flex-end;">
+                          <div class="col-sm-6 col-md-4 col-lg-2 grid-margin stretch-card">
+                                    <div class="card">
+                                        <div class="card-body" style="    text-align: center;">
+                                            <p style="margin-top: 10px;">Total Betting Amount</p>
+                                            <h4 class="card-title number">{{ total }}</h4>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- content-wrapper ends -->
+            <!-- partial:../../partials/_footer.html -->
+            <footer class="footer">
+                <div class="w-100 clearfix">
+                    <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="ti-heart text-danger ml-1"></i></span>
+                </div>
+            </footer>
+            <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+        
+       
+</div>
+<!-- container-scroller -->
+<!-- plugins:js -->
+<script src="static/vendors/js/vendor.bundle.base.js"></script>
+<!-- endinject -->
+<!-- Plugin js for this page -->
+<script src="static/vendors/typeahead.js/typeahead.bundle.min.js"></script>
+<script src="static/vendors/select2/select2.min.js"></script>
+<!-- End plugin js for this page -->
+<!-- inject:js -->
+<script src="static/js/off-canvas.js"></script>
+<script src="static/js/hoverable-collapse.js"></script>
+<script src="jstatic/s/template.js"></script>
+<script src="static/js/settings.js"></script>
+<script src="static/js/todolist.js"></script>
+<!-- endinject -->
+<!-- Custom js for this page-->
+<script src="static/js/file-upload.js"></script>
+<script src="static/js/typeahead.js"></script>
+<script src="static/js/select2.js"></script>
+<!-- End custom js for this page-->
+
+</body>
+
+</html>

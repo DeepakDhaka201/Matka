@@ -1,9 +1,11 @@
+import datetime
 import traceback
 from urllib.parse import unquote
 
-from flask import jsonify, request
+from flask import jsonify, request, render_template
 
 from models.Bet import Bet
+from models.Result import Result
 from service.BetService import save_bets, fetch_bets, fetch_bets2
 from service.MarketService import get_all_market, get_all_market_by_id
 from service.UserService import validate_session
@@ -94,3 +96,50 @@ def place_bet():
         print(e)
         traceback.print_exc()
         return jsonify({'success': False, 'msg': 'Error while placing bet'}), 200
+
+
+def get_results():
+    data = request.args
+    market = data.get("market", None)
+    if market is None:
+        return jsonify({'success': False, 'msg': 'Invalid request body'}), 400
+
+    results = Result.query.filter(Result.market_name == market).order_by(Result.date.desc()).limit(60).all()
+
+    result_map = {}
+    for result in results:
+        result_map[result.date.strftime("%d %b")] = result.jodi if result.jodi else "**"
+
+    start_date = datetime.date.today()
+    end_date = results[-1].date if results and len(results) > 0 else start_date - datetime.timedelta(days=60)
+
+    data = []
+    current_date = start_date - datetime.timedelta(days=start_date.weekday())
+
+    print(results, current_date, end_date)
+
+    while current_date >= end_date:
+        print("Current Date: ", current_date)
+        week_start = current_date
+        week_end = current_date + datetime.timedelta(days=6)
+
+        week_data = {
+            "year": week_start.year,
+            "week_start": week_start.strftime("%d %b"),
+            "week_end": week_end.strftime("%d %b"),
+            "results": []
+        }
+
+        for day in range(7):
+            current_day = week_start + datetime.timedelta(days=day)
+            day_str = current_day.strftime("%d %b")
+            result = result_map.get(day_str, "**")
+            week_data["results"].append(result)
+
+        current_date -= datetime.timedelta(weeks=1)
+        data.append(week_data)
+
+    print(data)
+    return render_template("chart.html", data=data, market=market)
+
+

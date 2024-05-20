@@ -16,8 +16,8 @@ from api.admin import admin_index, admin_users_index, admin_update_user, admin_u
     admin_notice_index, admin_api_update_setting, admin_settings_index, admin_api_update_settings, admin_login_index, \
     admin_api_login, admin_manage_wallet_index, admin_logout_index, admin_api_change_password, \
     admin_change_password_index, admin_app_update_index, admin_add_app_update_index, admin_api_add_app_update, \
-    admin_api_remove_app_update
-from api.bet import get_bets, place_bet
+    admin_api_remove_app_update, admin_market_anal_index, admin_market_jantri_index
+from api.bet import get_bets, place_bet, get_results
 from api.dashboard import dashboard, web_index
 from api.login import login, forgot_password, update_profile, update_user_password, get_config, check_referral
 from api.market import get_markets, get_content
@@ -96,6 +96,8 @@ app.route('/get_content', methods=['GET', 'POST'])(get_content)
 app.route('/initiate_gw_payment', methods=['GET', 'POST'])(initiate_gw_payment)
 app.route('/check_upi_gw_txn', methods=['GET', 'POST'])(check_upi_gw_txn)
 
+app.route('/get_charts')(get_results)
+
 
 app.route('/admin/login')(admin_login_index)
 app.route('/admin/api/login', methods=['POST'])(admin_api_login)
@@ -146,6 +148,8 @@ app.route('/admin/app_updates')(admin_app_update_index)
 app.route('/admin/add_app_update')(admin_add_app_update_index)
 app.route('/admin/api/add_app_update', methods=['POST'])(admin_api_add_app_update)
 app.route('/admin/api/delete_app_update', methods=['POST'])(admin_api_remove_app_update)
+app.route('/admin/market_anal')(admin_market_anal_index)
+app.route('/admin/jantri')(admin_market_jantri_index)
 
 from models.User import User
 from models.Bet import Bet

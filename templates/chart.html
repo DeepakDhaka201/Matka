@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charSet="utf-8" />
+    <title>Records History Old Historical Data</title>
+    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="next-head-count" content="7" />
+    <link rel="preload" href="admin/static/_next/static/css/3bb03e7f5a6da8ea.css" as="style" />
+    <link rel="stylesheet" href="admin/static/_next/static/css/3bb03e7f5a6da8ea.css" data-n-g="" />
+    <noscript data-n-css=""></noscript>
+    <script defer="" nomodule="" src="admin/static/_next/static/chunks/polyfills-5cd94c89d3acac5f.js"></script>
+    <script src="admin/static/_next/static/chunks/webpack-9b312e20a4e32339.js" defer=""></script>
+    <script src="admin/static/_next/static/chunks/framework-5f4595e5518b5600.js" defer=""></script>
+    <script src="admin/static/_next/static/chunks/main-f65e66e62fc5ca80.js" defer=""></script>
+    <script src="admin/static/_next/static/chunks/pages/_app-f19c4352b6a07405.js" defer=""></script>
+    <script src="admin/static/_next/static/chunks/pages/mrecords/%5bgamename%5d-27bcef609df293a4.js" defer=""></script>
+    <script src="admin/static/_next/static/KgXTUAKfe_JqCprELWkER/_buildManifest.js" defer=""></script>
+    <script src="admin/static/_next/static/KgXTUAKfe_JqCprELWkER/_ssgManifest.js" defer=""></script>
+    <script src="admin/static/_next/static/KgXTUAKfe_JqCprELWkER/_middlewareManifest.js" defer=""></script>
+  </head>
+  <body>
+    <div id="__next" data-reactroot="">
+      <div class="w-full" style="overflow-y:hidden">
+        <div class="flex flex-col items-center min-h-screen mt-10">
+          <div class="divTable">
+            <div class="gameNameChart"> {{ market }} </div>
+
+            <div class="divResultsTable">
+              <table class="clsResultsTable">
+                <thead>
+                  <tr>
+                    <td class="thChartResult">Date</td>
+                    <td class="thChartResult">Mon</td>
+                    <td class="thChartResult">Tue</td>
+                    <td class="thChartResult">Wed</td>
+                    <td class="thChartResult">Thu</td>
+                    <td class="thChartResult">Fri</td>
+                    <td class="thChartResult">Sat</td>
+                    <td class="thChartResult">Sun</td>
+                  </tr>
+                </thead>
+
+                <tbody>
+                        {% for record in data %}
+                            <tr>
+                                <td class="thChartResult">
+                                      <div class="tdDate">
+                                        <div class="dateDivLeft">
+                                          {{ record.year }}
+                                        </div>
+                                        <div class="dateDivRight flex flex-col align-middle">
+                                          <div class="dateDivTop">
+                                            {{ record.week_start }}
+                                            <br /> to
+                                          </div>
+                                          <div class="dateDivBottom">
+                                              {{ record.week_end }}
+                                          </div>
+                                        </div>
+                                     </div>
+                                </td>
+
+                                {% for day in record.results %}
+                                    <td class="thChartResult tdChartOrange">
+                                      <div class="divPanna">
+                                        <div class="fontResult">{{ day }}</div>
+                                      </div>
+                                    </td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                </tbody>
+              </table>
+            </div>
+           
+          </div>
+        </div>
+       
+      </div>
+    </div>
+    
+  </body>
+</html>
