@@ -60,7 +60,7 @@
                                                 <td>{{ result.id }}</td>
                                                 <td>{{ result.market_name }}</td>
                                                 <td>{{ result.jodi }}</td>
-                                                <td>{{ result.created_at }}</td>
+                                                <td>{{ result.date }}</td>
                                                 <td>
                                                     <a href="/admin/bet_history?status=WON&date={{ result.date }}&market_id={{ result.market_id }}"> <button class="btn btn-outline-success">View Winnings</button> </a>
                                                     {% if result.reverted == true %}
