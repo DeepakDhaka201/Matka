@@ -32,11 +32,20 @@ function submitForm() {
     var harf_rate = document.getElementById('harf-val').value;
     var harf_desc = document.getElementById('harf-desc').value;
 
-    updateRate(jodi_id, jodi_rate, jodi_desc, "JODI");
-    updateRate(harf_id, harf_rate, harf_desc, "OPEN_HARF");
+    // Create promises for each updateRate call
+    var jodiPromise = updateRate(jodi_id, jodi_rate, jodi_desc, "JODI");
+    var harfPromise = updateRate(harf_id, harf_rate, harf_desc, "OPEN_HARF");
 
-    window.location.reload();
-    alert('Rate updated successfully!');
+    // Wait for both promises to resolve
+    Promise.all([jodiPromise, harfPromise]).then(function() {
+        // Reload the page and show alert after both updateRate calls complete
+        window.location.reload();
+        alert('Rate updated successfully!');
+    }).catch(function(error) {
+        // Handle error if any of the updateRate calls fail
+        console.error('Error updating rates:', error);
+        alert('Failed to update rates. Please try again later.');
+    });
 }
 
 document.addEventListener('DOMContentLoaded', function() {
