@@ -87,19 +87,19 @@ document.addEventListener('DOMContentLoaded', function() {
     })
 });
 
-function revertResult(result_id, date) {
+function revertResult(result_id, _date) {
   if (!confirm('Are you sure you want to revert this result?')) {
     return;
   }
 
-  console.log(date);
+  console.log(_date);
 
   fetch('/admin/api/delhi_revert_result', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ result_id: result_id, date: date })
+    body: JSON.stringify({ result_id: result_id, date: _date })
   })
   .then(response => response.json())
   .then(data => {
