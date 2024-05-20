@@ -28,29 +28,28 @@ def get_current_previous_day_results():
 
     return results_current_day_map, results_previous_day_map
 
+def get_result(market_id):
+    market = Market.query.get(market_id)
+    current_date = date.today()
+    if market.buffer_time > 0:
+        current_date = current_date - timedelta(days=1)
+
+    result_current_day = Result.query.filter_by(market_id=market_id, date=cast(current_date, Date)).first()
+    result_previous_day = Result.query.filter_by(market_id=market_id,
+                                                 date=cast(current_date - timedelta(days=1), Date)).first()
+
+    return {"current_day": result_current_day.jodi if result_current_day else "**",
+            "previous_day": result_previous_day.jodi if result_previous_day else "**"}
+
 
 def get_markets_with_result():
     markets = Market.query.all()
-    current_day_number, previous_day_number = get_current_previous_day_results()
     data = []
 
     for market in markets:
         open_time_obj = datetime.strptime(market.open_time, "%H:%M")
         close_time_obj = datetime.strptime(market.close_time, "%H:%M")
         current_time_obj = datetime.now().time()
-
-        print(current_time_obj)
-        print(open_time_obj)
-        print(close_time_obj)
-
-        # if open_time_obj.time() < current_time_obj < close_time_obj.time():
-        #     print("first")
-        #     is_open = "1"
-        #     is_close = "0"
-        # else:
-        #     print("second")
-        #     is_open = "0"
-        #     is_close = "1"
 
         is_open = "0"
         is_close = "0"
@@ -82,8 +81,8 @@ def get_markets_with_result():
             "open_time": open_time_obj.strftime('%I:%M %p'),
             "close_time": close_time_obj.strftime('%I:%M %p'),
             "result_time": datetime.strptime(market.result_time, "%H:%M").strftime('%I:%M %p'),
-            "result": current_day_number.get(market.id) if current_day_number.get(market.id, None) else "**",
-            "result3": previous_day_number.get(market.id) if previous_day_number.get(market.id, None) else "**",
+            "result": get_result(market.id).get("current_day"),
+            "result3": get_result(market.id).get("previous_day"),
             "market_type": "delhi",
             "mOpen": is_open,
             "mClose": is_close,
