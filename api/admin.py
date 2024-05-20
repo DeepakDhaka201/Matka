@@ -347,22 +347,10 @@ def admin_api_revert_delhi_result():
 
     data = request.get_json()
     result_id = data.get('result_id')
-    date = data.get('date')
 
     result = Result.query.get(result_id)
     if not result:
         return jsonify({"success": False, "message": "Result not found"}), 404
-
-    if not date:
-        return jsonify({"success": False, "message": "Date is required"}), 400
-    else:
-        try:
-            date = datetime.strptime(date, "%d/%m/%Y").date()
-        except ValueError:
-            return jsonify({"success": False, "message": "Invalid Date Format"}), 400
-
-    if result.date != date:
-        return jsonify({"success": False, "message": "Date does not match"}), 400
 
     revert_result(result)
     return jsonify({"success": True}), 200

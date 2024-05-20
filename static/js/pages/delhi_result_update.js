@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
     })
 });
 
-function revertResult(result_id, _date) {
+function revertResult(result_id) {
   if (!confirm('Are you sure you want to revert this result?')) {
     return;
   }
@@ -99,7 +99,7 @@ function revertResult(result_id, _date) {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ result_id: result_id, date: _date })
+    body: JSON.stringify({ result_id: result_id})
   })
   .then(response => response.json())
   .then(data => {
