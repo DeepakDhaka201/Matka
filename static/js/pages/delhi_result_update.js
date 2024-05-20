@@ -88,9 +88,9 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function revertResult(result_id, date) {
-  if (!confirm('Are you sure you want to revert this result?')) {
-    return;
-  }
+  // if (!confirm('Are you sure you want to revert this result?')) {
+  //   return;
+  // }
 
   fetch('/admin/api/delhi_revert_result', {
     method: 'POST',
