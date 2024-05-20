@@ -36,6 +36,7 @@ function submitForm() {
     updateRate(harf_id, harf_rate, harf_desc, "OPEN_HARF");
 
     alert('Rate updated successfully!');
+    window.location.reload();
 }
 
 // document.addEventListener('DOMContentLoaded', function() {
