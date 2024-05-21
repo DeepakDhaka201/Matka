@@ -3,6 +3,7 @@ import traceback
 from urllib.parse import unquote
 
 from flask import jsonify, request, render_template
+from sqlalchemy import cast, Date
 
 from models.Bet import Bet
 from models.Result import Result
@@ -50,6 +51,7 @@ def get_bets():
                 data[date] = [bet_details]
 
         data["dates"] = list(dates)
+        print(data)
         return jsonify(data), 200
     except Exception as e:
         print(e)
@@ -105,13 +107,13 @@ def get_results():
         return jsonify({'success': False, 'msg': 'Invalid request body'}), 400
 
     results = Result.query.filter(Result.market_name == market).order_by(Result.date.desc()).limit(60).all()
-
+    print(results)
     result_map = {}
     for result in results:
         result_map[result.date.strftime("%d %b")] = result.jodi if result.jodi else "**"
 
     start_date = datetime.date.today()
-    end_date = results[-1].date if results and len(results) > 0 else start_date - datetime.timedelta(days=60)
+    end_date = start_date - datetime.timedelta(days=60)
 
     data = []
     current_date = start_date - datetime.timedelta(days=start_date.weekday())
@@ -141,5 +143,3 @@ def get_results():
 
     print(data)
     return render_template("chart.html", data=data, market=market)
-
-

@@ -1,14 +1,22 @@
+import datetime
 import traceback
 
 from flask import request, jsonify, render_template
+from sqlalchemy import cast, Date
 
+from models.Result import Result
 from models.Setting import Setting
 from service.MarketService import get_markets_with_result
 from service.UserService import validate_session, get_user_by_id
 
 
 def web_index():
-    return render_template("windex.html")
+    results = Result.query.filter_by(date=cast(datetime.date.today(), Date)).all()
+    data = {}
+    for result in results:
+        data[result.market_name.upper()] = result.jodi if result.jodi else "**"
+    print(data)
+    return render_template("windex.html", results=data)
 
 
 def dashboard():

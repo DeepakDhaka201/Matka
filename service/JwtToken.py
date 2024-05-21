@@ -60,7 +60,6 @@ def verify_jwt(token):
             if token_exp < current_time:
                 raise TokenExpiredError("Token has expired")
             else:
-                print("Token is valid")
                 return decoded_token
         else:
             raise InvalidTokenError("Token expiration time not found")

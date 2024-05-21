@@ -14,6 +14,8 @@ function submitForm(event) {
     formDataMap['MIN_DEPOSIT'] = document.getElementById('min-dep').value;
     formDataMap['MIN_WITHDRAW'] = document.getElementById('min-with').value;
     formDataMap['WHATSAPP'] = document.getElementById('whatsapp').value;
+    formDataMap['REFERRAL_BONUS_PERCENT'] = document.getElementById('commission').value;
+    formDataMap['UPI_GATEWAY_KEY'] = document.getElementById('upi-gw-key').value;
 
     console.log(formDataMap);
 

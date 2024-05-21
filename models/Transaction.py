@@ -29,6 +29,7 @@ class Transaction(db.Model):
         DEPOSIT = 1
         BET = 2
         BONOUS = 3
+        EARN = 4
 
     class SubType(Enum):
         DEDUCT_BY_USER = 0

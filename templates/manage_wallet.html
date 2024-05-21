@@ -55,7 +55,8 @@
                             <div class="form-group" style="    margin-bottom: 10px !important">
                                 <label for="mb-input-wallet">Select wallet type</label>
                                 <select class="form-control form-control-lg" name="wallet" id="mb-input-wallet" onchange="ref_check(this.value)">
-                                    <option value='wallet'>Deposit</option>
+                                    <option disabled selected value> -- select an option -- </option>
+                                    <option value='deposit'>Deposit</option>
                                     <option value='winning'>Winning</option>
                                     <option value='bonus'>Bonus</option>
                                 </select>
@@ -64,6 +65,7 @@
                             <div class="form-group" style="margin-bottom: 10px !important">
                                 <label for="mb-input-action">Select transaction type</label>
                                 <select class="form-control form-control-lg" name="type" id="mb-input-action" onchange="ref_check(this.value)">
+                                    <option disabled selected value> -- select an option -- </option>
                                     <option value='0'>Deduct</option>
                                     <option value='1'>Add</option>
                                 </select>

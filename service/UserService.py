@@ -19,8 +19,13 @@ def get_user_by_id(user_id):
     return User.query.get(user_id)
 
 
-def create_user(number, password, referral_by=None):
+def create_user(number, password, referrer_code=None):
     referral_code = ''.join([str(int(random() * 10)) for _ in range(8)])
+
+    referral_by = None
+    referrer = User.query.filter_by(referral_code=referrer_code).first()
+    if referrer:
+        referral_by = referrer.id
 
     user = User(phone=number, password=password, referral_by=referral_by, referral_code=referral_code)
     db.session.add(user)
@@ -35,7 +40,6 @@ def isAdmin(user_id):
 
 def validate_session():
     token = request.headers.get('Authorization')
-    print(token)
     user_details = verify_jwt(token)
     return user_details.get('user_id', None), user_details.get('is_admin', False)
 

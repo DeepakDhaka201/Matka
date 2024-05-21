@@ -15,6 +15,7 @@ class Setting(db.Model):
     remark = Column(String(100), nullable=True)
 
     class Key(Enum):
+        REFERRAL_BONUS_PERCENT = "referral_bonus_percent"
         WHATSAPP = "whatsapp"
         TELEGRAM_ID = "telegram"
 

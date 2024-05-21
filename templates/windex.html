@@ -234,65 +234,105 @@
             <div class="row about-bottom-w3l text-center mt-4">
                 <div class="col-lg-3 col-xs about-grid mb-3">
                     <div class="about-grid-main">
-                        <h4 class="my-4">Desawer</h4>
-                        <h5 style="color:#F64C16" class="result">**</h5>
+                        <h4 class="my-4">Desawar</h4>
+                        {% if results.DESAWAR %}
+                            <h5 style="color:#F64C16" class="result">{{ results.DESAWAR }}</h5>
+                        {% else %}
+                            <h5 style="color:#F64C16" class="result">**</h5>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="col-lg-3 col-xs about-grid mb-3">
                     <div class="about-grid-main">
                         <h4 class="my-4">Faridabad</h4>
-                        <h5 style="color:#F64C16" class="result">**</h5>
+                        {% if results['FARIDABAD'] %}
+                            <h5 style="color:#F64C16" class="result">{{ results['FARIDABAD'] }}</h5>
+                        {% else %}
+                            <h5 style="color:#F64C16" class="result">**</h5>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="col-lg-3 col-xs about-grid mb-3">
                     <div class="about-grid-main">
-                        <h4 class="my-4">Gaziyabad</h4>
-                        <h5 style="color:#F64C16" class="result">**</h5>
+                        <h4 class="my-4">Gaziabad</h4>
+                        {% if results['GAZIABAD'] %}
+                            <h5 style="color:#F64C16" class="result">{{ results['GAZIABAD'] }}</h5>
+                        {% else %}
+                            <h5 style="color:#F64C16" class="result">**</h5>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="col-lg-3 col-xs about-grid mb-3">
                     <div class="about-grid-main">
                         <h4 class="my-4">India Night</h4>
-                        <h5 style="color:#F64C16" class="result">**</h5>
+                        {% if results['INDIA NIGHT'] %}
+                            <h5 style="color:#F64C16" class="result">{{ results['INDIA NIGHT'] }}</h5>
+                        {% else %}
+                            <h5 style="color:#F64C16" class="result">**</h5>
+                        {% endif %}
                     </div>
                 </div>
 
                 <div class="col-lg-3 col-xs about-grid mb-3">
                     <div class="about-grid-main">
                         <h4 class="my-4">Gali</h4>
-                        <h5 style="color:#F64C16" class="result">**</h5>
+                        {% if results.GALI %}
+                            <h5 style="color:#F64C16" class="result">{{ results.GALI }}</h5>
+                        {% else %}
+                            <h5 style="color:#F64C16" class="result">**</h5>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="col-lg-3 col-xs about-grid mb-3">
                     <div class="about-grid-main">
-                        <h4 class="my-4">Shree Ganesh</h4>
-                        <h5 style="color:#F64C16" class="result">**</h5>
+                        <h4 class="my-4">Shri Ganesh</h4>
+                        {% if results['SHRI GANESH'] %}
+                            <h5 style="color:#F64C16" class="result">{{ results['SHRI GANESH'] }}</h5>
+                        {% else %}
+                            <h5 style="color:#F64C16" class="result">**</h5>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="col-lg-3 col-xs about-grid mb-3">
                     <div class="about-grid-main">
                         <h4 class="my-4">Delhi Bazar</h4>
-                        <h5 style="color:#F64C16" class="result">**</h5>
+                        {% if results['DELHI BAZAR'] %}
+                            <h5 style="color:#F64C16" class="result">{{ results['DELHI BAZAR'] }}</h5>
+                        {% else %}
+                            <h5 style="color:#F64C16" class="result">**</h5>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="col-lg-3 col-xs about-grid mb-3">
                     <div class="about-grid-main">
                         <h4 class="my-4">India Darbar</h4>
-                        <h5 style="color:#F64C16" class="result">**</h5>
+                        {% if results['INDIA DARBAR'] %}
+                            <h5 style="color:#F64C16" class="result">{{ results['INDIA DARBAR'] }}</h5>
+                        {% else %}
+                            <h5 style="color:#F64C16" class="result">**</h5>
+                        {% endif %}
                     </div>
                 </div>
 
 <div class="col-lg-3 col-xs about-grid mb-3">
                     <div class="about-grid-main">
                         <h4 class="my-4">Sadar Bazar</h4>
-                        <h5 style="color:#F64C16" class="result">**</h5>
+                        {% if results['SADAR BAZAR'] %}
+                            <h5 style="color:#F64C16" class="result">{{ results['SADAR BAZAR'] }}</h5>
+                        {% else %}
+                            <h5 style="color:#F64C16" class="result">**</h5>
+                        {% endif %}
                     </div>
                 </div>
 
        <div class="col-lg-3 col-xs about-grid mb-3">
                     <div class="about-grid-main">
                         <h4 class="my-4">Gwalior</h4>
-                        <h5 style="color:#F64C16" class="result">**</h5>
+                        {% if results['GWALIOR'] %}
+                            <h5 style="color:#F64C16" class="result">{{ results['GWALIOR'] }}</h5>
+                        {% else %}
+                            <h5 style="color:#F64C16" class="result">**</h5>
+                        {% endif %}
                     </div>
                 </div>
 
@@ -300,7 +340,11 @@
 <div class="col-lg-3 col-xs about-grid mb-3">
                     <div class="about-grid-main">
                         <h4 class="my-4">Agra</h4>
-                        <h5 style="color:#F64C16" class="result">**</h5>
+                        {% if results['AGRA'] %}
+                            <h5 style="color:#F64C16" class="result">{{ results['AGRA'] }}</h5>
+                        {% else %}
+                            <h5 style="color:#F64C16" class="result">**</h5>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -331,77 +375,77 @@
                 <div class="col-lg-4 col-xs about-grid mb-3">
                     <div class="about-grid-main">
                         <h4 class="my-4">Desawer Chart</h4>
-                        <a style="background-color:#F64C16" href="api/charted/index.php?market=DESAWER" class="btn button-style mt-1">Click to View</a>
+                        <a style="background-color:#F64C16" href="get_charts?market=DESAWER" class="btn button-style mt-1">Click to View</a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-xs about-grid mb-3">
                     <div class="about-grid-main">
                         <h4 class="my-4">Faridabad Chart</h4>
-                        <a style="background-color:#F64C16" href="api/charted/index.php?market=FARIDABAD" class="btn button-style mt-1">Click to View</a>
+                        <a style="background-color:#F64C16" href="get_charts?market=FARIDABAD" class="btn button-style mt-1">Click to View</a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-xs about-grid mb-3">
                     <div class="about-grid-main">
                         <h4 class="my-4">Gaziabad Chart</h4>
-                        <a style="background-color:#F64C16" href="api/charted/index.php?market=GAZIABAD" class="btn button-style mt-1">Click to View</a>
+                        <a style="background-color:#F64C16" href="get_charts?market=GAZIABAD" class="btn button-style mt-1">Click to View</a>
                     </div>
                 </div>
                 
                 <div class="col-lg-4 col-xs about-grid mb-3">
                     <div class="about-grid-main">
                         <h4 class="my-4">Gali Chart</h4>
-                        <a style="background-color:#F64C16" href="api/charted/index.php?market=GALI" class="btn button-style mt-1">Click to View</a>
+                        <a style="background-color:#F64C16" href="get_charts?market=GALI" class="btn button-style mt-1">Click to View</a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-xs about-grid mb-3">
                     <div class="about-grid-main">
                         <h4 class="my-4">India Night Chart</h4>
-                        <a style="background-color:#F64C16" href="api/charted/index.php?market=INDIA NIGHT" class="btn button-style mt-1">Click to View</a>
+                        <a style="background-color:#F64C16" href="get_charts?market=INDIA NIGHT" class="btn button-style mt-1">Click to View</a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-xs about-grid mb-3">
                     <div class="about-grid-main">
                         <h4 class="my-4">Shree Ganesh Chart</h4>
-                        <a style="background-color:#F64C16" href="api/charted/index.php?market=SHREE GANESH" class="btn button-style mt-1">Click to View</a>
+                        <a style="background-color:#F64C16" href="get_charts?market=SHREE GANESH" class="btn button-style mt-1">Click to View</a>
                     </div>
                 </div>
                 
                 <div class="col-lg-4 col-xs about-grid mb-3">
                     <div class="about-grid-main">
                         <h4 class="my-4">Delhi Bazar Chart</h4>
-                        <a style="background-color:#F64C16" href="api/charted/index.php?market=DELHI BAZAR" class="btn button-style mt-1">Click to View</a>
+                        <a style="background-color:#F64C16" href="get_charts?market=DELHI BAZAR" class="btn button-style mt-1">Click to View</a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-xs about-grid mb-3">
                     <div class="about-grid-main">
                         <h4 class="my-4">India Darbar Chart</h4>
-                        <a style="background-color:#F64C16" href="api/charted/index.php?market=INDIA DARBAR" class="btn button-style mt-1">Click to View</a>
+                        <a style="background-color:#F64C16" href="get_charts?market=INDIA DARBAR" class="btn button-style mt-1">Click to View</a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-xs about-grid mb-3">
                     <div class="about-grid-main">
                         <h4 class="my-4">Gali Chart</h4>
-                        <a style="background-color:#F64C16" href="api/charted/index.php?market=GALI" class="btn button-style mt-1">Click to View</a>
+                        <a style="background-color:#F64C16" href="get_charts?market=GALI" class="btn button-style mt-1">Click to View</a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-xs about-grid mb-3">
                     <div class="about-grid-main">
                         <h4 class="my-4">Sadar Bazar</h4>
-                        <a style="background-color:#F64C16" href="api/charted/index.php?market=SADAR BAZAR" class="btn button-style mt-1">Click to View</a>
+                        <a style="background-color:#F64C16" href="get_charts?market=SADAR BAZAR" class="btn button-style mt-1">Click to View</a>
                     </div>
                 </div>
                 
                 <div class="col-lg-4 col-xs about-grid mb-3">
                     <div class="about-grid-main">
                         <h4 class="my-4">Gwalior</h4>
-                        <a style="background-color:#F64C16" href="api/charted/index.php?market=GWALIOR" class="btn button-style mt-1">Click to View</a>
+                        <a style="background-color:#F64C16" href="get_charts?market=GWALIOR" class="btn button-style mt-1">Click to View</a>
                     </div>
                 </div>
                 
                 <div class="col-lg-4 col-xs about-grid mb-3">
                     <div class="about-grid-main">
                         <h4 class="my-4">Agra</h4>
-                        <a style="background-color:#F64C16" href="api/charted/index.php?market=AGRA" class="btn button-style mt-1">Click to View</a>
+                        <a style="background-color:#F64C16" href="get_charts?market=AGRA" class="btn button-style mt-1">Click to View</a>
                     </div>
                 </div>
                 
@@ -500,106 +544,106 @@
 <!--        </div>-->
 <!--    </div>-->
 
-    <section class="banner-bottom-w3layouts bg-li py-1 back_img" id="services">
-        <div class="container py-xl-2 py-lg-3">
-            <h3 class="w3ls_pvt-title text-center font-weight-bold">Jodi <span style="color:#F64C16">Chart</span></h3>
-            <p class="sub-tittle text-center mt-2 mb-sm-2 mb-2">All Jodi Chart</p>
-            <div class="row pt-lg-4">
-                <div class="col-lg-3 about-in text-center mb-2">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="bg-clr-w3l">
-                                <span class="">77</span>
-                            </div>
-                            <h5 class="card-title mt-2 mb-2">Desawer</h5>
-                           
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 about-in text-center mb-2">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="bg-clr-w3l">
-                                <span class="">11</span>
-                            </div>
-                            <h5 class="card-title mt-2 mb-2">Faridabad</h5>
-                           
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 about-in text-center mb-2">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="bg-clr-w3l">
-                                <span class="">00</span>
-                            </div>
-                            <h5 class="card-title mt-2 mb-2">Gaziyabad</h5>
-                           
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 about-in text-center mb-2">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="bg-clr-w3l">
-                                <span class="">11</span>
-                            </div>
-                            <h5 class="card-title mt-2 mb-2">India Night</h5>
-                           
-                        </div>
-                    </div>
-                </div>
-               
-            </div>
-            <div class="row pt-lg-4">
-                <div class="col-lg-3 about-in text-center mb-2">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="bg-clr-w3l">
-                                <span class="">12</span>
-                            </div>
-                            <h5 class="card-title mt-2 mb-2">Gali</h5>
-                           
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 about-in text-center mb-2">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="bg-clr-w3l">
-                                <span class="">00</span>
-                            </div>
-                            <h5 class="card-title mt-2 mb-2">Shree Ganesh</h5>
-                           
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 about-in text-center mb-2">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="bg-clr-w3l">
-                                <span class="">11</span>
-                            </div>
-                            <h5 class="card-title mt-2 mb-2">Delhi Bazar</h5>
-                           
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 about-in text-center mb-2">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="bg-clr-w3l">
-                                <span class="">45</span>
-                            </div>
-                            <h5 class="card-title mt-2 mb-2">India Darbar</h5>
-                           
-                        </div>
-                    </div>
-                </div>
-               
-            </div>
-        </div>
-    </section>
+{#    <section class="banner-bottom-w3layouts bg-li py-1 back_img" id="services">#}
+{#        <div class="container py-xl-2 py-lg-3">#}
+{#            <h3 class="w3ls_pvt-title text-center font-weight-bold">Jodi <span style="color:#F64C16">Chart</span></h3>#}
+{#            <p class="sub-tittle text-center mt-2 mb-sm-2 mb-2">All Jodi Chart</p>#}
+{#            <div class="row pt-lg-4">#}
+{#                <div class="col-lg-3 about-in text-center mb-2">#}
+{#                    <div class="card">#}
+{#                        <div class="card-body">#}
+{#                            <div class="bg-clr-w3l">#}
+{#                                <span class="">77</span>#}
+{#                            </div>#}
+{#                            <h5 class="card-title mt-2 mb-2">Desawer</h5>#}
+{#                           #}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="col-lg-3 about-in text-center mb-2">#}
+{#                    <div class="card">#}
+{#                        <div class="card-body">#}
+{#                            <div class="bg-clr-w3l">#}
+{#                                <span class="">11</span>#}
+{#                            </div>#}
+{#                            <h5 class="card-title mt-2 mb-2">Faridabad</h5>#}
+{#                           #}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="col-lg-3 about-in text-center mb-2">#}
+{#                    <div class="card">#}
+{#                        <div class="card-body">#}
+{#                            <div class="bg-clr-w3l">#}
+{#                                <span class="">00</span>#}
+{#                            </div>#}
+{#                            <h5 class="card-title mt-2 mb-2">Gaziyabad</h5>#}
+{#                           #}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="col-lg-3 about-in text-center mb-2">#}
+{#                    <div class="card">#}
+{#                        <div class="card-body">#}
+{#                            <div class="bg-clr-w3l">#}
+{#                                <span class="">11</span>#}
+{#                            </div>#}
+{#                            <h5 class="card-title mt-2 mb-2">India Night</h5>#}
+{#                           #}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#               #}
+{#            </div>#}
+{#            <div class="row pt-lg-4">#}
+{#                <div class="col-lg-3 about-in text-center mb-2">#}
+{#                    <div class="card">#}
+{#                        <div class="card-body">#}
+{#                            <div class="bg-clr-w3l">#}
+{#                                <span class="">12</span>#}
+{#                            </div>#}
+{#                            <h5 class="card-title mt-2 mb-2">Gali</h5>#}
+{#                           #}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="col-lg-3 about-in text-center mb-2">#}
+{#                    <div class="card">#}
+{#                        <div class="card-body">#}
+{#                            <div class="bg-clr-w3l">#}
+{#                                <span class="">00</span>#}
+{#                            </div>#}
+{#                            <h5 class="card-title mt-2 mb-2">Shree Ganesh</h5>#}
+{#                           #}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="col-lg-3 about-in text-center mb-2">#}
+{#                    <div class="card">#}
+{#                        <div class="card-body">#}
+{#                            <div class="bg-clr-w3l">#}
+{#                                <span class="">11</span>#}
+{#                            </div>#}
+{#                            <h5 class="card-title mt-2 mb-2">Delhi Bazar</h5>#}
+{#                           #}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="col-lg-3 about-in text-center mb-2">#}
+{#                    <div class="card">#}
+{#                        <div class="card-body">#}
+{#                            <div class="bg-clr-w3l">#}
+{#                                <span class="">45</span>#}
+{#                            </div>#}
+{#                            <h5 class="card-title mt-2 mb-2">India Darbar</h5>#}
+{#                           #}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#               #}
+{#            </div>#}
+{#        </div>#}
+{#    </section>#}
     <section class="banner-bottom-w3layouts bg-li py-1 back_img" id="services">
         <div class="container py-xl-2 py-lg-3">
            

@@ -55,7 +55,7 @@ def get_wallet():
 def get_wallet_transactions():
     user_id, is_admin = validate_session()
     try:
-        transactions = get_transactions(user_id);
+        transactions = get_transactions(user_id)
         return jsonify({"data": transactions}), 200
     except Exception as e:
         return jsonify({'success': False, 'error': 'Error fetching details'}), 500
@@ -73,7 +73,6 @@ def get_withdraw_modes():
             "hint": mode.hint_message,
             "active": "1"
         })
-
 
     user_details = get_user_by_id(user_id)
 
@@ -251,7 +250,8 @@ def create_upi_gw_order(txn_id, user_id, phone, email, amount):
         if response.status_code == 200 and response_data.get("status"):
             return response_data["data"]
         else:
-            raise Exception("Failed to create UPI gateway order. Error: {}".format(response_data.get("msg", "Unknown error")))
+            raise Exception(
+                "Failed to create UPI gateway order. Error: {}".format(response_data.get("msg", "Unknown error")))
     except Exception as e:
         raise Exception("Failed to create UPI gateway order. Error: {}".format(str(e)))
 
@@ -277,6 +277,32 @@ def initiate_gw_payment():
         return jsonify({'success': "0", 'msg': str(e)}), 200
 
 
+def update_referral_bonus(user, amount):
+    setting = Setting.query.filter_by(key=Setting.Key.REFERRAL_BONUS_PERCENT.name).first()
+    if setting:
+        bonus_percent = float(setting.value)
+    else:
+        return
+
+    if user.referral_by and bonus_percent > 0:
+        referrer = User.query.get(user.referral_by)
+        if referrer:
+            bonus_amount = amount * bonus_percent / 100
+            referrer.bonus_balance += bonus_amount
+            db.session.add(referrer)
+
+            transaction = Transaction(user_id=referrer.id,
+                                      type=Transaction.Type.EARN.name,
+                                      sub_type=Transaction.SubType.ADD_BY_ADMIN.name,
+                                      status=Transaction.Status.SUCCESS.name,
+                                      amount=int(bonus_amount),
+                                      mode="REFERRAL_COMMISSION",
+                                      remark="Commission on deposit by " + user.phone,
+                                      info="REFERRAL_BONUS")
+            db.session.add(transaction)
+            db.session.commit()
+
+
 def update_transaction_status_and_balance(transaction, upi_txn_id):
     # update status and add balance in total and deposit in single transaction
     transaction.status = Transaction.Status.SUCCESS.name
@@ -287,6 +313,7 @@ def update_transaction_status_and_balance(transaction, upi_txn_id):
     db.session.add(transaction)
     db.session.add(user)
     db.session.commit()
+    update_referral_bonus(user, transaction.amount)
 
     return user.total_balance
 
@@ -329,16 +356,62 @@ def check_upi_gw_txn():
                 return jsonify({'success': "1", 'msg': 'Transaction successful', "total_balance": balance}), 200
             elif response_data["data"]["status"] == "failure":
                 update_transaction_status(client_txn_id, Transaction.Status.CANCELLED.name)
-                return jsonify({'success': "1", 'msg': 'Transaction failed or cancelled by User', "total_balance": ""}), 200
+                return jsonify(
+                    {'success': "1", 'msg': 'Transaction failed or cancelled by User', "total_balance": ""}), 200
             else:
                 if response_data["data"]["remark"] == "Transaction Timeout.":
                     update_transaction_status(client_txn_id, Transaction.Status.CANCELLED.name)
                     return jsonify({'success': "1", 'msg': 'Transaction Timeout.', "total_balance": ""}), 200
-            return jsonify({'success': "1", 'msg': 'Transaction is still in processing state', "total_balance": ""}), 200
+            return jsonify(
+                {'success': "1", 'msg': 'Transaction is still in processing state', "total_balance": ""}), 200
         else:
-            raise Exception("Failed to check UPI gateway order status. Error: {}".format(response_data.get("msg", "Unknown error")))
+            raise Exception(
+                "Failed to check UPI gateway order status. Error: {}".format(response_data.get("msg", "Unknown error")))
     except Exception as e:
         print(e)
         return jsonify({'success': "0", 'msg': str(e)}), 500
 
 
+def get_referrals():
+    user_id, is_admin = validate_session()
+    try:
+        user = User.query.get(user_id)
+        referrals = User.query.filter_by(referral_by=user_id).all()
+        refer = []
+        for ref in referrals:
+            refer.append({
+                "name": ref.name if ref.name else "User",
+                "user": ref.phone,
+                "date": ref.created_at.strftime("%d %b %Y %I:%M %p")
+            })
+
+        transactions = Transaction.query.filter_by(user_id=user_id, type=Transaction.Type.EARN.name).all()
+        total_amount = 0
+        transaction = []
+        for trans in transactions:
+            total_amount += trans.amount
+            transaction.append({
+                "remark": trans.remark,
+                "amount": trans.amount,
+                "date": trans.created_at.strftime("%d %b %Y %I:%M %p"),
+                "1": Transaction.Type.EARN.value
+            })
+
+        commission = Setting.query.filter_by(key=Setting.Key.REFERRAL_BONUS_PERCENT.name).first()
+        if commission:
+            comm = commission.value
+        else:
+            comm = 0
+
+        data = {
+            "refer": refer,
+            "transaction": transaction,
+            "total_amount": total_amount,
+            "comm": comm
+        }
+
+        print(data)
+        return jsonify(data), 200
+    except Exception as e:
+        print(e)
+        return jsonify({'success': False, 'msg': 'Error fetching details'}), 500

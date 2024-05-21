@@ -24,7 +24,7 @@ from api.market import get_markets, get_content
 from api.send_otp import send_otp, send_otp2
 from api.signup import signup, logout, signup2, user_check
 from api.wallet import get_wallet, get_wallet_transactions, get_withdraw_modes, update_bank_details, withdraw_money, \
-    deposit_money, verify_deposit, deposit_via_bank, initiate_gw_payment, check_upi_gw_txn
+    deposit_money, verify_deposit, deposit_via_bank, initiate_gw_payment, check_upi_gw_txn, get_referrals
 from extension import db
 import time, os
 
@@ -77,6 +77,7 @@ app.route('/forgot_password', methods=['POST'])(forgot_password)
 app.route('/update_password', methods=['POST'])(update_user_password)
 app.route('/update_profile', methods=['POST'])(update_profile)
 app.route('/check_referral', methods=['POST'])(check_referral)
+app.route('/refers', methods=['POST'])(get_referrals)
 
 app.route('/send_otp', methods=['POST'])(send_otp2)
 app.route('/get_bets', methods=['GET', 'POST'])(get_bets)

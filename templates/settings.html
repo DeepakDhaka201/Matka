@@ -105,6 +105,26 @@
                                           <input type="text" class="form-control" value="" id="whatsapp" name="whatsapp">
                                         {% endif %}
                                     </div>
+
+                                    <div class="form-group">
+                                        <label for="commission">Referral Commission</label>
+                                        {% if setting.REFERRAL_BONUS_PERCENT %}
+                                          <input type="text" class="form-control" value="{{ setting.REFERRAL_BONUS_PERCENT.value|safe }}" id="commission" name="referral_bonus_percent">
+                                        {% else %}
+                                          <input type="text" class="form-control" value="" id="commission" name="referral_bonus_percent">
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="upi-gw-key">Upi Gateway Key</label>
+                                        {% if setting.UPI_GATEWAY_KEY %}
+                                          <input type="text" class="form-control" value="{{ setting.UPI_GATEWAY_KEY.value|safe }}" id="upi-gw-key" name="UPI_GATEWAY_KEY">
+                                        {% else %}
+                                          <input type="text" class="form-control" value="" id="upi-gw-key" name="UPI_GATEWAY_KEY">
+                                        {% endif %}
+                                    </div>
+
+
                                     <button type="submit" class="btn btn-primary mr-2 mt-4" name="submit" style="width: 100%">Submit</button>
                                 </form>
                             </div>

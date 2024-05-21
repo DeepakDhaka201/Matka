@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from api.wallet import update_referral_bonus
 from extension import db
 from models.Transaction import Transaction
 from models.User import User
@@ -28,6 +29,12 @@ def update_transaction(transaction, status, remark, refund):
                         user.total_balance += transaction.amount
                         user.winning_balance += transaction.amount
         db.session.commit()
+
+        if transaction.type == Transaction.Type.DEPOSIT.name:
+            if status == Transaction.Status.SUCCESS.name:
+                user = User.query.get(transaction.user_id)
+                update_referral_bonus(user, transaction.amount)
+
         return True
     except Exception as e:
         db.session.rollback()

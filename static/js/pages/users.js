@@ -57,15 +57,15 @@ function updateUserBalance() {
     var amount = $('#mb-input-amount').val();
     var walletType = $('#mb-input-wallet').val();
     var remark = $('#mb-input-remark').val();
-    var action = $('#mb-input-action').val();
-
-    if (action === 1) {
+    var action1 = $('#mb-input-action').val();
+    var action = 'Add'
+    if (action1 === "0") {
         action = 'Deduct';
     } else {
         action = 'Add';
     }
 
-    console.log(userId, amount, walletType, action);
+    console.log(userId, amount, walletType, action1);
 
     var xhr = new XMLHttpRequest();
     xhr.open("POST", `/admin/update_user_balance?user_id=${userId}&amount=${amount}&wallet_type=${walletType}&action=${action}&remark=${remark}`, true);
@@ -82,4 +82,8 @@ function updateUserBalance() {
         }
     }
     xhr.send();
+}
+
+function ref_check(value) {
+    console.log(value)
 }
