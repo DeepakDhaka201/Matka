@@ -330,8 +330,8 @@ def upi_gw_webhook():
         update_transaction_status_and_balance(transaction, data.get("upi_txn_id", None))
     elif status == "failure":
         update_transaction_status(transaction_id, Transaction.Status.CANCELLED.name)
-
-    update_transaction_status(transaction_id, Transaction.Status.PROCESSING.name)
+    else:
+        update_transaction_status(transaction_id, Transaction.Status.PROCESSING.name)
 
     return jsonify({"status": 0}), 200
 
