@@ -59,19 +59,15 @@ def get_markets_with_result():
         if close_time_obj.time() < open_time_obj.time():
             # If current time is between open time and midnight or between midnight and close time, the market is open
             if open_time_obj.time() <= current_time_obj or current_time_obj <= close_time_obj.time():
-                print("Market is open")
                 is_open = "1"
             else:
-                print("Market is closed")
                 is_close = "1"
         # If market closes before midnight
         else:
             # If current time is between open time and close time, the market is open
             if open_time_obj.time() <= current_time_obj <= close_time_obj.time():
-                print("Market is open")
                 is_open = "1"
             else:
-                print("Market is closed")
                 is_close = "1"
 
         data.append({
