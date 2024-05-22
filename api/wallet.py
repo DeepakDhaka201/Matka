@@ -271,7 +271,7 @@ def initiate_gw_payment():
         return jsonify({'success': "1", 'data': res}), 200
     except Exception as e:
         print(e)
-        transaction.status = Transaction.Status.CANCELLED
+        transaction.status = Transaction.Status.CANCELLED.name
         db.session.add(transaction)
         db.session.commit()
         return jsonify({'success': "0", 'msg': str(e)}), 200
@@ -316,6 +316,25 @@ def update_transaction_status_and_balance(transaction, upi_txn_id):
     update_referral_bonus(user, transaction.amount)
 
     return user.total_balance
+
+
+def upi_gw_webhook():
+    data = request.form
+    print(data)
+    transaction_id = data.get("client_txn_id", None)
+    transaction = Transaction.query.get(transaction_id)
+
+    if not transaction:
+        print("No transaction present for given id")
+        return
+
+    status = data.get("status")
+    if status == "success":
+        update_transaction_status_and_balance(transaction, data.get("upi_txn_id", None))
+    elif status == "failure":
+        update_transaction_status(transaction_id, Transaction.Status.CANCELLED.name)
+
+    update_transaction_status(transaction_id, Transaction.Status.PROCESSING.name)
 
 
 def check_upi_gw_txn():

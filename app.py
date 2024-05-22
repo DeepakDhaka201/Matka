@@ -24,7 +24,8 @@ from api.market import get_markets, get_content
 from api.send_otp import send_otp, send_otp2
 from api.signup import signup, logout, signup2, user_check
 from api.wallet import get_wallet, get_wallet_transactions, get_withdraw_modes, update_bank_details, withdraw_money, \
-    deposit_money, verify_deposit, deposit_via_bank, initiate_gw_payment, check_upi_gw_txn, get_referrals
+    deposit_money, verify_deposit, deposit_via_bank, initiate_gw_payment, check_upi_gw_txn, get_referrals, \
+    upi_gw_webhook
 from extension import db
 import time, os
 
@@ -96,6 +97,7 @@ app.route('/get_content', methods=['GET', 'POST'])(get_content)
 
 app.route('/initiate_gw_payment', methods=['GET', 'POST'])(initiate_gw_payment)
 app.route('/check_upi_gw_txn', methods=['GET', 'POST'])(check_upi_gw_txn)
+app.route('/upi_gw_webhook', methods=['POST'])(upi_gw_webhook)
 
 app.route('/get_charts')(get_results)
 
