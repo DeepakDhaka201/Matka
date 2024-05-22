@@ -353,6 +353,11 @@ def check_upi_gw_txn():
 
     transaction = Transaction.query.get(client_txn_id)
     if not transaction or transaction.status != Transaction.Status.INITIATED.name:
+        if transaction.status == Transaction.Status.SUCCESS.name:
+            return jsonify({'success': "0", 'msg': 'Transaction successful'}), 200
+        if transaction.status == Transaction.Status.CANCELLED.name:
+            return jsonify({'success': "0", 'msg': 'Transaction failed or cancelled by User'}), 200
+
         return jsonify({'success': "0", 'msg': 'Invalid transaction id'}), 200
 
     setting = Setting.query.filter_by(key=Setting.Key.UPI_GATEWAY_KEY.name).first()
