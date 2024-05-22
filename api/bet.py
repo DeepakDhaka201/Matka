@@ -12,6 +12,10 @@ from service.MarketService import get_all_market, get_all_market_by_id
 from service.UserService import validate_session
 
 
+def convert_to_datetime(date_str):
+    return datetime.strptime(date_str, '%d %b %Y')
+
+
 def get_bets():
     user_id, is_admin = validate_session()
     try:
@@ -50,7 +54,7 @@ def get_bets():
             else:
                 data[date] = [bet_details]
 
-        data["dates"] = list(dates)
+        data["dates"] = sorted(dates, key=convert_to_datetime, reverse=True)
         print(data)
         return jsonify(data), 200
     except Exception as e:
