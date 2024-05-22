@@ -55,7 +55,6 @@ def get_bets():
                 data[date] = [bet_details]
 
         data["dates"] = sorted(dates, key=convert_to_datetime, reverse=True)
-        print(data)
         return jsonify(data), 200
     except Exception as e:
         print(e)
