@@ -88,8 +88,6 @@ def get_markets_with_result():
             "mOpen": is_open,
             "mClose": is_close,
         })
-
-        print(data)
     return data
 
 
