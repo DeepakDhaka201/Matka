@@ -13,7 +13,7 @@ from service.UserService import validate_session
 
 
 def convert_to_datetime(date_str):
-    return datetime.strptime(date_str, '%d %b %Y')
+    return datetime.datetime.strptime(date_str, '%d %b %Y')
 
 
 def get_bets():
