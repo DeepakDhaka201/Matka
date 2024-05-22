@@ -300,8 +300,13 @@ def update_referral_bonus(user, amount):
             db.session.commit()
 
 
-def update_transaction_status_and_balance(transaction, upi_txn_id):
+def update_transaction_status_and_balance(transaction_id, upi_txn_id):
     # update status and add balance in total and deposit in single transaction
+    transaction = Transaction.query.get(transaction_id)
+
+    if Transaction.Status.INITIATED != transaction.status:
+        raise Exception("Invalid Transaction state for update")
+
     transaction.status = Transaction.Status.SUCCESS.name
     transaction.info = "Ref: " + upi_txn_id
     user = User.query.get(transaction.user_id)
@@ -310,14 +315,13 @@ def update_transaction_status_and_balance(transaction, upi_txn_id):
     db.session.add(transaction)
     db.session.add(user)
     db.session.commit()
-    update_referral_bonus(user, transaction.amount)
 
+    update_referral_bonus(user, transaction.amount)
     return user.total_balance
 
 
 def upi_gw_webhook():
     data = request.form
-    print(data)
     transaction_id = data.get("client_txn_id", None)
     transaction = Transaction.query.get(transaction_id)
 
@@ -325,9 +329,13 @@ def upi_gw_webhook():
         print("No transaction present for given id")
         return
 
+    if Transaction.Status.INITIATED.name != transaction.status:
+        print("Transaction already processed")
+        return
+
     status = data.get("status")
     if status == "success":
-        update_transaction_status_and_balance(transaction, data.get("upi_txn_id", None))
+        update_transaction_status_and_balance(transaction.id, data.get("upi_txn_id", None))
     elif status == "failure":
         update_transaction_status(transaction_id, Transaction.Status.CANCELLED.name)
     else:
@@ -369,7 +377,7 @@ def check_upi_gw_txn():
         response_data = response.json()
         if response.status_code == 200 and response_data.get("status"):
             if response_data["data"]["status"] == "success":
-                balance = update_transaction_status_and_balance(transaction, response_data["data"]["upi_txn_id"])
+                balance = update_transaction_status_and_balance(transaction.id, response_data["data"]["upi_txn_id"])
                 return jsonify({'success': "1", 'msg': 'Transaction successful', "total_balance": balance}), 200
             elif response_data["data"]["status"] == "failure":
                 update_transaction_status(client_txn_id, Transaction.Status.CANCELLED.name)

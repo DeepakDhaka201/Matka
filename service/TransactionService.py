@@ -57,7 +57,6 @@ def fetch_transactions(user_id, type, status, from_time, to_time):
     else:
         query = query.filter(Transaction.created_at >= datetime.now().replace(hour=0, minute=0, second=0, microsecond=0))
 
-    print(query)
     transactions = query.order_by(Transaction.created_at.desc()).all()
     users = User.query.filter(User.id.in_([transaction.user_id for transaction in transactions])).all()
     user_map = {user.id: user for user in users}
