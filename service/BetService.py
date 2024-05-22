@@ -157,13 +157,6 @@ def update_transaction_status(transaction_id, status):
 
 
 def fetch_bets(user_id, market_id, status, from_time, to_time, date):
-    print(user_id)
-    print(market_id)
-    print(status)
-    print(from_time)
-    print(to_time)
-    print(date)
-
     query = db.session.query(Bet)
     if user_id:
         query = query.filter(Bet.user_id == user_id)
@@ -190,8 +183,6 @@ def fetch_bets(user_id, market_id, status, from_time, to_time, date):
         query = query.filter(Bet.created_at >= datetime.now().replace(hour=0, minute=0, second=0, microsecond=0))
 
     bets = query.all()
-    print(query)
-    print(bets)
 
     users = User.query.filter(User.id.in_([bet.user_id for bet in bets])).all()
     user_map = {user.id: user for user in users}

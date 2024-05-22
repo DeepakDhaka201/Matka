@@ -59,13 +59,11 @@ def get_transactions(user_id, types=None):
             .filter(Transaction.status == 'SUCCESS') \
             .order_by(Transaction.created_at.desc()) \
             .all()
-        print(transactions)
     else:
         transactions = Transaction.query.filter(Transaction.user_id == user_id) \
             .filter(Transaction.status == 'SUCCESS') \
             .order_by(Transaction.created_at.desc()) \
             .all()
-        print(transactions)
 
     data = []
     for transaction in transactions:

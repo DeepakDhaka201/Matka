@@ -15,7 +15,6 @@ def web_index():
     data = {}
     for result in results:
         data[result.market_name.upper()] = result.jodi if result.jodi else "**"
-    print(data)
     return render_template("windex.html", results=data)
 
 

@@ -44,7 +44,6 @@ def get_wallet():
             "is_bank": "1" if bank_details else "0",
             "bank": bank_details
         }
-        print(data)
         return jsonify(data), 200
     except Exception as e:
         print(e)
@@ -119,7 +118,6 @@ def withdraw_money():
     user_id, is_admin = validate_session()
     data = request.form
     try:
-        print(data)
         mode = data.get("mode")
         info = data.get("info")
         amount = data.get("amount")
@@ -150,7 +148,6 @@ def deposit_money():
     user_id, is_admin = validate_session()
     data = request.form
     try:
-        print(data)
         mode = data.get("type")
         amount = data.get("amount")
 
@@ -336,11 +333,12 @@ def upi_gw_webhook():
 
     update_transaction_status(transaction_id, Transaction.Status.PROCESSING.name)
 
+    return jsonify({"status": 0}), 200
+
 
 def check_upi_gw_txn():
     user_id, is_admin = validate_session()
     data = request.form
-    print(data)
     client_txn_id = data.get("client_txn_id")
     if not client_txn_id:
         return jsonify({'success': "0", 'msg': 'client_txn_id is empty. Please enter'}), 200

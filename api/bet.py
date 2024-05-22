@@ -66,7 +66,6 @@ def place_bet():
     user_id, is_admin = validate_session()
     data = request.form
     try:
-        print(data)
         market_name = data.get("bazar")
         total_amount = data.get("total")
         game_type = data.get("game")
@@ -89,9 +88,7 @@ def place_bet():
             print("Invalid request body! Number and amount count mismatch")
             return jsonify({'success': False, 'msg': 'Invalid request body'}), 200
 
-        print(input_numbers)
         response = save_bets(user_id, market_name, game_type, input_numbers, input_amounts, total_amount)
-        print(response)
 
         if not response.get('success'):
             return jsonify(response), 200
@@ -110,7 +107,6 @@ def get_results():
         return jsonify({'success': False, 'msg': 'Invalid request body'}), 400
 
     results = Result.query.filter(Result.market_name == market).order_by(Result.date.desc()).limit(60).all()
-    print(results)
     result_map = {}
     for result in results:
         result_map[result.date.strftime("%d %b")] = result.jodi if result.jodi else "**"
@@ -144,5 +140,4 @@ def get_results():
         current_date -= datetime.timedelta(weeks=1)
         data.append(week_data)
 
-    print(data)
     return render_template("chart.html", data=data, market=market)
