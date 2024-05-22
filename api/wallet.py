@@ -304,7 +304,7 @@ def update_transaction_status_and_balance(transaction_id, upi_txn_id):
     # update status and add balance in total and deposit in single transaction
     transaction = Transaction.query.get(transaction_id)
 
-    if Transaction.Status.INITIATED != transaction.status:
+    if Transaction.Status.INITIATED.name != transaction.status:
         raise Exception("Invalid Transaction state for update")
 
     transaction.status = Transaction.Status.SUCCESS.name
