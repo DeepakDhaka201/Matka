@@ -16,7 +16,7 @@
 
   var config = {
     defaultColumn: 0,
-    defaultOrder: 'asc',
+    defaultOrder: 'desc',
     styles: {
       'sort': 'sortStyle',
       'asc': 'ascStyle',
