@@ -142,7 +142,7 @@
                                                         <td>
                                                             {% if transaction.status == 'PROCESSING' and transaction.type == 'DEPOSIT' %}
                                                                 <button class="btn btn-outline-success" onclick="markDepositAsCompleted({{ transaction.id }})">Mark as complete</button> </a>
-                                                                <button class="btn btn-outline-success" onclick="markDepositAsCancel({{ transaction.id }})">Cancel</button> </a>
+                                                                <button class="btn btn-outline-success" onclick="markDepositAsCancelled({{ transaction.id }})">Cancel</button> </a>
                                                             {% endif %}
 
                                                             {% if transaction.status == 'SUCCESS' %}
@@ -151,8 +151,8 @@
 
                                                             {% if transaction.status == 'PROCESSING' and transaction.type == 'WITHDRAWAL' %}
                                                                 <button class="btn btn-outline-info" onclick="markWithdrawalAsCompleted({{ transaction.id }})">Completed</button> </a>
-                                                                <button class="btn btn-outline-info" onclick="markWithdrawalAsCancel({{ transaction.id }})">Cancel</button>
-                                                                <button class="btn btn-outline-info" onclick="markWithdrawalAsCancelAndRefund({{ transaction.id }})">Cancel and Refund</button>
+                                                                <button class="btn btn-outline-info" onclick="markWithdrawalAsCancelled({{ transaction.id }})">Cancel</button>
+                                                                <button class="btn btn-outline-info" onclick="markWithdrawalAsCancelledAndRefund({{ transaction.id }})">Cancel and Refund</button>
                                                             {% endif %}
 
 
