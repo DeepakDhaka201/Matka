@@ -114,7 +114,7 @@ def create_withdraw(user_id, amount, mode):
                               amount=int(amount),
                               remark="Withdraw via " + mode)
     db.session.query(User).filter(User.id == user_id) \
-        .update({User.winning_balance: User.winning_balance - int(amount)})
+        .update({User.winning_balance: User.winning_balance - int(amount), User.total_balance: User.total_balance - int(amount)})
     db.session.add(transaction)
     db.session.commit()
     return transaction
