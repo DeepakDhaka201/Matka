@@ -403,7 +403,8 @@ def admin_manage_wallet_index():
     args = request.args
     user_id = args.get('user_id', None)
 
-    transactions = Transaction.query.filter_by(user_id=user_id).filter(Transaction.status != 'INITIATED').all()
+    transactions = (Transaction.query.filter_by(user_id=user_id)
+                    .filter(Transaction.status != 'INITIATED').order_by(Transaction.created_at.desc()).all())
 
     return render_template("manage_wallet.html", transactions=transactions)
 
