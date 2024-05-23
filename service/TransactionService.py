@@ -50,7 +50,7 @@ def fetch_transactions(user_id, type, status, from_time, to_time):
     if status:
         query = query.filter(Transaction.status == status)
 
-    if from_time and to_time:
+    if from_time and to_time and Transaction.Status.PROCESSING.name != status:
         from_time = datetime.strptime(from_time, "%d/%m/%Y")
         to_time = datetime.strptime(to_time, "%d/%m/%Y")
         query = query.filter(Transaction.created_at >= from_time).filter(Transaction.created_at <= to_time)
