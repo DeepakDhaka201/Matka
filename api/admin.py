@@ -367,7 +367,7 @@ def admin_transaction_history_index():
     page = request.args.get('page')
 
     transactions = fetch_transactions(user_id, type, status, from_time, to_time)
-
+    print(transactions)
     return render_template("transactions_history.html", transactions=transactions, page=page)
 
 
