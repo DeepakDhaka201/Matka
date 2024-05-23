@@ -117,18 +117,19 @@ def update_bank_details():
 def withdraw_money():
     user_id, is_admin = validate_session()
     data = request.form
+    print(data)
     try:
         mode = data.get("mode")
         info = data.get("info")
         amount = data.get("amount")
 
         if mode is None or info is None or amount is None:
-            return jsonify({'success': False, 'msg': 'Invalid request body'}), 400
+            return jsonify({'success': False, 'msg': 'Invalid request body'}), 200
 
         user_details = get_user_by_id(user_id)
 
         if int(amount) > user_details.winning_balance:
-            return jsonify({'success': False, 'msg': 'Insufficient balance'}), 400
+            return jsonify({'success': False, 'msg': 'Insufficient balance'}), 200
         create_withdraw(user_id, amount, mode)
         user_details = get_user_by_id(user_id)
         return jsonify({"success": "1", "msg": "Withdrawal request created!",
@@ -136,7 +137,7 @@ def withdraw_money():
     except Exception as e:
         print(e)
         traceback.print_exc()
-        return jsonify({'success': False, 'msg': 'Error creating withdrawal request'}), 500
+        return jsonify({'success': False, 'msg': 'Error creating withdrawal request'}), 200
 
 
 #amount
