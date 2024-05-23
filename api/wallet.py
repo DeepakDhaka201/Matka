@@ -126,11 +126,14 @@ def withdraw_money():
         if mode is None or info is None or amount is None:
             return jsonify({'success': False, 'msg': 'Invalid request body'}), 200
 
+        if mode == 'Select Payment Mode':
+            return jsonify({'success': False, 'msg': 'Withdraw mode not selected'}), 200
+
         user_details = get_user_by_id(user_id)
 
         if int(amount) > user_details.winning_balance:
             return jsonify({'success': False, 'msg': 'Insufficient balance'}), 200
-        create_withdraw(user_id, amount, mode)
+        create_withdraw(user_id, amount, mode, info)
         user_details = get_user_by_id(user_id)
         return jsonify({"success": "1", "msg": "Withdrawal request created!",
                         "active": "1" if user_details.active else "0", "winning": user_details.winning_balance}), 200

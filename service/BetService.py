@@ -106,12 +106,14 @@ def save_bets(user_id, market_name, game_type, input_numbers, input_amounts, tot
     return {'success': True, 'msg': 'Bet Placed', 'active': "1" if user.active else "0"}
 
 
-def create_withdraw(user_id, amount, mode):
+def create_withdraw(user_id, amount, mode, info=None):
     transaction = Transaction(user_id=user_id,
                               type=Transaction.Type.WITHDRAWAL.name,
                               sub_type=Transaction.SubType.DEDUCT_BY_USER.name,
                               status=Transaction.Status.PROCESSING.name,
                               amount=int(amount),
+                              mode=mode,
+                              info=info,
                               remark="Withdraw via " + mode)
     db.session.query(User).filter(User.id == user_id) \
         .update({User.winning_balance: User.winning_balance - int(amount), User.total_balance: User.total_balance - int(amount)})
