@@ -50,11 +50,11 @@ def fetch_transactions(user_id, type, status, from_time, to_time):
     if status:
         query = query.filter(Transaction.status == status)
 
-    if from_time and to_time and Transaction.Status.PROCESSING.name != status:
+    if from_time and to_time:
         from_time = datetime.strptime(from_time, "%d/%m/%Y")
         to_time = datetime.strptime(to_time, "%d/%m/%Y")
         query = query.filter(Transaction.created_at >= from_time).filter(Transaction.created_at <= to_time)
-    else:
+    elif Transaction.Status.PROCESSING.name != status:
         query = query.filter(Transaction.created_at >= datetime.now().replace(hour=0, minute=0, second=0, microsecond=0))
 
     transactions = query.order_by(Transaction.created_at.desc()).all()
