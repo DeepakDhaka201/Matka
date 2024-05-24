@@ -174,7 +174,7 @@ def fetch_bets(user_id, market_id, status, from_time, to_time, date, statuses=No
         from_time = datetime.strptime(from_time, "%d/%m/%Y")
         to_time = datetime.strptime(to_time, "%d/%m/%Y")
 
-        query = query.filter(Bet.created_at >= from_time).filter(Bet.created_at <= to_time)
+        query = query.filter(Bet.date >= from_time).filter(Bet.date <= to_time)
     elif date:
         date = datetime.strptime(date, "%Y-%m-%d")
         if market_id:
@@ -184,7 +184,7 @@ def fetch_bets(user_id, market_id, status, from_time, to_time, date, statuses=No
 
         query = query.filter(Bet.date == cast(date, Date))
     else:
-        query = query.filter(Bet.created_at >= datetime.now().replace(hour=0, minute=0, second=0, microsecond=0))
+        query = query.filter(Bet.date >= datetime.now().replace(hour=0, minute=0, second=0, microsecond=0))
 
     print(query)
     bets = query.all()
