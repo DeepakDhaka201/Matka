@@ -186,6 +186,7 @@ def fetch_bets(user_id, market_id, status, from_time, to_time, date, statuses=No
     else:
         query = query.filter(Bet.created_at >= datetime.now().replace(hour=0, minute=0, second=0, microsecond=0))
 
+    print(query)
     bets = query.all()
 
     users = User.query.filter(User.id.in_([bet.user_id for bet in bets])).all()
