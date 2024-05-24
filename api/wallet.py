@@ -44,7 +44,7 @@ def get_wallet():
         withdraw_open = "1"
         withdraw_msg = ""
         if withdraw_open_time_setting and withdraw_close_time_setting:
-            withdraw_open_time_obj = datetime.strptime(withdraw_open_time_setting.value, "%I:%M %p")
+            withdraw_open_time_obj = datetime.strptime(withdraw_open_time_setting.value, "%H %M")
             withdraw_close_time_obj = datetime.strptime(withdraw_close_time_setting.value, "%I:%M %p")
             current_time_obj = datetime.now().time()
             withdraw_msg = "Available between " + str(withdraw_open_time_setting.value) + " to " + str(withdraw_close_time_setting.value)
