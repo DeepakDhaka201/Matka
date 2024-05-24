@@ -1,6 +1,7 @@
 import os
 import traceback
 import uuid
+from datetime import datetime
 
 import requests
 from flask import jsonify, request
@@ -31,6 +32,27 @@ def get_wallet():
                 "ifsc": user_details.bank_ifsc_code
             }
 
+        min_withdraw_setting = Setting.query.filter_by(key=Setting.Key.MIN_WITHDRAW.name).first()
+
+        min_withdraw = 500
+        if min_withdraw_setting:
+            min_withdraw = int(min_withdraw_setting.value)
+
+        withdraw_open_time_setting = Setting.query.filter_by(key=Setting.Key.WITHDRAW_OPEN_TIME.name).first()
+        withdraw_close_time_setting = Setting.query.filter_by(key=Setting.Key.WITHDRAW_CLOSE_TIME.name).first()
+
+        withdraw_open = "1"
+        withdraw_msg = ""
+        if withdraw_open_time_setting and withdraw_close_time_setting:
+            withdraw_open_time_obj = datetime.strptime(withdraw_open_time_setting.value, "%I:%M %p")
+            withdraw_close_time_obj = datetime.strptime(withdraw_close_time_setting.value, "%I:%M %p")
+            current_time_obj = datetime.now().time()
+            withdraw_msg = "Available between " + str(withdraw_open_time_setting.value) + " to " + str(withdraw_close_time_setting.value)
+            if withdraw_open_time_obj.time() <= current_time_obj <= withdraw_close_time_obj.time():
+                withdraw_open = "1"
+            else:
+                withdraw_open = "0"
+
         data = {
             "wallet": int(user_details.deposit_balance),
             "winning": int(user_details.winning_balance),
@@ -42,8 +64,12 @@ def get_wallet():
             "bank_details": Setting.query.get(Setting.Key.BANK_DETAILS.name),
             "data": transactions,
             "is_bank": "1" if bank_details else "0",
-            "bank": bank_details
+            "bank": bank_details,
+            "min_withdraw": min_withdraw,
+            "withdraw_open": withdraw_open,
+            "withdraw_open_msg": withdraw_msg
         }
+        print(data)
         return jsonify(data), 200
     except Exception as e:
         print(e)
