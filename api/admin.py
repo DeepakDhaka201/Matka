@@ -698,8 +698,8 @@ def admin_market_jantri_index():
 
     market = Market.query.get(market_id)
     if market.buffer_time:
-        date = (date.today() - timedelta(hours=market.buffer_time))
-    print(cast(date, Date))
+        date = (date - timedelta(hours=market.buffer_time)).today()
+    print(date)
     bets = Bet.query.filter_by(market_id=market_id).filter(Bet.date == cast(date, Date)).all()
 
     jodi_map = {"00": {"bets": 0, "total": 0}, "01": {"bets": 0, "total": 0}, "02": {"bets": 0, "total": 0}, "03": {"bets": 0, "total": 0}, "04": {"bets": 0, "total": 0}, "05": {"bets": 0, "total": 0}, "06": {"bets": 0, "total": 0}, "07": {"bets": 0, "total": 0}, "08": {"bets": 0, "total": 0}, "09": {"bets": 0, "total": 0}, "10": {"bets": 0, "total": 0}, "11": {"bets": 0, "total": 0}, "12": {"bets": 0, "total": 0}, "13": {"bets": 0, "total": 0}, "14": {"bets": 0, "total": 0}, "15": {"bets": 0, "total": 0}, "16": {"bets": 0, "total": 0}, "17": {"bets": 0, "total": 0}, "18": {"bets": 0, "total": 0}, "19": {"bets": 0, "total": 0}, "20": {"bets": 0, "total": 0}, "21": {"bets": 0, "total": 0}, "22": {"bets": 0, "total": 0}, "23": {"bets": 0, "total": 0}, "24": {"bets": 0, "total": 0}, "25": {"bets": 0, "total": 0}, "26": {"bets": 0, "total": 0}, "27": {"bets": 0, "total": 0}, "28": {"bets": 0, "total": 0}, "29": {"bets": 0, "total": 0}, "30": {"bets": 0, "total": 0}, "31": {"bets": 0, "total": 0},
