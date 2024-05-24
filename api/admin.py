@@ -713,8 +713,9 @@ def admin_market_jantri_index():
     open_harf_total = 0
     close_harf_total = 0
 
+    tset = set()
     for bet in bets:
-        print(bet.date)
+        tset.add(bet.date)
         if bet.bet_type == Bet.GameType.JODI.name:
             jodi_map[bet.jodi]["bets"] += 1
             jodi_map[bet.jodi]["total"] += bet.amount
@@ -728,6 +729,7 @@ def admin_market_jantri_index():
             close_harf_map[bet.close_harf]["total"] += bet.amount
             close_harf_total += bet.amount
 
+    print(tset)
     if game == "jodi":
         return render_template("jantri.html", data=jodi_map, total=jodi_total)
 
