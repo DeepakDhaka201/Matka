@@ -158,7 +158,7 @@ def update_transaction_status(transaction_id, status):
     return True
 
 
-def fetch_bets(user_id, market_id, status, from_time, to_time, date):
+def fetch_bets(user_id, market_id, status, from_time, to_time, date, statuses=None):
     query = db.session.query(Bet)
     if user_id:
         query = query.filter(Bet.user_id == user_id)
@@ -166,6 +166,9 @@ def fetch_bets(user_id, market_id, status, from_time, to_time, date):
         query = query.filter(Bet.market_id == market_id)
     if status:
         query = query.filter(Bet.status == status)
+
+    if statuses:
+        query = query.filter(Bet.status.in_(statuses))
 
     if from_time and to_time:
         from_time = datetime.strptime(from_time, "%d/%m/%Y")

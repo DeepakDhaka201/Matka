@@ -420,7 +420,12 @@ def admin_bet_history_index():
     date = request.args.get('date')
     page = request.args.get('page')
 
-    bets = fetch_bets(user_id, market_id, status, from_time, to_time, date)
+    statuses = []
+    if "," in status:
+        statues = status.split(",")
+
+
+    bets = fetch_bets(user_id, market_id, status, from_time, to_time, date, statues)
 
     return render_template("bet_history.html", bets=bets, page=page)
 
