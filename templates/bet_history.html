@@ -106,12 +106,20 @@
                                         </thead>
                                         <tbody>
 
-                                        {% set ns = namespace(total_bid = 0, total_win = 0) %}
+                                        {% set ns = namespace(total_bid = 0, total_win = 0, total_lost = 0, total_pending = 0) %}
 
                                         {% for bet in bets %}
                                             {% set ns.total_bid = ns.total_bid + bet.amount %}
                                             {% if bet.status == "WON" %}
                                                 {% set ns.total_win = ns.total_win + bet.win_amount %}
+                                            {% endif %}
+
+                                            {% if bet.status == "LOST" %}
+                                                {% set ns.total_lost = ns.total_lost + bet.amount %}
+                                            {% endif %}
+
+                                            {% if bet.status == "PENDING" %}
+                                                {% set ns.total_pending = ns.total_pending + bet.amount %}
                                             {% endif %}
 
                                             <tr>
@@ -153,6 +161,26 @@
                                                     <td></td>
                                                     <td></td>
                                                     <td>{{ ns.total_win }}</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                            </tfoot>
+                                            <tfoot>
+                                                    <td>Total Lost</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>{{ ns.total_lost }}</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                            </tfoot>
+                                            <tfoot>
+                                                    <td>Total Pending</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>{{ ns.total_pending }}</td>
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
