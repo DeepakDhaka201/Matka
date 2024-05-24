@@ -421,7 +421,7 @@ def admin_bet_history_index():
     page = request.args.get('page')
 
     statues = None
-    if "," in status:
+    if status and "," in status:
         statues = status.split(",")
         status = None
 
