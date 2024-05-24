@@ -423,7 +423,7 @@ def admin_bet_history_index():
     statuses = []
     if "," in status:
         statues = status.split(",")
-
+        status = None
 
     bets = fetch_bets(user_id, market_id, status, from_time, to_time, date, statues)
 
