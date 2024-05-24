@@ -1,6 +1,6 @@
 import os
 import uuid
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from flask import render_template, request, jsonify, session
 from sqlalchemy import func
@@ -117,11 +117,11 @@ def admin_index():
     today_withdrawal = Transaction.query.filter_by(type='WITHDRAWAL').filter(
         Transaction.created_at >= current_date).count()
 
-    today_bid_amount = Bet.query.filter(Bet.created_at >= current_date).with_entities(func.sum(Bet.amount)).scalar()
+    today_bid_amount = Bet.query.filter(Bet.date == current_date).with_entities(func.sum(Bet.amount)).scalar()
     if today_bid_amount is None:
         today_bid_amount = 0
 
-    today_win_amount = Bet.query.filter(Bet.created_at >= current_date).filter(Bet.status == "WON").with_entities(
+    today_win_amount = Bet.query.filter(Bet.date == current_date).filter(Bet.status == "WON").with_entities(
         func.sum(Bet.win_amount)).scalar()
     if today_win_amount is None:
         today_win_amount = 0
@@ -696,9 +696,12 @@ def admin_market_jantri_index():
     if not game:
         return jsonify({"success": False, "message": "Game is required"}), 400
 
-    print(date, market_id, game)
+    market = Market.query.get(market_id)
+    if market.buffer_time:
+        date = date - timedelta(days=1)
 
-    bets = Bet.query.filter_by(market_id=market_id, date=date).all()
+    print(date, market_id, game)
+    bets = Bet.query.filter_by(market_id=market_id).filter(Bet.date >= date).all()
 
     jodi_map = {"00": {"bets": 0, "total": 0}, "01": {"bets": 0, "total": 0}, "02": {"bets": 0, "total": 0}, "03": {"bets": 0, "total": 0}, "04": {"bets": 0, "total": 0}, "05": {"bets": 0, "total": 0}, "06": {"bets": 0, "total": 0}, "07": {"bets": 0, "total": 0}, "08": {"bets": 0, "total": 0}, "09": {"bets": 0, "total": 0}, "10": {"bets": 0, "total": 0}, "11": {"bets": 0, "total": 0}, "12": {"bets": 0, "total": 0}, "13": {"bets": 0, "total": 0}, "14": {"bets": 0, "total": 0}, "15": {"bets": 0, "total": 0}, "16": {"bets": 0, "total": 0}, "17": {"bets": 0, "total": 0}, "18": {"bets": 0, "total": 0}, "19": {"bets": 0, "total": 0}, "20": {"bets": 0, "total": 0}, "21": {"bets": 0, "total": 0}, "22": {"bets": 0, "total": 0}, "23": {"bets": 0, "total": 0}, "24": {"bets": 0, "total": 0}, "25": {"bets": 0, "total": 0}, "26": {"bets": 0, "total": 0}, "27": {"bets": 0, "total": 0}, "28": {"bets": 0, "total": 0}, "29": {"bets": 0, "total": 0}, "30": {"bets": 0, "total": 0}, "31": {"bets": 0, "total": 0},
                 "32": {"bets":0, "total": 0}, "33": {"bets": 0, "total": 0}, "34": {"bets": 0, "total": 0}, "35": {"bets": 0, "total": 0}, "36": {"bets": 0, "total": 0}, "37": {"bets": 0, "total": 0}, "38": {"bets": 0, "total": 0}, "39": {"bets": 0, "total": 0}, "40": {"bets": 0, "total": 0}, "41": {"bets": 0, "total": 0}, "42": {"bets": 0, "total": 0}, "43": {"bets": 0, "total": 0}, "44": {"bets": 0, "total": 0}, "45": {"bets": 0, "total": 0}, "46": {"bets": 0, "total": 0}, "47": {"bets": 0, "total": 0}, "48": {"bets": 0, "total": 0}, "49": {"bets": 0, "total": 0}, "50": {"bets": 0, "total": 0}, "51": {"bets": 0, "total": 0}, "52": {"bets": 0, "total": 0}, "53": {"bets": 0, "total": 0}, "54": {"bets": 0, "total": 0}, "55": {"bets": 0, "total": 0}, "56": {"bets": 0, "total": 0}, "57": {"bets": 0, "total": 0}, "58": {"bets": 0, "total": 0}, "59": {"bets": 0, "total": 0}, "60": {"bets": 0, "total": 0}, "61": {"bets": 0, "total": 0}, "62": {"bets": 0, "total": 0}, "63": {"bets": 0, "total": 0}, "64": {"bets": 0, "total": 0}, "65": {"bets": 0, "total": 0},
