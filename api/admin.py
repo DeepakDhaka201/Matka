@@ -698,7 +698,7 @@ def admin_market_jantri_index():
 
     market = Market.query.get(market_id)
     if market.buffer_time:
-        date = date - timedelta(days=1)
+        date = date - timedelta(hours=market.buffer_time)
 
     bets = Bet.query.filter_by(market_id=market_id).filter(Bet.date >= date).all()
 
