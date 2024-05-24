@@ -69,7 +69,6 @@ def get_wallet():
             "withdraw_open": withdraw_open,
             "withdraw_open_msg": withdraw_msg
         }
-        print(data)
         return jsonify(data), 200
     except Exception as e:
         print(e)
@@ -143,7 +142,6 @@ def update_bank_details():
 def withdraw_money():
     user_id, is_admin = validate_session()
     data = request.form
-    print(data)
     try:
         mode = data.get("mode")
         info = data.get("info")
@@ -268,8 +266,6 @@ def create_upi_gw_order(txn_id, user_id, phone, email, amount):
         "customer_mobile": str(phone),
         "redirect_url": "https://samrat-satta.com",
     }
-
-    print(body_data)
 
     try:
         response = requests.post(url, headers=headers, json=body_data, timeout=None, verify=False)
@@ -472,7 +468,6 @@ def get_referrals():
             "comm": comm
         }
 
-        print(data)
         return jsonify(data), 200
     except Exception as e:
         print(e)
