@@ -686,7 +686,7 @@ def admin_market_anal_index():
 def admin_market_jantri_index():
     validateAdmin()
     market_id = request.args.get('market')
-    date = datetime.today().date()
+    date = datetime.today()
     game = request.args.get("game")
 
     if not market_id:
