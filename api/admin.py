@@ -698,6 +698,7 @@ def admin_market_jantri_index():
 
     market = Market.query.get(market_id)
     if market.buffer_time:
+        print('Buffer Time: ', market.buffer_time)
         date = (date - timedelta(hours=market.buffer_time))
     print(date)
     bets = Bet.query.filter_by(market_id=market_id).filter(Bet.date == cast(date, Date)).all()
