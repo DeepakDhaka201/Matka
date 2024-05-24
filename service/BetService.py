@@ -170,7 +170,6 @@ def fetch_bets(user_id, market_id, status, from_time, to_time, date):
     if from_time and to_time:
         from_time = datetime.strptime(from_time, "%d/%m/%Y")
         to_time = datetime.strptime(to_time, "%d/%m/%Y")
-        print(from_time, to_time)
 
         query = query.filter(Bet.created_at >= from_time).filter(Bet.created_at <= to_time)
     elif date:
@@ -179,6 +178,7 @@ def fetch_bets(user_id, market_id, status, from_time, to_time, date):
             market = Market.query.get(market_id)
             if market.buffer_time > 0:
                 date = date - timedelta(days=1)
+                print(date)
 
         query = query.filter(Bet.date == date)
     else:
