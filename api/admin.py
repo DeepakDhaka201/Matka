@@ -145,7 +145,7 @@ def admin_index():
         today_admin_withdrawal = 0
 
     pending_withdrawals = Transaction.query.filter_by(type='WITHDRAWAL') \
-        .filter(Transaction.status == "PENDING_FOR_APPROVAL").count()
+        .filter(Transaction.status == "PROCESSING").count()
 
     return render_template(
         "index.html",
