@@ -686,7 +686,7 @@ def admin_market_anal_index():
 def admin_market_jantri_index():
     validateAdmin()
     market_id = request.args.get('market')
-    date = datetime.today()
+    date = datetime.today().date()
     game = request.args.get("game")
 
     if not market_id:
@@ -698,7 +698,7 @@ def admin_market_jantri_index():
 
     market = Market.query.get(market_id)
     if market.buffer_time:
-        date = date - timedelta(hours=market.buffer_time)
+        date = (date.today() - timedelta(hours=market.buffer_time))
 
     print(date)
     bets = Bet.query.filter_by(market_id=market_id).filter(Bet.date >= date).all()
