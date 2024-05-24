@@ -420,7 +420,7 @@ def admin_bet_history_index():
     date = request.args.get('date')
     page = request.args.get('page')
 
-    statuses = []
+    statues = None
     if "," in status:
         statues = status.split(",")
         status = None
