@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from sqlalchemy import func
+from sqlalchemy import func, cast, Date
 
 from extension import db
 from models.Bet import Bet
@@ -178,9 +178,8 @@ def fetch_bets(user_id, market_id, status, from_time, to_time, date):
             market = Market.query.get(market_id)
             if market.buffer_time > 0:
                 date = date - timedelta(days=1)
-                print(date)
 
-        query = query.filter(Bet.date == date)
+        query = query.filter(Bet.date == cast(date, Date))
     else:
         query = query.filter(Bet.created_at >= datetime.now().replace(hour=0, minute=0, second=0, microsecond=0))
 
