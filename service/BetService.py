@@ -114,7 +114,7 @@ def create_withdraw(user_id, amount, mode, info=None):
                               amount=int(amount),
                               mode=mode,
                               info=info,
-                              remark="Withdraw via " + mode)
+                              remark="Withdraw via " + mode + " in Progress")
     db.session.query(User).filter(User.id == user_id) \
         .update({User.winning_balance: User.winning_balance - int(amount), User.total_balance: User.total_balance - int(amount)})
     db.session.add(transaction)
@@ -129,7 +129,7 @@ def create_deposit(user_id, amount, mode, info=None):
                               status=Transaction.Status.INITIATED.name,
                               amount=int(amount),
                               mode=mode,
-                              remark="Deposit via " + mode,
+                              remark="Deposit via " + mode + " in Progress",
                               info=info)
     db.session.add(transaction)
     db.session.commit()
@@ -143,7 +143,7 @@ def create_deposit2(user_id, amount, mode, info=None):
                               status=Transaction.Status.INITIATED.name,
                               amount=int(amount),
                               mode=mode,
-                              remark="Deposit via " + mode,
+                              remark="Deposit via " + mode + " in Progress",
                               info=info)
     db.session.add(transaction)
     db.session.flush()
@@ -152,8 +152,14 @@ def create_deposit2(user_id, amount, mode, info=None):
 
 
 def update_transaction_status(transaction_id, status):
+    transaction = Transaction.query.get(transaction_id)
+    if Transaction.Status.CANCELLED == status:
+        remark = "Deposit via " + transaction.mode + " Cancelled"
+    else:
+        remark = transaction.remark
+
     db.session.query(Transaction).filter(Transaction.id == transaction_id) \
-        .update({Transaction.status: status})
+        .update({Transaction.status: status, Transaction.remark: remark})
     db.session.commit()
     return True
 

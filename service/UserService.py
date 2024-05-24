@@ -56,12 +56,12 @@ def get_transactions(user_id, types=None):
         transactions = Transaction.query \
             .filter(Transaction.user_id == user_id) \
             .filter(Transaction.type.in_(types)) \
-            .filter(Transaction.status == 'SUCCESS') \
+            .filter(Transaction.status != 'INITIATED') \
             .order_by(Transaction.created_at.desc()) \
             .all()
     else:
         transactions = Transaction.query.filter(Transaction.user_id == user_id) \
-            .filter(Transaction.status == 'SUCCESS') \
+            .filter(Transaction.status != 'INITIATED') \
             .order_by(Transaction.created_at.desc()) \
             .all()
 

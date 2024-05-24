@@ -291,7 +291,7 @@ def initiate_gw_payment():
         return jsonify({'success': "0", 'msg': 'Amount is empty. Please enter'}), 200
 
     user_details = get_user_by_id(user_id)
-    transaction = create_deposit2(user_id, amount, "UPI_GATEWAY")
+    transaction = create_deposit2(user_id, amount, "Upi Gateway")
 
     try:
         res = create_upi_gw_order(transaction.id, user_id, user_details.phone, user_details.email, amount)
@@ -339,6 +339,8 @@ def update_transaction_status_and_balance(transaction_id, upi_txn_id):
 
     transaction.status = Transaction.Status.SUCCESS.name
     transaction.info = "Ref: " + upi_txn_id
+    transaction.remark = "Deposit via UPI Gateway successful"
+
     user = User.query.get(transaction.user_id)
     user.deposit_balance += transaction.amount
     user.total_balance += transaction.amount

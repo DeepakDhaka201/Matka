@@ -21,9 +21,12 @@ def update_transaction(transaction, status, remark, refund):
             elif transaction.type == Transaction.Type.WITHDRAWAL.name:
                 if status == Transaction.Status.SUCCESS.name:
                     transaction.status = status
+                    remark = "Withdraw via " + transaction.mode + " Successful"
+                    transaction.remark = remark
                 elif status == Transaction.Status.CANCELLED.name:
                     transaction.status = status
-                    transaction.remark = remark if remark else transaction.remark
+                    remark = "Withdraw via " + transaction.mode + " Cancelled"
+                    transaction.remark = remark
                     if refund:
                         user = User.query.get(transaction.user_id)
                         user.total_balance += transaction.amount
