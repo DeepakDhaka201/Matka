@@ -6,6 +6,7 @@ from flask import jsonify, request, render_template
 from sqlalchemy import cast, Date
 
 from models.Bet import Bet
+from models.Market import Market
 from models.Result import Result
 from service.BetService import save_bets, fetch_bets, fetch_bets2
 from service.MarketService import get_all_market, get_all_market_by_id
@@ -62,6 +63,26 @@ def get_bets():
         return jsonify({'success': False, 'msg': 'Error fetching details'}), 500
 
 
+def check_market_open(market):
+    open_time_obj = datetime.strptime(market.open_time, "%H:%M")
+    close_time_obj = datetime.strptime(market.close_time, "%H:%M")
+    current_time_obj = datetime.now().time()
+
+    # Check if market closes after midnight
+    if close_time_obj.time() < open_time_obj.time():
+        # If current time is between open time and midnight or between midnight and close time, the market is open
+        if open_time_obj.time() <= current_time_obj or current_time_obj <= close_time_obj.time():
+            return True
+        else:
+            return False
+    # If market closes before midnight
+    else:
+        # If current time is between open time and close time, the market is open
+        if open_time_obj.time() <= current_time_obj <= close_time_obj.time():
+            return True
+        else:
+            return False
+
 def place_bet():
     user_id, is_admin = validate_session()
     data = request.form
@@ -80,6 +101,10 @@ def place_bet():
         if market_name is None or game_type is None or input_numbers is None or input_amounts is None:
             print("Invalid request body")
             return jsonify({'success': False, 'msg': 'Invalid request body'}), 200
+
+        market = Market.query.filter_by(name=market_name).first()
+        if not check_market_open(market):
+            return jsonify({'success': False, 'msg': 'Market is closed'}), 200
 
         input_numbers = [num for num in input_numbers.split(",")]
         input_amounts = [num for num in input_amounts.split(",")]
