@@ -64,9 +64,9 @@ def get_bets():
 
 
 def check_market_open(market):
-    open_time_obj = datetime.strptime(market.open_time, "%H:%M")
-    close_time_obj = datetime.strptime(market.close_time, "%H:%M")
-    current_time_obj = datetime.now().time()
+    open_time_obj = datetime.datetime.strptime(market.open_time, "%H:%M")
+    close_time_obj = datetime.datetime.strptime(market.close_time, "%H:%M")
+    current_time_obj = datetime.datetime.now().time()
 
     # Check if market closes after midnight
     if close_time_obj.time() < open_time_obj.time():
