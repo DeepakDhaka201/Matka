@@ -87,6 +87,7 @@ def check_market_open(market):
 def place_bet():
     user_id, is_admin = validate_session()
     data = request.form
+    print(data)
     try:
         market_name = data.get("bazar")
         total_amount = data.get("total")
