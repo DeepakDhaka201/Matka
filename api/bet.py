@@ -83,6 +83,7 @@ def check_market_open(market):
         else:
             return False
 
+
 def place_bet():
     user_id, is_admin = validate_session()
     data = request.form
@@ -104,6 +105,7 @@ def place_bet():
 
         market = Market.query.filter_by(name=market_name).first()
         if not check_market_open(market):
+            print("Market is closed")
             return jsonify({'success': False, 'msg': 'Market is closed'}), 200
 
         input_numbers = [num for num in input_numbers.split(",")]
@@ -116,7 +118,10 @@ def place_bet():
         response = save_bets(user_id, market_name, game_type, input_numbers, input_amounts, total_amount)
 
         if not response.get('success'):
+            print(response)
             return jsonify(response), 200
+
+        print(response)
 
         return jsonify({'success': "1", 'msg': 'Bet placed successfully', 'active': response.get('active')}), 200
     except Exception as e:
