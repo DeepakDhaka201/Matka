@@ -153,7 +153,7 @@ def create_deposit2(user_id, amount, mode, info=None):
 
 def update_transaction_status(transaction_id, status):
     transaction = Transaction.query.get(transaction_id)
-    if Transaction.Status.CANCELLED == status:
+    if Transaction.Status.CANCELLED.name == status:
         remark = "Deposit via " + transaction.mode + " Cancelled"
     else:
         remark = transaction.remark

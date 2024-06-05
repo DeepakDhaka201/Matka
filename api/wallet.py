@@ -150,6 +150,22 @@ def withdraw_money():
         if mode is None or info is None or amount is None:
             return jsonify({'success': False, 'msg': 'Invalid request body'}), 200
 
+        withdraw_open_time_setting = Setting.query.filter_by(key=Setting.Key.WITHDRAW_OPEN_TIME.name).first()
+        withdraw_close_time_setting = Setting.query.filter_by(key=Setting.Key.WITHDRAW_CLOSE_TIME.name).first()
+
+        withdraw_open = True
+        if withdraw_open_time_setting and withdraw_close_time_setting:
+            withdraw_open_time_obj = datetime.strptime(withdraw_open_time_setting.value, "%H:%M")
+            withdraw_close_time_obj = datetime.strptime(withdraw_close_time_setting.value, "%H:%M")
+            current_time_obj = datetime.now().time()
+            if withdraw_open_time_obj.time() <= current_time_obj <= withdraw_close_time_obj.time():
+                withdraw_open = True
+            else:
+                withdraw_open = False
+
+        if not withdraw_open:
+            return jsonify({'success': False, 'msg': 'Withdrawal not available at this time'}), 200
+
         if mode == 'Select Payment Mode':
             return jsonify({'success': False, 'msg': 'Withdraw mode not selected'}), 200
 
@@ -349,6 +365,7 @@ def update_transaction_status_and_balance(transaction_id, upi_txn_id):
 
 
 def upi_gw_webhook():
+    print("Webhook called", request.form)
     data = request.form
     transaction_id = data.get("client_txn_id", None)
     transaction = Transaction.query.get(transaction_id)
