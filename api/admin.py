@@ -46,7 +46,7 @@ def admin_api_login():
     if not user.is_admin:
         return jsonify({"success": False, "message": "User is not admin"}), 401
 
-    jwt_token = generate_jwt({"user_id": user.id, "is_admin": True})
+    jwt_token = generate_jwt({"user_id": user.id, "is_admin": True}, is_admin=True)
     session['jwt_token'] = jwt_token
     session['user_id'] = user.id
 

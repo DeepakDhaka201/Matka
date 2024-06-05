@@ -14,7 +14,7 @@ class InvalidTokenError(Exception):
     pass
 
 
-def generate_jwt(payload):
+def generate_jwt(payload, is_admin=False):
     """
     Generate a JWT token with an expiration time extended by one month.
 
@@ -31,8 +31,10 @@ def generate_jwt(payload):
     payload['exp'] = expiration_time
 
     # Generate the token
-    token = jwt.encode(payload, SECRET_KEY, algorithm="HS256")
-
+    if is_admin:
+        token = jwt.encode(payload, ADMIN_SECRET_KEY, algorithm="HS256")
+    else:
+        token = jwt.encode(payload, SECRET_KEY, algorithm="HS256")
     return token
 
 
@@ -49,6 +51,8 @@ def verify_jwt(token, is_admin=False):
     Raises:
         TokenExpiredError: If the token has expired.
         InvalidTokenError: If the token is invalid.
+        :param token:
+        :param is_admin:
     """
     try:
         # Decode and verify the token
