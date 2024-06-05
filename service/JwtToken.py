@@ -3,7 +3,7 @@ import datetime
 
 # Define the secret key used to sign the token
 SECRET_KEY = "thisisasecretkeywhichshouldnotbeexposedtoanyoneandshouldbekeptconfidential"
-ADMIN_SECRET_KEY = "thisisasecretkeywhichshouldnotbeexposedtoanyoneandshouldbekeptconfidential"
+ADMIN_SECRET_KEY = "thisisasecretkeywhichshouldnotbeexposedtoanyoneandshouldbekeptconfidential2"
 
 
 class TokenExpiredError(Exception):
