@@ -94,7 +94,7 @@ def validateAdmin():
     if not jwt_token:
         raise Exception("Unauthorized")
 
-    payload = verify_jwt(jwt_token)
+    payload = verify_jwt(jwt_token, is_admin=True)
     if not payload or not payload.get('is_admin', False):
         raise Exception("Unauthorized")
 

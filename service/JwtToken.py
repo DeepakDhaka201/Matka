@@ -3,6 +3,7 @@ import datetime
 
 # Define the secret key used to sign the token
 SECRET_KEY = "thisisasecretkeywhichshouldnotbeexposedtoanyoneandshouldbekeptconfidential"
+ADMIN_SECRET_KEY = "thisisasecretkeywhichshouldnotbeexposedtoanyoneandshouldbekeptconfidential"
 
 
 class TokenExpiredError(Exception):
@@ -35,7 +36,7 @@ def generate_jwt(payload):
     return token
 
 
-def verify_jwt(token):
+def verify_jwt(token, is_admin=False):
     """
     Verify and decode a JWT token.
 
@@ -51,7 +52,11 @@ def verify_jwt(token):
     """
     try:
         # Decode and verify the token
-        decoded_token = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+        secret_key = SECRET_KEY
+        if is_admin:
+            secret_key = ADMIN_SECRET_KEY
+
+        decoded_token = jwt.decode(token, secret_key, algorithms=["HS256"])
 
         # Check token expiration
         if 'exp' in decoded_token:
