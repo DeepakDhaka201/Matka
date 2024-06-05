@@ -2,7 +2,7 @@ import jwt
 import datetime
 
 # Define the secret key used to sign the token
-SECRET_KEY = "thisisasecretkeywhichshouldnotbeexposedtoanyoneandshouldbekeptconfidential2"
+SECRET_KEY = "thisisasecretkeywhichshouldnotbeexposedtoanyoneandshouldbekeptconfidential"
 
 
 class TokenExpiredError(Exception):
