@@ -32,7 +32,7 @@ import time, os
 pymysql.install_as_MySQLdb()
 
 app = Flask(__name__, static_url_path='/admin/static')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:spaceback3423@localhost:3306/samrat'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:spaceback3423@localhost:3306/samrat2'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = 'uploads/'
 
@@ -176,7 +176,7 @@ if __name__ == '__main__':
     if production:
         from gevent.pywsgi import WSGIServer
 
-        port = 8006
+        port = 8007
         http_server = WSGIServer(('', port), app)
         print(f'Server is running on http://localhost:{port}')
         http_server.serve_forever()
