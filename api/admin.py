@@ -406,23 +406,23 @@ def admin_manage_wallet_index():
     transactions = (Transaction.query.filter_by(user_id=user_id)
                     .order_by(Transaction.created_at.desc()).all())
 
-    total_deposit = (Transaction.query.filter_by(user_id=user_id).filter_by(type='DEPOSIT')
+    total_deposit = (Transaction.query.filter_by(user_id=user_id).filter_by(type=Transaction.Type.DEPOSIT.name)
                      .filter_by(status=Transaction.Status.SUCCESS.name).with_entities(
         func.sum(Transaction.amount)).scalar())
-    total_withdrawal = (Transaction.query.filter_by(user_id=user_id).filter_by(type='WITHDRAWAL')
+    total_withdrawal = (Transaction.query.filter_by(user_id=user_id).filter_by(type=Transaction.Type.WITHDRAWAL.name)
                         .filter_by(status=Transaction.Status.SUCCESS.name).with_entities(
         func.sum(Transaction.amount)).scalar())
-    total_bonus = (Transaction.query.filter_by(user_id=user_id).filter_by(type='BONUS')
+    total_bonus = (Transaction.query.filter_by(user_id=user_id).filter_by(type=Transaction.Type.BONOUS.name)
                    .filter_by(status=Transaction.Status.SUCCESS.name).with_entities(
         func.sum(Transaction.amount)).scalar())
-    total_earn = (Transaction.query.filter_by(user_id=user_id).filter_by(type='EARN')
+    total_earn = (Transaction.query.filter_by(user_id=user_id).filter_by(type=Transaction.Type.EARN.name)
                   .filter_by(status=Transaction.Status.SUCCESS.name).with_entities(
         func.sum(Transaction.amount)).scalar())
 
     total_winning = (Bet.query.filter_by(user_id=user_id)
-                     .filter_by(status='WON').with_entities(func.sum(Bet.win_amount)).scalar())
+                     .filter_by(status=Bet.Status.WON.name).with_entities(func.sum(Bet.win_amount)).scalar())
     total_lost = (Bet.query.filter_by(user_id=user_id)
-                  .filter_by(status='LOST').with_entities(func.sum(Bet.amount)).scalar())
+                  .filter_by(status=Bet.Status.LOST.name).with_entities(func.sum(Bet.amount)).scalar())
     total_bid = (Bet.query.filter_by(user_id=user_id).with_entities(func.sum(Bet.amount)).scalar())
 
     return render_template("manage_wallet.html",
