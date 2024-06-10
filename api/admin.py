@@ -422,8 +422,8 @@ def admin_manage_wallet_index():
     total_winning = (Bet.query.filter_by(user_id=user_id)
                      .filter_by(status='WON').with_entities(func.sum(Bet.win_amount)).scalar())
     total_lost = (Bet.query.filter_by(user_id=user_id)
-                  .filter_by(status='LOST').with_entities(func.sum(Bet.win_amount)).scalar())
-    total_bid = (Bet.query.filter_by(user_id=user_id).with_entities(func.sum(Bet.win_amount)).scalar())
+                  .filter_by(status='LOST').with_entities(func.sum(Bet.amount)).scalar())
+    total_bid = (Bet.query.filter_by(user_id=user_id).with_entities(func.sum(Bet.amount)).scalar())
 
     return render_template("manage_wallet.html",
                            transactions=transactions,
