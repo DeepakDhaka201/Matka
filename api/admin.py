@@ -406,19 +406,23 @@ def admin_manage_wallet_index():
     transactions = (Transaction.query.filter_by(user_id=user_id)
                     .order_by(Transaction.created_at.desc()).all())
 
-    total_deposit = (transactions.filter_by(type='DEPOSIT')
-                     .filter_by(status=Transaction.Status.SUCCESS.name).with_entities(func.sum(Transaction.amount)).scalar())
-    total_withdrawal = (transactions.filter_by(type='WITHDRAWAL')
-                        .filter_by(status=Transaction.Status.SUCCESS.name).with_entities(func.sum(Transaction.amount)).scalar())
-    total_bonus = (transactions.filter_by(type='BONUS')
-                   .filter_by(status=Transaction.Status.SUCCESS.name).with_entities(func.sum(Transaction.amount)).scalar())
-    total_earn = (transactions.filter_by(type='EARN')
-                    .filter_by(status=Transaction.Status.SUCCESS.name).with_entities(func.sum(Transaction.amount)).scalar())
+    total_deposit = (Transaction.query.filter_by(user_id=user_id).filter_by(type='DEPOSIT')
+                     .filter_by(status=Transaction.Status.SUCCESS.name).with_entities(
+        func.sum(Transaction.amount)).scalar())
+    total_withdrawal = (Transaction.query.filter_by(user_id=user_id).filter_by(type='WITHDRAWAL')
+                        .filter_by(status=Transaction.Status.SUCCESS.name).with_entities(
+        func.sum(Transaction.amount)).scalar())
+    total_bonus = (Transaction.query.filter_by(user_id=user_id).filter_by(type='BONUS')
+                   .filter_by(status=Transaction.Status.SUCCESS.name).with_entities(
+        func.sum(Transaction.amount)).scalar())
+    total_earn = (Transaction.query.filter_by(user_id=user_id).filter_by(type='EARN')
+                  .filter_by(status=Transaction.Status.SUCCESS.name).with_entities(
+        func.sum(Transaction.amount)).scalar())
 
     total_winning = (Bet.query.filter_by(user_id=user_id)
                      .filter_by(status='WON').with_entities(func.sum(Bet.win_amount)).scalar())
     total_lost = (Bet.query.filter_by(user_id=user_id)
-                    .filter_by(status='LOST').with_entities(func.sum(Bet.win_amount)).scalar())
+                  .filter_by(status='LOST').with_entities(func.sum(Bet.win_amount)).scalar())
     total_bid = (Bet.query.filter_by(user_id=user_id).with_entities(func.sum(Bet.win_amount)).scalar())
 
     return render_template("manage_wallet.html",
@@ -682,7 +686,7 @@ def admin_api_add_app_update():
     log = data.get("log", None)
 
     if not version or not link:
-        return jsonify({"status" : False, "msg" : "Invalid request body"}), 400
+        return jsonify({"status": False, "msg": "Invalid request body"}), 400
 
     update = AppUpdate(version=int(version), link=link, log=log)
     db.session.add(update)
@@ -732,12 +736,50 @@ def admin_market_jantri_index():
     print(date)
     bets = Bet.query.filter_by(market_id=market_id).filter(Bet.date == cast(date, Date)).all()
 
-    jodi_map = {"00": {"bets": 0, "total": 0}, "01": {"bets": 0, "total": 0}, "02": {"bets": 0, "total": 0}, "03": {"bets": 0, "total": 0}, "04": {"bets": 0, "total": 0}, "05": {"bets": 0, "total": 0}, "06": {"bets": 0, "total": 0}, "07": {"bets": 0, "total": 0}, "08": {"bets": 0, "total": 0}, "09": {"bets": 0, "total": 0}, "10": {"bets": 0, "total": 0}, "11": {"bets": 0, "total": 0}, "12": {"bets": 0, "total": 0}, "13": {"bets": 0, "total": 0}, "14": {"bets": 0, "total": 0}, "15": {"bets": 0, "total": 0}, "16": {"bets": 0, "total": 0}, "17": {"bets": 0, "total": 0}, "18": {"bets": 0, "total": 0}, "19": {"bets": 0, "total": 0}, "20": {"bets": 0, "total": 0}, "21": {"bets": 0, "total": 0}, "22": {"bets": 0, "total": 0}, "23": {"bets": 0, "total": 0}, "24": {"bets": 0, "total": 0}, "25": {"bets": 0, "total": 0}, "26": {"bets": 0, "total": 0}, "27": {"bets": 0, "total": 0}, "28": {"bets": 0, "total": 0}, "29": {"bets": 0, "total": 0}, "30": {"bets": 0, "total": 0}, "31": {"bets": 0, "total": 0},
-                "32": {"bets":0, "total": 0}, "33": {"bets": 0, "total": 0}, "34": {"bets": 0, "total": 0}, "35": {"bets": 0, "total": 0}, "36": {"bets": 0, "total": 0}, "37": {"bets": 0, "total": 0}, "38": {"bets": 0, "total": 0}, "39": {"bets": 0, "total": 0}, "40": {"bets": 0, "total": 0}, "41": {"bets": 0, "total": 0}, "42": {"bets": 0, "total": 0}, "43": {"bets": 0, "total": 0}, "44": {"bets": 0, "total": 0}, "45": {"bets": 0, "total": 0}, "46": {"bets": 0, "total": 0}, "47": {"bets": 0, "total": 0}, "48": {"bets": 0, "total": 0}, "49": {"bets": 0, "total": 0}, "50": {"bets": 0, "total": 0}, "51": {"bets": 0, "total": 0}, "52": {"bets": 0, "total": 0}, "53": {"bets": 0, "total": 0}, "54": {"bets": 0, "total": 0}, "55": {"bets": 0, "total": 0}, "56": {"bets": 0, "total": 0}, "57": {"bets": 0, "total": 0}, "58": {"bets": 0, "total": 0}, "59": {"bets": 0, "total": 0}, "60": {"bets": 0, "total": 0}, "61": {"bets": 0, "total": 0}, "62": {"bets": 0, "total": 0}, "63": {"bets": 0, "total": 0}, "64": {"bets": 0, "total": 0}, "65": {"bets": 0, "total": 0},
-                "66": {"bets": 0, "total": 0}, "67": {"bets": 0, "total": 0}, "68": {"bets": 0, "total": 0}, "69": {"bets": 0, "total": 0}, "70": {"bets": 0, "total": 0}, "71": {"bets": 0, "total": 0}, "72": {"bets": 0, "total": 0}, "73": {"bets": 0, "total": 0}, "74": {"bets": 0, "total": 0}, "75": {"bets": 0, "total": 0}, "76": {"bets": 0, "total": 0}, "77": {"bets": 0, "total": 0}, "78": {"bets": 0, "total": 0}, "79": {"bets": 0, "total": 0}, "80": {"bets": 0, "total": 0}, "81": {"bets": 0, "total": 0}, "82": {"bets": 0, "total": 0}, "83": {"bets": 0, "total": 0}, "84": {"bets": 0, "total": 0}, "85": {"bets": 0, "total": 0}, "86": {"bets": 0, "total": 0}, "87": {"bets": 0, "total": 0}, "88": {"bets": 0, "total": 0}, "89": {"bets": 0, "total": 0}, "90": {"bets": 0, "total": 0}, "91": {"bets": 0, "total": 0}, "92": {"bets": 0, "total": 0}, "93": {"bets": 0, "total": 0}, "94": {"bets": 0, "total": 0}, "95": {"bets": 0, "total": 0}, "96": {"bets": 0, "total": 0}, "97": {"bets": 0, "total": 0}, "98": {"bets": 0, "total": 0}, "99": {"bets": 0, "total": 0}}
+    jodi_map = {"00": {"bets": 0, "total": 0}, "01": {"bets": 0, "total": 0}, "02": {"bets": 0, "total": 0},
+                "03": {"bets": 0, "total": 0}, "04": {"bets": 0, "total": 0}, "05": {"bets": 0, "total": 0},
+                "06": {"bets": 0, "total": 0}, "07": {"bets": 0, "total": 0}, "08": {"bets": 0, "total": 0},
+                "09": {"bets": 0, "total": 0}, "10": {"bets": 0, "total": 0}, "11": {"bets": 0, "total": 0},
+                "12": {"bets": 0, "total": 0}, "13": {"bets": 0, "total": 0}, "14": {"bets": 0, "total": 0},
+                "15": {"bets": 0, "total": 0}, "16": {"bets": 0, "total": 0}, "17": {"bets": 0, "total": 0},
+                "18": {"bets": 0, "total": 0}, "19": {"bets": 0, "total": 0}, "20": {"bets": 0, "total": 0},
+                "21": {"bets": 0, "total": 0}, "22": {"bets": 0, "total": 0}, "23": {"bets": 0, "total": 0},
+                "24": {"bets": 0, "total": 0}, "25": {"bets": 0, "total": 0}, "26": {"bets": 0, "total": 0},
+                "27": {"bets": 0, "total": 0}, "28": {"bets": 0, "total": 0}, "29": {"bets": 0, "total": 0},
+                "30": {"bets": 0, "total": 0}, "31": {"bets": 0, "total": 0},
+                "32": {"bets": 0, "total": 0}, "33": {"bets": 0, "total": 0}, "34": {"bets": 0, "total": 0},
+                "35": {"bets": 0, "total": 0}, "36": {"bets": 0, "total": 0}, "37": {"bets": 0, "total": 0},
+                "38": {"bets": 0, "total": 0}, "39": {"bets": 0, "total": 0}, "40": {"bets": 0, "total": 0},
+                "41": {"bets": 0, "total": 0}, "42": {"bets": 0, "total": 0}, "43": {"bets": 0, "total": 0},
+                "44": {"bets": 0, "total": 0}, "45": {"bets": 0, "total": 0}, "46": {"bets": 0, "total": 0},
+                "47": {"bets": 0, "total": 0}, "48": {"bets": 0, "total": 0}, "49": {"bets": 0, "total": 0},
+                "50": {"bets": 0, "total": 0}, "51": {"bets": 0, "total": 0}, "52": {"bets": 0, "total": 0},
+                "53": {"bets": 0, "total": 0}, "54": {"bets": 0, "total": 0}, "55": {"bets": 0, "total": 0},
+                "56": {"bets": 0, "total": 0}, "57": {"bets": 0, "total": 0}, "58": {"bets": 0, "total": 0},
+                "59": {"bets": 0, "total": 0}, "60": {"bets": 0, "total": 0}, "61": {"bets": 0, "total": 0},
+                "62": {"bets": 0, "total": 0}, "63": {"bets": 0, "total": 0}, "64": {"bets": 0, "total": 0},
+                "65": {"bets": 0, "total": 0},
+                "66": {"bets": 0, "total": 0}, "67": {"bets": 0, "total": 0}, "68": {"bets": 0, "total": 0},
+                "69": {"bets": 0, "total": 0}, "70": {"bets": 0, "total": 0}, "71": {"bets": 0, "total": 0},
+                "72": {"bets": 0, "total": 0}, "73": {"bets": 0, "total": 0}, "74": {"bets": 0, "total": 0},
+                "75": {"bets": 0, "total": 0}, "76": {"bets": 0, "total": 0}, "77": {"bets": 0, "total": 0},
+                "78": {"bets": 0, "total": 0}, "79": {"bets": 0, "total": 0}, "80": {"bets": 0, "total": 0},
+                "81": {"bets": 0, "total": 0}, "82": {"bets": 0, "total": 0}, "83": {"bets": 0, "total": 0},
+                "84": {"bets": 0, "total": 0}, "85": {"bets": 0, "total": 0}, "86": {"bets": 0, "total": 0},
+                "87": {"bets": 0, "total": 0}, "88": {"bets": 0, "total": 0}, "89": {"bets": 0, "total": 0},
+                "90": {"bets": 0, "total": 0}, "91": {"bets": 0, "total": 0}, "92": {"bets": 0, "total": 0},
+                "93": {"bets": 0, "total": 0}, "94": {"bets": 0, "total": 0}, "95": {"bets": 0, "total": 0},
+                "96": {"bets": 0, "total": 0}, "97": {"bets": 0, "total": 0}, "98": {"bets": 0, "total": 0},
+                "99": {"bets": 0, "total": 0}}
 
-    open_harf_map = {"000": {"bets": 0, "total": 0}, "111": {"bets": 0, "total": 0}, "222": {"bets": 0, "total": 0}, "333": {"bets": 0, "total": 0}, "444": {"bets": 0, "total": 0}, "555": {"bets": 0, "total": 0}, "666": {"bets": 0, "total": 0}, "777": {"bets": 0, "total": 0}, "888": {"bets": 0, "total": 0}, "999": {"bets": 0, "total": 0}}
-    close_harf_map = {"000": {"bets": 0, "total": 0}, "111": {"bets": 0, "total": 0}, "222": {"bets": 0, "total": 0}, "333": {"bets": 0, "total": 0}, "444": {"bets": 0, "total": 0}, "555": {"bets": 0, "total": 0}, "666": {"bets": 0, "total": 0}, "777": {"bets": 0, "total": 0}, "888": {"bets": 0, "total": 0}, "999": {"bets": 0, "total": 0}}
+    open_harf_map = {"000": {"bets": 0, "total": 0}, "111": {"bets": 0, "total": 0}, "222": {"bets": 0, "total": 0},
+                     "333": {"bets": 0, "total": 0}, "444": {"bets": 0, "total": 0}, "555": {"bets": 0, "total": 0},
+                     "666": {"bets": 0, "total": 0}, "777": {"bets": 0, "total": 0}, "888": {"bets": 0, "total": 0},
+                     "999": {"bets": 0, "total": 0}}
+    close_harf_map = {"000": {"bets": 0, "total": 0}, "111": {"bets": 0, "total": 0}, "222": {"bets": 0, "total": 0},
+                      "333": {"bets": 0, "total": 0}, "444": {"bets": 0, "total": 0}, "555": {"bets": 0, "total": 0},
+                      "666": {"bets": 0, "total": 0}, "777": {"bets": 0, "total": 0}, "888": {"bets": 0, "total": 0},
+                      "999": {"bets": 0, "total": 0}}
 
     jodi_total = 0
     open_harf_total = 0
