@@ -404,9 +404,32 @@ def admin_manage_wallet_index():
     user_id = args.get('user_id', None)
 
     transactions = (Transaction.query.filter_by(user_id=user_id)
-                    .filter(Transaction.status != 'INITIATED').order_by(Transaction.created_at.desc()).all())
+                    .order_by(Transaction.created_at.desc()).all())
 
-    return render_template("manage_wallet.html", transactions=transactions)
+    total_deposit = (transactions.filter_by(type='DEPOSIT')
+                     .filter_by(status=Transaction.Status.SUCCESS.name).with_entities(func.sum(Transaction.amount)).scalar())
+    total_withdrawal = (transactions.filter_by(type='WITHDRAWAL')
+                        .filter_by(status=Transaction.Status.SUCCESS.name).with_entities(func.sum(Transaction.amount)).scalar())
+    total_bonus = (transactions.filter_by(type='BONUS')
+                   .filter_by(status=Transaction.Status.SUCCESS.name).with_entities(func.sum(Transaction.amount)).scalar())
+    total_earn = (transactions.filter_by(type='EARN')
+                    .filter_by(status=Transaction.Status.SUCCESS.name).with_entities(func.sum(Transaction.amount)).scalar())
+
+    total_winning = (Bet.query.filter_by(user_id=user_id)
+                     .filter_by(status='WON').with_entities(func.sum(Bet.win_amount)).scalar())
+    total_lost = (Bet.query.filter_by(user_id=user_id)
+                    .filter_by(status='LOST').with_entities(func.sum(Bet.win_amount)).scalar())
+    total_bid = (Bet.query.filter_by(user_id=user_id).with_entities(func.sum(Bet.win_amount)).scalar())
+
+    return render_template("manage_wallet.html",
+                           transactions=transactions,
+                           total_deposit=total_deposit,
+                           total_withdrawal=total_withdrawal,
+                           total_bonus=total_bonus,
+                           total_earn=total_earn,
+                           total_winning=total_winning,
+                           total_lost=total_lost,
+                           total_bid=total_bid)
 
 
 def admin_bet_history_index():
