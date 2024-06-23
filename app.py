@@ -16,7 +16,7 @@ from api.admin import admin_index, admin_users_index, admin_update_user, admin_u
     admin_notice_index, admin_api_update_setting, admin_settings_index, admin_api_update_settings, admin_login_index, \
     admin_api_login, admin_manage_wallet_index, admin_logout_index, admin_api_change_password, \
     admin_change_password_index, admin_app_update_index, admin_add_app_update_index, admin_api_add_app_update, \
-    admin_api_remove_app_update, admin_market_anal_index, admin_market_jantri_index
+    admin_api_remove_app_update, admin_market_anal_index, admin_market_jantri_index, send_notification
 from api.bet import get_bets, place_bet, get_results
 from api.dashboard import dashboard, web_index
 from api.login import login, forgot_password, update_profile, update_user_password, get_config, check_referral
@@ -145,6 +145,7 @@ app.route('/admin/notice')(admin_notice_index)
 app.route('/admin/settings')(admin_settings_index)
 app.route('/admin/api/update_setting', methods=['POST'])(admin_api_update_setting)
 app.route('/admin/api/update_settings', methods=['POST'])(admin_api_update_settings)
+app.route('/admin/api/send-notification', methods=['POST'])(send_notification)
 
 
 app.route('/admin/app_updates')(admin_app_update_index)

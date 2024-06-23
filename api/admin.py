@@ -1,7 +1,9 @@
+import json
 import os
 import uuid
 from datetime import datetime, timedelta
 
+import requests
 from flask import render_template, request, jsonify, session
 from sqlalchemy import func, cast, Date
 
@@ -745,3 +747,35 @@ def admin_market_jantri_index():
 
     if game == "close_harf":
         return render_template("jantri.html", data=close_harf_map, total=close_harf_total)
+
+
+FIREBASE_KEY = "AAAArx_Y120:APA91bHUd0hYmLoyf_98eq_so2N06os-RIvPVL89d0QUMoLZehJDHnTwDgIh6FALmeDLJJvYER6Ne0vJV_5d9huvgWKG_-Q6W7MX4EytvfUqVINXYA1sprCfWxyM6fiGGWWLU2RIhfxb"
+
+
+def send_notification(title, body):
+    topic = "all"
+    msg = {
+        'body': body,
+        'title': title,
+        'vibrate': 1,
+        'sound': 1
+    }
+
+    fields = {
+        'to': f'/topics/{topic}',
+        'notification': msg
+    }
+
+    headers = {
+        'Authorization': f'key={FIREBASE_KEY}',
+        'Content-Type': 'application/json'
+    }
+
+    response = requests.post(
+        url='https://fcm.googleapis.com/fcm/send',
+        headers=headers,
+        data=json.dumps(fields)
+    )
+
+    print(response.json())
+    return jsonify({"success": True}), 200

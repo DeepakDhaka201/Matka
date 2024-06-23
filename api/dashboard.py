@@ -48,6 +48,7 @@ def dashboard():
             "winning": int(user_details.winning_balance),
             "bonus": int(user_details.bonus_balance),
             "active": "1" if user_details.active else 0,
+            "logout": "0",
             "bank_details": settings_map.get(Setting.Key.BANK_DETAILS.name),
             "homeline": "",
             "images": banner_images,
